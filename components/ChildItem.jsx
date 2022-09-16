@@ -8,7 +8,7 @@ const ChildItem = ({child, navigation}) => {
 
     return (
         <TouchableOpacity onPress={selectChild} style={styles.item}>
-            <Text style={styles.title}>{child}</Text>
+            <Text style={styles.title}>{child.name}</Text>
         </TouchableOpacity>
     );
 };
