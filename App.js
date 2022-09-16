@@ -1,21 +1,8 @@
-import { StatusBar } from 'expo-status-bar';
-import {StyleSheet, Text, View} from 'react-native';
-import ChildList from "./src/ChildList";
+import Navigation from "./navigation/navigation";
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <ChildList children={["Аня", "Влада"]}></ChildList>
-      <StatusBar style="auto" />
-    </View>
+      <Navigation>
+      </Navigation>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
