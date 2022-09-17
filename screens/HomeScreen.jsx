@@ -9,7 +9,7 @@ const HomeScreen = ({navigation}) => {
 
     useEffect(() => {
         setIsLoading(true);
-        axios.get("https://d9f2-91-245-142-214.eu.ngrok.io/api/v1/children")
+        axios.get("https://9548-91-245-142-214.eu.ngrok.io/api/v1/children")
             .then(({data}) => {
                 setChildren(data);
             })
