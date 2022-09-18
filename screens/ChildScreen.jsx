@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {Alert, Button, Image, Text, TouchableOpacity, View} from "react-native";
-import axios from "axios";
+import {http} from "../core/http-common";
 
 const ChildScreen = ({route, navigation}) => {
     const [balance, setBalance] = useState(0);
@@ -13,7 +13,7 @@ const ChildScreen = ({route, navigation}) => {
     }, [])
 
     function spendCoin(count) {
-        axios.post("https://9548-91-245-142-214.eu.ngrok.io/api/v1/children/" + child.id + "/spend/" + count)
+        http.post("/children/" + child.id + "/spend/" + count)
             .then(({data}) => setBalance(data))
             .catch(err => {
                 console.log(err);
@@ -22,7 +22,7 @@ const ChildScreen = ({route, navigation}) => {
     }
 
     function earnCoin(count) {
-        axios.post("https://9548-91-245-142-214.eu.ngrok.io/api/v1/children/" + child.id + "/earn/" + count)
+        http.post("/children/" + child.id + "/earn/" + count)
             .then(({data}) => setBalance(data))
             .catch(err => {
                 console.log(err);

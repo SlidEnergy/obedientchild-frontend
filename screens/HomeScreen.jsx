@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import ChildList from "../components/ChildList";
-import axios from "axios";
-import {ActivityIndicator, Alert, Image, Text, View} from "react-native";
+import {ActivityIndicator, Alert, Button, Image, Text, View} from "react-native";
+import {http} from "../core/http-common";
 
 const HomeScreen = ({navigation}) => {
     const [children, setChildren] = useState();
@@ -9,7 +9,7 @@ const HomeScreen = ({navigation}) => {
 
     useEffect(() => {
         setIsLoading(true);
-        axios.get("https://9548-91-245-142-214.eu.ngrok.io/api/v1/children")
+        http.get("/children")
             .then(({data}) => {
                 setChildren(data);
             })
@@ -34,8 +34,14 @@ const HomeScreen = ({navigation}) => {
     }
 
     return (
-        <ChildList children={children} navigation={navigation}>
-        </ChildList>
+        <View style={{
+            flexDirection: "column",
+            height: 300
+        }}>
+            <ChildList children={children} navigation={navigation}>
+            </ChildList>
+            <Button title="Награды" onPress={() => navigation.navigate("Rewards")}></Button>
+        </View>
     );
 };
 
