@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {
     ActivityIndicator,
     Alert,
@@ -11,8 +11,6 @@ import {
     View
 } from "react-native";
 import {http} from "../core/http-common";
-import axios from "axios";
-import {REACT_APP_SERAPI_API_KEY} from '@env';
 
 const AddRewardScreen = ({navigation}) => {
     const [reward, setReward] = useState({title: "", imageUrl: "", price: 1});
@@ -20,16 +18,11 @@ const AddRewardScreen = ({navigation}) => {
     const [searchText, setSearchText] = useState();
     const [isLoading, setIsLoading] = useState(false);
 
-    useEffect(() => {
-        setReward([]);
-    }, [])
-
     function onSearchTextChange(text) {
         setSearchText(text);
         setReward({...reward, title: text});
 
         setIsLoading(true);
-        //axios.get(`https://serpapi.com/search.json?q=${text}&tbm=isch&ijn=0&api_key=${REACT_APP_SERAPI_API_KEY}`)
         http.get("/images/search?q=" + text)
             .then(({data}) => {
                 setImages(data);
