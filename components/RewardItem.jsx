@@ -1,9 +1,9 @@
 import React, {useEffect} from 'react';
-import {StyleSheet, StatusBar, Text, TouchableOpacity, Image} from "react-native";
+import {StyleSheet, StatusBar, Text, TouchableOpacity, Image, View} from "react-native";
 
 const RewardItem = ({reward, navigation}) => {
     function selectItem() {
-        navigation.navigate("Reward", reward);
+        navigation.navigate("EditReward", reward);
     }
 
     return (
@@ -14,31 +14,42 @@ const RewardItem = ({reward, navigation}) => {
                 marginRight: 30,
                 borderRadius: 10
             }}
-            source={{
-                uri: reward.imageUrl
-            }}></Image>
-            <Text style={styles.title}>{reward.title}</Text>
-            <Text style={styles.balance}>{reward.price}</Text>
+                   source={{
+                       uri: reward.imageUrl
+                   }}></Image>
+            <View style={{
+                flexDirection: "column"
+            }}>
+                <Text style={styles.title}>{reward.title}</Text>
+                <View style={{
+                    flexDirection: "row"
+                }}>
+                    {Array.from(Array(reward.price), (e, i) => {
+                        return <Image key={i} style={{
+                            width: 22,
+                            height: 22,
+                            marginRight: 10,
+                            marginBottom: 10
+                        }}
+                                      source={require('../assets/coin.png')}
+                        />
+                    })}
+                </View>
+            </View>
         </TouchableOpacity>
     );
 };
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        marginTop: StatusBar.currentHeight || 0,
-    },
     item: {
         padding: 20,
         marginVertical: 8,
         marginHorizontal: 16,
         flexDirection: "row",
         alignItems: "center",
-        alignContent: "center"
     },
     title: {
         fontSize: 32,
-        marginRight: 20
     },
     balance: {
         fontSize: 12,

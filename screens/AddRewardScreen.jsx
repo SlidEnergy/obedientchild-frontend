@@ -82,8 +82,8 @@ const AddRewardScreen = ({navigation}) => {
                         }}>
 
                             {images.map(image =>
-                                <TouchableOpacity onPress={() => setReward({...reward, imageUrl: image})}>
-                                    <Image key={image} style={{
+                                <TouchableOpacity key={image} onPress={() => setReward({...reward, imageUrl: image})}>
+                                    <Image style={{
                                         width: 105,
                                         height: 105,
                                         marginRight: 10,

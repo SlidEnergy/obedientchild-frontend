@@ -1,12 +1,22 @@
 import React, {useEffect, useState} from 'react';
 import ChildList from "../components/ChildList";
-import {ActivityIndicator, Alert, Button, Image, Text, View} from "react-native";
+import {ActivityIndicator, Alert, Button, Image, Text, TouchableOpacity, View} from "react-native";
 import {http} from "../core/http-common";
 import RewardList from "../components/RewardList";
 
 const RewardsScreen = ({navigation}) => {
     const [rewards, setRewards] = useState();
     const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        navigation.setOptions({
+            headerRight: () => <TouchableOpacity onPress={addReward}>
+                <Text style={{
+                    fontSize: 32
+                }}>+</Text>
+            </TouchableOpacity>
+        })
+    }, []);
 
     useEffect(() => {
         setIsLoading(true);
@@ -42,27 +52,23 @@ const RewardsScreen = ({navigation}) => {
         <View style={{
             alignItems: "center",
             alignContent: "center",
-            flexDirection: "column"
+            flexDirection: "column",
+            height: "100%",
+            width: "100%",
+            padding: 0
         }}>
-            <View style={{
-                height: 300,
-                marginBottom: 20
+            {isLoading && <View style={{
+                flex: 1,
+                justifyContent: 'center',
+                alignItems: 'center'
             }}>
-                {isLoading && <View style={{
-                    flex: 1,
-                    justifyContent: 'center',
-                    alignItems: 'center'
-                }}>
-                    <ActivityIndicator size="large"></ActivityIndicator>
-                    <Text style={{
-                        marginTop: 15
-                    }}>Loading...</Text>
-                </View>}
-                <RewardList rewards={rewards} navigation={navigation}>
-                </RewardList>
-            </View>
-
-            <Button title="Добавить" onPress={addReward}></Button>
+                <ActivityIndicator size="large"></ActivityIndicator>
+                <Text style={{
+                    marginTop: 15
+                }}>Loading...</Text>
+            </View>}
+            <RewardList rewards={rewards} navigation={navigation}>
+            </RewardList>
         </View>
     );
 };

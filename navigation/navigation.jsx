@@ -5,6 +5,7 @@ import HomeScreen from "../screens/HomeScreen";
 import ChildScreen from "../screens/ChildScreen";
 import AddRewardScreen from "../screens/AddRewardScreen";
 import RewardsScreen from "../screens/RewardsScreen";
+import EditRewardScreen from "../screens/EditRewardScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -16,6 +17,7 @@ const Navigation = () => {
                 <Stack.Screen name="Child" component={ChildScreen} options={{title: "Ребенок"}}></Stack.Screen>
                 <Stack.Screen name="Rewards" component={RewardsScreen} options={{title: "Награды"}}></Stack.Screen>
                 <Stack.Screen name="AddReward" component={AddRewardScreen} options={{title: "Добавить награду"}}></Stack.Screen>
+                <Stack.Screen name="EditReward" component={EditRewardScreen} options={{title: "Редактирование награды"}}></Stack.Screen>
             </Stack.Navigator>
         </NavigationContainer>
     );

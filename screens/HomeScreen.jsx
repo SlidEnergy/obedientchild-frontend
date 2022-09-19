@@ -31,7 +31,7 @@ const HomeScreen = ({navigation}) => {
                 marginTop: 15
             }}>Loading...</Text>
         </View>
-    }
+   }
 
     return (
         <View style={{
