@@ -1,9 +1,9 @@
 import React, {useEffect} from 'react';
 import {StyleSheet, StatusBar, Text, TouchableOpacity, Image, View} from "react-native";
 
-const RewardItem = ({reward, navigation, onChoose}) => {
+const RewardItem = ({reward, onChoose}) => {
     function chooseItem() {
-        onChoose(reward);
+        onChoose && onChoose(reward);
     }
 
     return (

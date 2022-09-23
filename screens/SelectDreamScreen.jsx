@@ -1,11 +1,10 @@
 import React, {useEffect, useState} from 'react';
-import ChildList from "../components/ChildList";
-import {ActivityIndicator, Alert, Button, Image, Text, TouchableOpacity, View} from "react-native";
+import {Alert, View} from "react-native";
 import {http} from "../core/http-common";
 import RewardList from "../components/RewardList";
 import LoadingIndicator from "../components/LoadingIndicator";
 
-const SelectGoalScreen = ({route, navigation}) => {
+const SelectDreamScreen = ({route, navigation}) => {
     const [rewards, setRewards] = useState();
     const [isLoading, setIsLoading] = useState(true);
 
@@ -25,8 +24,7 @@ const SelectGoalScreen = ({route, navigation}) => {
     }, []);
 
     function onChoose(item) {
-        console.log(JSON.stringify(item));
-        http.post(`/children/${child.id}/setgoal`, item.id)
+        http.post(`/children/${child.id}/setdream`, item.id)
             .then(({data}) => {
                 Alert.alert("Success", "success");
                 navigation.navigate("Child", child);
@@ -53,4 +51,4 @@ const SelectGoalScreen = ({route, navigation}) => {
     );
 };
 
-export default SelectGoalScreen;
+export default SelectDreamScreen;

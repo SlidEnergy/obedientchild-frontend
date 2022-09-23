@@ -40,8 +40,8 @@ const HomeScreen = ({navigation}) => {
                 </ChildList>
             }
             <View style={styles.buttonList}>
-                <ButtonView style={styles.button} title="Хорошие дела" onPress={() => navigation.navigate("Rewards")}></ButtonView>
-                <ButtonView style={styles.button} title="Плохие дела" onPress={() => navigation.navigate("Rewards")}></ButtonView>
+                <ButtonView style={styles.button} title="Хорошие дела" onPress={() => navigation.navigate("GoodDeeds")}></ButtonView>
+                <ButtonView style={styles.button} title="Плохие дела" onPress={() => navigation.navigate("BadDeeds")}></ButtonView>
                 <ButtonView style={styles.button} title="Желания" onPress={() => navigation.navigate("Rewards")}></ButtonView>
             </View>
         </View>

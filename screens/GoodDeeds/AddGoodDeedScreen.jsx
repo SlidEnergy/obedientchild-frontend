@@ -10,17 +10,17 @@ import {
     TouchableOpacity,
     View
 } from "react-native";
-import {http} from "../core/http-common";
-import LoadingIndicator from "../components/LoadingIndicator";
+import {http} from "../../core/http-common";
+import LoadingIndicator from "../../components/LoadingIndicator";
 
-const AddRewardScreen = ({navigation}) => {
-    const [reward, setReward] = useState({title: "", imageUrl: "", price: 1});
+const AddGoodDeedScreen = ({navigation}) => {
+    const [goodDeed, setGoodDeed] = useState({title: "", imageUrl: "", price: 1});
     const [images, setImages] = useState([]);
     const [searchText, setSearchText] = useState();
     const [isLoading, setIsLoading] = useState(false);
 
     function searchImages(text) {
-        setReward({...reward, title: text});
+        setGoodDeed({...goodDeed, title: text});
 
         setIsLoading(true);
         http.get("/images/search?q=" + text)
@@ -35,10 +35,10 @@ const AddRewardScreen = ({navigation}) => {
     }
 
     function addReward() {
-        http.put("/rewards", reward)
+        http.put("/gooddeeds", goodDeed)
             .then(() => {
                 Alert.alert("Success", "success");
-                navigation.navigate("Rewards");
+                navigation.navigate("GoodDeeds");
             })
             .catch(err => {
                 console.log(err);
@@ -76,7 +76,7 @@ const AddRewardScreen = ({navigation}) => {
                             flexWrap: "wrap"
                         }}>
                             {images.map(image =>
-                                <TouchableOpacity key={image} onPress={() => setReward({...reward, imageUrl: image})}>
+                                <TouchableOpacity key={image} onPress={() => setGoodDeed({...goodDeed, imageUrl: image})}>
                                     <Image style={{
                                         width: 105,
                                         height: 105,
@@ -97,8 +97,8 @@ const AddRewardScreen = ({navigation}) => {
 
             <TextInput style={{
                 marginBottom: 20
-            }} onChangeText={(text) => setReward({...reward, title: text})}
-                       value={reward.title}
+            }} onChangeText={(text) => setGoodDeed({...goodDeed, title: text})}
+                       value={goodDeed.title}
                        placeholder="Название"
             ></TextInput>
 
@@ -111,16 +111,16 @@ const AddRewardScreen = ({navigation}) => {
                 <View style={{
                     width: 60
                 }}>
-                    <Button title="-" onPress={() => setReward({...reward, price: reward.price - 1})}></Button>
+                    <Button title="-" onPress={() => setGoodDeed({...goodDeed, price: goodDeed.price - 1})}></Button>
                 </View>
                 <Text style={{
                     width: 100,
                     textAlign: "center",
-                }}>{reward.price}</Text>
+                }}>{goodDeed.price}</Text>
                 <View style={{
                     width: 60
                 }}>
-                    <Button title="+" onPress={() => setReward({...reward, price: reward.price + 1})}></Button>
+                    <Button title="+" onPress={() => setGoodDeed({...goodDeed, price: goodDeed.price + 1})}></Button>
                 </View>
             </View>
             <Button title="Добавить" onPress={addReward}></Button>
@@ -128,4 +128,4 @@ const AddRewardScreen = ({navigation}) => {
     );
 };
 
-export default AddRewardScreen;
+export default AddGoodDeedScreen;

@@ -1,7 +1,7 @@
 import React from 'react';
 import {Image, View} from "react-native";
 
-const Coins = ({count}) => {
+const Coins = ({count, size}) => {
     return (
         <View style={{
             flex: 1,
@@ -10,8 +10,8 @@ const Coins = ({count}) => {
         }}>
             {Array.from(Array(count || 0), (e, i) => {
                 return <Image key={i} style={{
-                    width: 36,
-                    height: 36,
+                    width: size,
+                    height: size,
                     marginRight: 10,
                     marginBottom: 10
                 }}

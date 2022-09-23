@@ -10,7 +10,7 @@ import {
     TouchableOpacity,
     View
 } from "react-native";
-import {http} from "../core/http-common";
+import {http} from "../../core/http-common";
 
 const EditRewardScreen = ({route, navigation}) => {
 
@@ -58,7 +58,7 @@ const EditRewardScreen = ({route, navigation}) => {
                                 marginRight: 10,
                                 marginBottom: 10
                             }}
-                                          source={require('../assets/coin.png')}
+                                          source={require('../../assets/coin.png')}
                             />
                         })}
                     </View>
