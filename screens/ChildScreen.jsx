@@ -88,10 +88,10 @@ const ChildScreen = ({route, navigation}) => {
 
     //const url = "https://d9f2-91-245-142-214.eu.ngrok.io/api/v1/children/" + route.params.id + "/avatar.png";
     return (
-        <View style={{
-            padding: 20,
-        }}>
-            <ScrollView>
+        <ScrollView>
+            <View style={{
+                padding: 20,
+            }}>
                 <View style={{
                     flexDirection: "row",
                     marginBottom: 20
@@ -107,7 +107,7 @@ const ChildScreen = ({route, navigation}) => {
                            }}
                     />
                     <LoadingIndicator isLoading={isLoading}></LoadingIndicator>
-                    {!isLoading && <Coins count={child.balance}></Coins>}
+                    {!isLoading && <Coins count={child.balance} size={36}></Coins>}
                 </View>
                 {/*<View style={{*/}
                 {/*    flexDirection: "row",*/}
@@ -150,17 +150,15 @@ const ChildScreen = ({route, navigation}) => {
                 <View style={{
                     marginTop: 20
                 }}>
-                    <Text style={styles.h2}>Большая цель</Text>
-                    {bigGoal && <RewardItem reward={bigGoal}></RewardItem>}
+                    {bigGoal && <RewardItem reward={{...bigGoal, title: "Цель: " + bigGoal.title}}></RewardItem>}
                     <ButtonView style={{marginTop: 20}} title="Выбрать цель" onPress={selectGoal}></ButtonView>
                 </View>
                 <View>
-                    <Text style={styles.h2}>Мечта</Text>
-                    {dream && <RewardItem reward={dream}></RewardItem>}
+                    {dream && <RewardItem reward={{...dream, title: "Мечта: " + dream.title}}></RewardItem>}
                     <ButtonView style={{marginTop: 20}} title="Выбрать Мечту" onPress={selectDream}></ButtonView>
                 </View>
-            </ScrollView>
-        </View>
+            </View>
+        </ScrollView>
     );
 };
 

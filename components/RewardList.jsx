@@ -7,6 +7,9 @@ const RewardList = ({rewards, onChoose}) => {
     return (
         <SafeAreaView style={styles.container}>
             <FlatList
+                style={{
+                    width: "100%"
+                }}
                 data={rewards}
                 renderItem={(item) => <RewardItem reward={item.item} onChoose={onChoose}></RewardItem>}
                 keyExtractor={item => item.id}
@@ -23,5 +26,6 @@ const styles = StyleSheet.create({
         width: "100%",
         alignItems: 'center',
         justifyContent: 'center',
+
     }
 })

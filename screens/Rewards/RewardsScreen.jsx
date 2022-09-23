@@ -51,18 +51,9 @@ const RewardsScreen = ({navigation}) => {
             flexDirection: "column",
             height: "100%",
             width: "100%",
-            padding: 0
+            padding: 20
         }}>
-            {isLoading && <View style={{
-                flex: 1,
-                justifyContent: 'center',
-                alignItems: 'center'
-            }}>
-                <ActivityIndicator size="large"></ActivityIndicator>
-                <Text style={{
-                    marginTop: 15
-                }}>Loading...</Text>
-            </View>}
+            <LoadingIndicator isLoading={isLoading}></LoadingIndicator>
             <RewardList rewards={rewards} navigation={navigation} onChoose={onChoose}>
             </RewardList>
         </View>
