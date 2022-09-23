@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import ChildList from "../../components/ChildList";
-import {ActivityIndicator, Alert, Button, Image, Text, TouchableOpacity, View} from "react-native";
+import {ActivityIndicator, Alert, Button, Image, ScrollView, Text, TouchableOpacity, View} from "react-native";
 import {http} from "../../core/http-common";
 import RewardList from "../../components/RewardList";
 import LoadingIndicator from "../../components/LoadingIndicator";
@@ -45,18 +45,20 @@ const RewardsScreen = ({navigation}) => {
     }
 
     return (
-        <View style={{
-            alignItems: "center",
-            alignContent: "center",
-            flexDirection: "column",
-            height: "100%",
-            width: "100%",
-            padding: 20
-        }}>
-            <LoadingIndicator isLoading={isLoading}></LoadingIndicator>
-            <RewardList rewards={rewards} navigation={navigation} onChoose={onChoose}>
-            </RewardList>
-        </View>
+        <ScrollView>
+            <View style={{
+                alignItems: "center",
+                alignContent: "center",
+                flexDirection: "column",
+                height: "100%",
+                width: "100%",
+                padding: 20
+            }}>
+                <LoadingIndicator isLoading={isLoading}></LoadingIndicator>
+                <RewardList rewards={rewards} navigation={navigation} onChoose={onChoose}>
+                </RewardList>
+            </View>
+        </ScrollView>
     );
 };
 
