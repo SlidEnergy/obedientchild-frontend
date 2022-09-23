@@ -11,6 +11,7 @@ import {
     View
 } from "react-native";
 import {http} from "../core/http-common";
+import LoadingIndicator from "../components/LoadingIndicator";
 
 const AddRewardScreen = ({navigation}) => {
     const [reward, setReward] = useState({title: "", imageUrl: "", price: 1});
@@ -18,8 +19,7 @@ const AddRewardScreen = ({navigation}) => {
     const [searchText, setSearchText] = useState();
     const [isLoading, setIsLoading] = useState(false);
 
-    function onSearchTextChange(text) {
-        setSearchText(text);
+    function searchImages(text) {
         setReward({...reward, title: text});
 
         setIsLoading(true);
@@ -29,7 +29,7 @@ const AddRewardScreen = ({navigation}) => {
             })
             .catch(err => {
                 console.log(err);
-                Alert.alert("Error", err);
+                Alert.alert("Error", err.message);
             })
             .finally(() => setIsLoading(false));
     }
@@ -53,24 +53,19 @@ const AddRewardScreen = ({navigation}) => {
             flexDirection: "column",
             padding: 20
         }}>
-            <TextInput onChangeText={onSearchTextChange}
-                       value={searchText}
-                       placeholder="Поиск"
-            ></TextInput>
-
+            <View style={{
+                flexDirection: "row"
+            }}>
+                <TextInput style={{marginRight: 20}} onChangeText={(text) => setSearchText(text)}
+                           value={searchText}
+                           placeholder="Награда, например 'Торт'"
+                ></TextInput>
+                <Button title="Искать" onPress={() => searchImages(searchText)}></Button>
+            </View>
             <View style={{
                 height: 300
             }}>
-                {isLoading && <View style={{
-                    flex: 1,
-                    justifyContent: 'center',
-                    alignItems: 'center'
-                }}>
-                    <ActivityIndicator size="large"></ActivityIndicator>
-                    <Text style={{
-                        marginTop: 15
-                    }}>Loading...</Text>
-                </View>}
+                <LoadingIndicator isLoading={isLoading}></LoadingIndicator>
 
                 {!isLoading && <View style={{}}>
                     <ScrollView style={{
@@ -80,7 +75,6 @@ const AddRewardScreen = ({navigation}) => {
                             flexDirection: "row",
                             flexWrap: "wrap"
                         }}>
-
                             {images.map(image =>
                                 <TouchableOpacity key={image} onPress={() => setReward({...reward, imageUrl: image})}>
                                     <Image style={{

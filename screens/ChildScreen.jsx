@@ -1,36 +1,53 @@
 import React, {useEffect, useState} from 'react';
 import {Alert, Button, Image, Text, TouchableOpacity, View} from "react-native";
 import {http} from "../core/http-common";
+import LoadingIndicator from "../components/LoadingIndicator";
+import Coins from "../components/Coins";
 
 const ChildScreen = ({route, navigation}) => {
-    const [balance, setBalance] = useState(0);
+    const [child, setChild] = useState({ id: route.params.id, name: route.params.name, avatar: route.params.avatar });
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         navigation.setOptions({
             title: child.name
         });
-        setBalance(child.balance);
+
+        setIsLoading(true);
+        http.get("/children/" + child.id)
+            .then(({data}) => {
+                setChild(data);
+            })
+            .catch(err => {
+                console.log(err);
+                Alert.alert("Error", err.message);
+            })
+            .finally(() => setIsLoading(false));
+
     }, [])
 
     function spendCoin(count) {
         http.post("/children/" + child.id + "/spend/" + count)
-            .then(({data}) => setBalance(data))
+            .then(({data}) => setChild({...child, balance: data}))
             .catch(err => {
                 console.log(err);
-                Alert.alert("Error", err);
+                Alert.alert("Error", err.message);
             });
     }
 
     function earnCoin(count) {
         http.post("/children/" + child.id + "/earn/" + count)
-            .then(({data}) => setBalance(data))
+            .then(({data}) => setChild({...child, balance: data}))
             .catch(err => {
                 console.log(err);
-                Alert.alert("Error", err);
+                Alert.alert("Error", err.message);
             });
     }
 
-    const child = route.params;
+    function selectGoal() {
+        navigation.navigate("SelectGoal", child);
+    }
+
     //const url = "https://d9f2-91-245-142-214.eu.ngrok.io/api/v1/children/" + route.params.id + "/avatar.png";
     return (
         <View style={{
@@ -51,22 +68,8 @@ const ChildScreen = ({route, navigation}) => {
                            uri: child.avatar
                        }}
                 />
-                <View style={{
-                    flex: 1,
-                    flexDirection: "row",
-                    flexWrap: "wrap"
-                }}>
-                    {Array.from(Array(balance), (e, i) => {
-                        return <Image key={i} style={{
-                            width: 36,
-                            height: 36,
-                            marginRight: 10,
-                            marginBottom: 10
-                        }}
-                                      source={require('../assets/coin.png')}
-                        />
-                    })}
-                </View>
+                <LoadingIndicator isLoading={isLoading}></LoadingIndicator>
+                {!isLoading && <Coins count={child.balance}></Coins>}
             </View>
             {/*<View style={{*/}
             {/*    flexDirection: "row",*/}
@@ -105,6 +108,11 @@ const ChildScreen = ({route, navigation}) => {
                                   onPress={() => earnCoin(1)}>
                     <Text style={styles.buttonText}>+</Text>
                 </TouchableOpacity>
+            </View>
+            <View style={{
+                marginTop: 20
+            }}>
+                <Button title="Выбрать цель" onPress={selectGoal}></Button>
             </View>
         </View>
     );

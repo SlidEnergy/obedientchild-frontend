@@ -1,13 +1,13 @@
 import React, {useEffect} from 'react';
 import {StyleSheet, StatusBar, Text, TouchableOpacity, Image, View} from "react-native";
 
-const RewardItem = ({reward, navigation}) => {
-    function selectItem() {
-        navigation.navigate("EditReward", reward);
+const RewardItem = ({reward, navigation, onChoose}) => {
+    function chooseItem() {
+        onChoose(reward);
     }
 
     return (
-        <TouchableOpacity onPress={selectItem} style={styles.item}>
+        <TouchableOpacity onPress={chooseItem} style={styles.item}>
             <Image style={{
                 width: 105,
                 height: 105,
