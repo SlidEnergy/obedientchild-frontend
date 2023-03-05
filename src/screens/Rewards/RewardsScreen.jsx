@@ -1,16 +1,17 @@
 import React, {useEffect, useState} from 'react';
-import {ActivityIndicator, Alert, ScrollView, Text, TouchableOpacity, View} from "react-native";
+import ChildList from "../../components/ChildList";
+import {ActivityIndicator, Alert, Button, Image, ScrollView, Text, TouchableOpacity, View} from "react-native";
 import {http} from "../../core/http-common";
 import RewardList from "../../components/RewardList";
 import LoadingIndicator from "../../components/LoadingIndicator";
 
-const BadDeedsScreen = ({navigation}) => {
-    const [badDeeds, setBadDeeds] = useState();
+const RewardsScreen = ({navigation}) => {
+    const [rewards, setRewards] = useState();
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         navigation.setOptions({
-            headerRight: () => <TouchableOpacity onPress={add}>
+            headerRight: () => <TouchableOpacity onPress={addReward}>
                 <Text style={{
                     fontSize: 32
                 }}>+</Text>
@@ -20,9 +21,9 @@ const BadDeedsScreen = ({navigation}) => {
 
     useEffect(() => {
         setIsLoading(true);
-        http.get("/baddeeds")
+        http.get("/rewards")
             .then(({data}) => {
-                setBadDeeds(data);
+                setRewards(data);
             })
             .catch(err => {
                 console.log(err);
@@ -31,12 +32,12 @@ const BadDeedsScreen = ({navigation}) => {
             .finally(() => setIsLoading(false));
     }, []);
 
-    function add() {
-        navigation.navigate("AddBadDeed");
+    function addReward() {
+        navigation.navigate("AddReward");
     }
 
     function onChoose(item) {
-        navigation.navigate("EditBadDeed", item);
+        navigation.navigate("EditReward", item);
     }
 
     if (isLoading) {
@@ -53,21 +54,12 @@ const BadDeedsScreen = ({navigation}) => {
                 width: "100%",
                 padding: 20
             }}>
-                {isLoading && <View style={{
-                    flex: 1,
-                    justifyContent: 'center',
-                    alignItems: 'center'
-                }}>
-                    <ActivityIndicator size="large"></ActivityIndicator>
-                    <Text style={{
-                        marginTop: 15
-                    }}>Loading...</Text>
-                </View>}
-                <RewardList rewards={badDeeds} navigation={navigation} onChoose={onChoose}>
+                <LoadingIndicator isLoading={isLoading}></LoadingIndicator>
+                <RewardList rewards={rewards} navigation={navigation} onChoose={onChoose}>
                 </RewardList>
             </View>
         </ScrollView>
     );
 };
 
-export default BadDeedsScreen;
+export default RewardsScreen;

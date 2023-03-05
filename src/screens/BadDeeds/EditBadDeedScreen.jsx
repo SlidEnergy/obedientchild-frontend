@@ -9,15 +9,15 @@ import {
 import {http} from "../../core/http-common";
 import Coins from "../../components/Coins";
 
-const EditGoodDeedScreen = ({route, navigation}) => {
+const EditBadDeedScreen = ({route, navigation}) => {
 
-    const goodDeed = route.params;
+    const badDeed = route.params;
 
     function deleteReward() {
-        http.delete("/gooddeeds/" + goodDeed.id)
+        http.delete("/baddeeds/" + badDeed.id)
             .then(() => {
                 Alert.alert("Success", "success");
-                navigation.navigate("GoodDeeds");
+                navigation.navigate("BadDeeds");
             })
             .catch(err => {
                 console.log(err);
@@ -37,18 +37,18 @@ const EditGoodDeedScreen = ({route, navigation}) => {
                     borderRadius: 10
                 }}
                        source={{
-                           uri: goodDeed.imageUrl
+                           uri: badDeed.imageUrl
                        }}></Image>
                 <View style={{
                     flexDirection: "column"
                 }}>
                     <Text style={{
                         fontSize: 24
-                    }}>{goodDeed.title}</Text>
+                    }}>{badDeed.title}</Text>
                     <View style={{
                         flexDirection: "row"
                     }}>
-                        <Coins count={goodDeed.price} size={22}></Coins>
+                        <Coins count={badDeed.price} size={22}></Coins>
                     </View>
                 </View>
             </View>
@@ -57,4 +57,4 @@ const EditGoodDeedScreen = ({route, navigation}) => {
     );
 };
 
-export default EditGoodDeedScreen;
+export default EditBadDeedScreen;
