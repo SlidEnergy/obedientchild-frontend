@@ -4,9 +4,9 @@ import PropTypes from "prop-types";
 
 const ChildList = props => {
     return (
-        <div>
+        <div style={{display: 'flex', flexDirection: 'row'}}>
             {props.children.map(child => {
-                return <ChildItem child={child}></ChildItem>;
+                return <ChildItem child={child} key={child.id}></ChildItem>;
             })}
         </div>
     );

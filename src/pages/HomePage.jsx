@@ -32,8 +32,8 @@ const HomePage = props => {
     }
 
     return (
-        <div>
-            <LoadingIndicator isLoading={isLoading}></LoadingIndicator>
+        <div style={{padding: '20px'}}>
+            {isLoading && <LoadingIndicator isLoading={isLoading}></LoadingIndicator>}
             {!isLoading &&
                 <ChildList children={children}>
                 </ChildList>

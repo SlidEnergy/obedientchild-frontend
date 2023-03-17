@@ -1,18 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {useNavigate} from 'react-router-dom';
 
 const ChildItem = props => {
     const child = props.child
+    const navigate = useNavigate();
+
+    function selectChild() {
+        navigate(`/children/${child.id}`);
+    }
 
     return (
-        <div>
+        <div style={{cursor: 'pointer'}} onClick={selectChild}>
             <img style={{
-                width: 30,
-                height: 60,
+                width: 160,
+                height: 240,
                 marginRight: 30,
                 borderRadius: 10
             }}
-                   src={child.avatar}></img>
+                 src={child.avatar}></img>
             <p style={styles.title}>{child.name}</p>
             <p style={styles.balance}>{child.balance + "/" + child.bigGoalBalance + "/" + child.dreamBalance}</p>
         </div>
