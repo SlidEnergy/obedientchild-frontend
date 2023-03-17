@@ -3,8 +3,13 @@ import PropTypes from 'prop-types';
 import {http} from "../core/http-common";
 import LoadingIndicator from "../components/LoadingIndicator";
 import ChildList from "../components/ChildList";
+import {useNavigate} from "react-router-dom";
 
 const HomePage = props => {
+    document.title = "Home";
+
+    const navigate = useNavigate();
+
     const [children, setChildren] = useState();
     const [refreshing, setRefreshing] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
@@ -38,6 +43,11 @@ const HomePage = props => {
                 <ChildList children={children}>
                 </ChildList>
             }
+            <div style={styles.buttonList}>
+                <button style={styles.button} onClick={() => navigate("/GoodDeeds")}>Хорошие дела</button>
+                <button style={styles.button} onClick={() => navigate("/BadDeeds")}>Плохие дела</button>
+                <button style={styles.button} onClick={() => navigate("/rewards")}>Желания</button>
+            </div>
         </div>
     );
 };
@@ -45,5 +55,21 @@ const HomePage = props => {
 HomePage.propTypes = {
 
 };
+
+const styles = {
+    container: {
+        height: 500,
+    },
+    buttonList: {
+        display: 'flex',
+        flexDirection: 'column',
+        padding: 20
+    },
+    button: {
+        marginBottom: 20,
+        height: 40
+    }
+};
+
 
 export default HomePage;
