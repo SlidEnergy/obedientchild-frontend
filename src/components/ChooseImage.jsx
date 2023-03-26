@@ -9,7 +9,8 @@ const ChooseImage = props => {
     const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
-        setSearchText(props.text);
+        if(props.text)
+            setSearchText(props.text);
     })
 
     function searchImages() {
@@ -35,7 +36,7 @@ const ChooseImage = props => {
             }}>
                 <input type='text' style={{marginRight: 20}} onChange={(e) => setSearchText(e.target.value)}
                        value={searchText}
-                       placeholder="Награда, например 'Торт'"
+                       placeholder="например 'Торт'"
                 ></input>
                 <button onClick={searchImages}>Искать</button>
             </div>

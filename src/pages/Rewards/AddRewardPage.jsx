@@ -2,6 +2,7 @@ import {useState} from 'react';
 import {http} from "../../core/http-common";
 import {useNavigate} from "react-router-dom";
 import ChooseImage from "../../components/ChooseImage";
+import NumberEdit from "../../components/NumberEdit";
 
 const AddRewardPage = props => {
     document.title = "Добавить награду";
@@ -36,35 +37,19 @@ const AddRewardPage = props => {
             </ChooseImage>
             <input
                 type={'text'}
-                style={{
-                    marginBottom: 20
-                }}
                 onChange={(e) => setReward({...reward, title: e.target.value})}
                 value={reward.title}
                 placeholder="Название">
             </input>
-
-            <div style={{
-                flexDirection: "row",
-                marginBottom: 20,
-                width: 220,
-                alignItems: "center"
-            }}>
-                <div style={{
-                    width: 60
-                }}>
-                    <button onClick={() => setReward({...reward, price: reward.price - 1})}>-</button>
-                </div>
-                <p style={{
-                    width: 100,
-                    textAlign: "center",
-                }}>{reward.price}</p>
-                <div style={{
-                    width: 60
-                }}>
-                    <button onClick={() => setReward({...reward, price: reward.price + 1})}>+</button>
-                </div>
-            </div>
+            <NumberEdit style={{
+                marginLeft: "auto",
+                marginRight: "auto",
+                width: 100,
+                marginBottom: 20
+            }}
+                        value={reward.price}
+                        onValueChanged={(value) => setReward({...reward, price: value})}>
+            </NumberEdit>
             <button onClick={addReward}>Добавить</button>
         </div>
     );

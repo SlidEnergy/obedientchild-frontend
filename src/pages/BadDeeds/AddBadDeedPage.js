@@ -2,6 +2,7 @@ import {useState} from 'react';
 import {http} from "../../core/http-common";
 import {useNavigate} from "react-router-dom";
 import ChooseImage from "../../components/ChooseImage";
+import NumberEdit from "../../components/NumberEdit";
 
 const AddBadDeedPage = props => {
     const navigate = useNavigate();
@@ -33,35 +34,20 @@ const AddBadDeedPage = props => {
                          onImageChosen={(image) => setBadDeed({...badDeed, imageUrl: image})}>
             </ChooseImage>
             <input type={'text'}
-                   style={{
-                       marginBottom: 20
-                   }}
                    onChange={(e) => setBadDeed({...badDeed, title: e.target.value})}
                    value={badDeed.title}
                    placeholder="Название">
             </input>
 
-            <div style={{
-                flexDirection: "row",
-                marginBottom: 20,
-                width: 220,
-                alignItems: "center"
-            }}>
-                <div style={{
-                    width: 60
-                }}>
-                    <button onClick={() => setBadDeed({...badDeed, price: badDeed.price - 1})}>-</button>
-                </div>
-                <p style={{
-                    width: 100,
-                    textAlign: "center",
-                }}>{badDeed.price}</p>
-                <div style={{
-                    width: 60
-                }}>
-                    <button onClick={() => setBadDeed({...badDeed, price: badDeed.price + 1})}>+</button>
-                </div>
-            </div>
+            <NumberEdit style={{
+                marginLeft: "auto",
+                marginRight: "auto",
+                width: 100,
+                marginBottom: 20
+            }}
+                        value={badDeed.price}
+                        onValueChanged={(value) => setBadDeed({...badDeed, price: value})}>
+            </NumberEdit>
             <button onClick={addBadDeed}>Добавить</button>
         </div>
     );

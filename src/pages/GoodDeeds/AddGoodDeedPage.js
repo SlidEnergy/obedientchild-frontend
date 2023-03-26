@@ -2,6 +2,7 @@ import {useState} from 'react';
 import {http} from "../../core/http-common";
 import {useNavigate} from "react-router-dom";
 import ChooseImage from "../../components/ChooseImage";
+import NumberEdit from "../../components/NumberEdit";
 
 const AddGoodDeedPage = props => {
     const navigate = useNavigate();
@@ -33,35 +34,19 @@ const AddGoodDeedPage = props => {
                          onImageChosen={(image) => setGoodDeed({...goodDeed, imageUrl: image})}>
             </ChooseImage>
             <input type={'text'}
-                   style={{
-                       marginBottom: 20
-                   }}
                    onChange={(e) => setGoodDeed({...goodDeed, title: e.target.value})}
                    value={goodDeed.title}
                    placeholder="Название">
             </input>
-
-            <div style={{
-                flexDirection: "row",
-                marginBottom: 20,
-                width: 220,
-                alignItems: "center"
-            }}>
-                <div style={{
-                    width: 60
-                }}>
-                    <button onClick={() => setGoodDeed({...goodDeed, price: goodDeed.price - 1})}>-</button>
-                </div>
-                <p style={{
-                    width: 100,
-                    textAlign: "center",
-                }}>{goodDeed.price}</p>
-                <div style={{
-                    width: 60
-                }}>
-                    <button onClick={() => setGoodDeed({...goodDeed, price: goodDeed.price + 1})}>+</button>
-                </div>
-            </div>
+            <NumberEdit style={{
+                marginLeft: "auto",
+                marginRight: "auto",
+                width: 100,
+                marginBottom: 20
+            }}
+                        value={goodDeed.price}
+                        onValueChanged={(value) => setGoodDeed({...goodDeed, price: value})}>
+            </NumberEdit>
             <button onClick={addGoodDeed}>Добавить</button>
         </div>
     );
