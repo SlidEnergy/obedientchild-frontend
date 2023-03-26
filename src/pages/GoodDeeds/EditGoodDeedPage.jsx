@@ -1,14 +1,15 @@
-import React, {useEffect, useState} from 'react';
-import PropTypes from 'prop-types';
+import {useEffect, useState} from 'react';
 import Coins from "../../components/Coins";
 import {http} from "../../core/http-common";
 import {useNavigate, useParams} from "react-router-dom";
+import ChooseImage from "../../components/ChooseImage";
 
 const EditGoodDeedPage = props => {
     const navigate = useNavigate();
     const {goodDeedId} = useParams();
     const [goodDeed, setGoodDeed] = useState();
     const [isLoading, setIsLoading] = useState(false);
+    const [imageEditMode, setImageEditMode] = useState(false);
 
     useEffect(() => {
         setIsLoading(true);
@@ -50,17 +51,31 @@ const EditGoodDeedPage = props => {
     }
 
     return (
-        <div>
-            {goodDeed && <div style={{
-                flexDirection: "row"
-            }}>
-                <img style={{
-                    width: 105,
-                    height: 105,
-                    marginRight: 30,
-                    borderRadius: 10
-                }}
-                     src={goodDeed.imageUrl}></img>
+        <div style={{
+            padding: 20
+        }}>
+            {goodDeed && <div>
+                {!imageEditMode &&
+                    <img style={{
+                        width: 105,
+                        height: 105,
+                        marginRight: 30,
+                        borderRadius: 10,
+                        cursor: "pointer"
+                    }}
+                         onClick={() => setImageEditMode(true)}
+                         src={goodDeed.imageUrl}>
+                    </img>
+                }
+                {imageEditMode &&
+                    <ChooseImage style={{
+                        marginBottom: 20,
+                    }}
+                                 text={goodDeed.title}
+                                 onImageChosen={(image) => setGoodDeed({...goodDeed, imageUrl: image})}>
+                    </ChooseImage>
+                }
+
                 <div style={{
                     flexDirection: "column"
                 }}>
@@ -68,7 +83,8 @@ const EditGoodDeedPage = props => {
                         fontSize: 24,
                         marginBottom: 10
                     }} value={goodDeed.title}
-                           onChange={(e) => setGoodDeed({...goodDeed, title: e.target.value})}></input>
+                           onChange={(e) => setGoodDeed({...goodDeed, title: e.target.value})}>
+                    </input>
                     <div style={{
                         flexDirection: "row"
                     }}>

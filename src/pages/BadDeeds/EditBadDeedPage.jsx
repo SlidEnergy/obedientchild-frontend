@@ -1,14 +1,15 @@
-import React, {useEffect, useState} from 'react';
-import PropTypes from 'prop-types';
+import {useEffect, useState} from 'react';
 import Coins from "../../components/Coins";
 import {http} from "../../core/http-common";
 import {useNavigate, useParams} from "react-router-dom";
+import ChooseImage from "../../components/ChooseImage";
 
 const EditBadDeedPage = props => {
     const navigate = useNavigate();
     const {badDeedId} = useParams();
     const [badDeed, setBadDeed] = useState();
     const [isLoading, setIsLoading] = useState(false);
+    const [imageEditMode, setImageEditMode] = useState(false);
 
     useEffect(() => {
         setIsLoading(true);
@@ -54,13 +55,26 @@ const EditBadDeedPage = props => {
             {badDeed && <div style={{
                 flexDirection: "row"
             }}>
-                <img style={{
-                    width: 105,
-                    height: 105,
-                    marginRight: 30,
-                    borderRadius: 10
-                }}
-                     src={badDeed.imageUrl}></img>
+                {!imageEditMode &&
+                    <img style={{
+                        width: 105,
+                        height: 105,
+                        marginRight: 30,
+                        borderRadius: 10,
+                        cursor: "pointer"
+                    }}
+                         onClick={() => setImageEditMode(true)}
+                         src={badDeed.imageUrl}>
+                    </img>
+                }
+                {imageEditMode &&
+                    <ChooseImage style={{
+                        marginBottom: 20
+                    }}
+                                 text={badDeed.title}
+                                 onImageChosen={(image) => setBadDeed({...badDeed, imageUrl: image})}>
+                    </ChooseImage>
+                }
                 <div style={{
                     flexDirection: "column"
                 }}>

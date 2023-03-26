@@ -1,15 +1,16 @@
-import React, {useEffect, useState} from 'react';
-import PropTypes from 'prop-types';
+import {useEffect, useState} from 'react';
 import Coins from "../../components/Coins";
 import {http} from "../../core/http-common";
 import {useNavigate, useParams} from "react-router-dom";
 import LoadingIndicator from "../../components/LoadingIndicator";
+import ChooseImage from "../../components/ChooseImage";
 
 const EditRewardPage = props => {
     const navigate = useNavigate();
     const {rewardId} = useParams();
     const [reward, setReward] = useState();
     const [isLoading, setIsLoading] = useState(true);
+    const [imageEditMode, setImageEditMode] = useState(false);
 
     useEffect(() => {
         document.title = "Редактирование награды";
@@ -57,15 +58,26 @@ const EditRewardPage = props => {
             <div style={styles.container}>
                 <LoadingIndicator isLoading={isLoading}></LoadingIndicator>
                 {reward && <div style={styles.row}>
-                    <img style={{
-                        width: 105,
-                        height: 105,
-                        marginRight: 20,
-                        borderRadius: 10
-                    }}
-                         source={{
-                             uri: reward.imageUrl
-                         }}></img>
+                    {!imageEditMode &&
+                        <img style={{
+                            width: 105,
+                            height: 105,
+                            marginRight: 20,
+                            borderRadius: 10,
+                            cursor: "pointer"
+                        }}
+                             onClick={() => setImageEditMode(true)}
+                             src={reward.imageUrl}>
+                        </img>
+                    }
+                    {imageEditMode &&
+                        <ChooseImage style={{
+                            marginBottom: 20
+                        }}
+                                     text={reward.title}
+                                     onImageChosen={(image) => setReward({...reward, imageUrl: image})}>
+                        </ChooseImage>
+                    }
                     <div style={styles.column}>
                         <input type="text" style={{
                             fontSize: 24,
