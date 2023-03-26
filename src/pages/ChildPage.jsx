@@ -1,11 +1,12 @@
 import React, {useEffect, useState} from 'react';
-import PropTypes from 'prop-types';
 import {http} from "../core/http-common";
 import LoadingIndicator from "../components/LoadingIndicator";
-import ChildList from "../components/ChildList";
 import {useNavigate, useParams} from "react-router-dom";
 import Coins from "../components/Coins";
 import RewardItem from "../components/RewardItem";
+
+import GoodDeedsPopup from "../components/GoodDeedsPopup";
+import BadDeedsPopup from "../components/BadDeedsPopup";
 
 const ChildPage = props => {
     let navigate = useNavigate();
@@ -16,6 +17,9 @@ const ChildPage = props => {
 
     const [bigGoal, setBigGoal] = useState();
     const [dream, setDream] = useState();
+    const [isGoodDeedPopupOpened, setIsGoodDeedPopupOpened] = useState(false)
+    const [isBadDeedPopupOpened, setIsBadDeedPopupOpened] = useState(false)
+
 
     useEffect(() => {
         document.title = "Ребенок";
@@ -60,7 +64,10 @@ const ChildPage = props => {
 
     function spendCoin(count) {
         http.post("/children/" + child.id + "/spend/" + count)
-            .then(({data}) => setChild({...child, balance: data}))
+            .then(({data}) => {
+                setChild({...child, balance: data});
+                setIsBadDeedPopupOpened(false);
+            })
             .catch(err => {
                 console.log(err);
                 alert(err.message);
@@ -69,7 +76,10 @@ const ChildPage = props => {
 
     function earnCoin(count) {
         http.post("/children/" + child.id + "/earn/" + count)
-            .then(({data}) => setChild({...child, balance: data}))
+            .then(({data}) => {
+                setChild({...child, balance: data});
+                setIsGoodDeedPopupOpened(false);
+            })
             .catch(err => {
                 console.log(err);
                 alert(err.message);
@@ -109,18 +119,36 @@ const ChildPage = props => {
                         alignItems: "center",
                         alignContent: "center",
                     }}>
-                        <button style={{...styles.button, marginRight: 20}} onClick={() => spendCoin(1)}>-</button>
-                        <button style={{...styles.button, marginRight: 20}} onClick={() => earnCoin(1)}>+</button>
+                        <button style={{...styles.button, marginRight: 20}}
+                                onClick={() => setIsBadDeedPopupOpened(true)}>
+                            -
+                        </button>
+                        <button style={{...styles.button, marginRight: 20}}
+                                onClick={() => setIsGoodDeedPopupOpened(true)}>
+                            +
+                        </button>
                     </div>
+                    <BadDeedsPopup onChosen={(reward) => spendCoin(reward.price)}
+                                   open={isBadDeedPopupOpened}
+                                   onOpenChanged={setIsBadDeedPopupOpened}>
+                    </BadDeedsPopup>
+                    <GoodDeedsPopup onChosen={(reward) => earnCoin(reward.price)}
+                                    open={isGoodDeedPopupOpened}
+                                    onOpenChanged={setIsGoodDeedPopupOpened}>
+                    </GoodDeedsPopup>
                     <div style={{
                         marginTop: 20
                     }}>
                         {bigGoal && <RewardItem reward={{...bigGoal, title: "Цель: " + bigGoal.title}}></RewardItem>}
-                        <button style={{...styles.button, marginTop: 20}} title="Выбрать цель" onClick={selectGoal}>Выбрать цель</button>
+                        <button style={{...styles.button, marginTop: 20}} title="Выбрать цель"
+                                onClick={selectGoal}>Выбрать цель
+                        </button>
                     </div>
                     <div>
                         {dream && <RewardItem reward={{...dream, title: "Мечта: " + dream.title}}></RewardItem>}
-                        <button style={{...styles.button, marginTop: 20}} title="Выбрать Мечту" onClick={selectDream}>Выбрать мечту</button>
+                        <button style={{...styles.button, marginTop: 20}} title="Выбрать Мечту"
+                                onClick={selectDream}>Выбрать мечту
+                        </button>
                     </div>
                 </div>
             }
