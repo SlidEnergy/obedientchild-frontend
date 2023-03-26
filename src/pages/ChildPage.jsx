@@ -1,12 +1,13 @@
 import React, {useEffect, useState} from 'react';
 import {http} from "../core/http-common";
 import LoadingIndicator from "../components/LoadingIndicator";
-import {useNavigate, useParams} from "react-router-dom";
+import {Link, useNavigate, useParams} from "react-router-dom";
 import Coins from "../components/Coins";
 import RewardItem from "../components/RewardItem";
 
 import GoodDeedsPopup from "../components/GoodDeedsPopup";
 import BadDeedsPopup from "../components/BadDeedsPopup";
+import RewardsPopup from "../components/RewardsPopup";
 
 const ChildPage = props => {
     let navigate = useNavigate();
@@ -19,6 +20,7 @@ const ChildPage = props => {
     const [dream, setDream] = useState();
     const [isGoodDeedPopupOpened, setIsGoodDeedPopupOpened] = useState(false)
     const [isBadDeedPopupOpened, setIsBadDeedPopupOpened] = useState(false)
+    const [isRewardsPopupOpened, setIsRewardsPopupOpened] = useState(false)
 
 
     useEffect(() => {
@@ -62,11 +64,12 @@ const ChildPage = props => {
 
     }, [])
 
-    function spendCoin(count) {
-        http.post("/children/" + child.id + "/spend/" + count)
+    function spendCoin(reward) {
+        http.put("/children/" + child.id + "/spend/", reward)
             .then(({data}) => {
                 setChild({...child, balance: data});
                 setIsBadDeedPopupOpened(false);
+                setIsRewardsPopupOpened(false);
             })
             .catch(err => {
                 console.log(err);
@@ -74,8 +77,8 @@ const ChildPage = props => {
             });
     }
 
-    function earnCoin(count) {
-        http.post("/children/" + child.id + "/earn/" + count)
+    function earnCoin(reward) {
+        http.put("/children/" + child.id + "/earn/", reward)
             .then(({data}) => {
                 setChild({...child, balance: data});
                 setIsGoodDeedPopupOpened(false);
@@ -94,7 +97,6 @@ const ChildPage = props => {
         navigate("/children/" + child.id + "/SelectDream");
     }
 
-    //const url = "https://d9f2-91-245-142-214.eu.ngrok.io/api/v1/children/" + route.params.id + "/avatar.png";
     return (
         <div>
             <LoadingIndicator isLoading={isLoading}></LoadingIndicator>
@@ -114,11 +116,18 @@ const ChildPage = props => {
                         />
                         <Coins count={child.balance} size={36}></Coins>
                     </div>
+                    <div style={{marginBottom: 20}}>
+                        <a onClick={() => navigate("/coinhistory/" + childId)} href="">История монет</a>
+                    </div>
                     <div style={{
                         flexDirection: "row",
                         alignItems: "center",
                         alignContent: "center",
                     }}>
+                        <button style={{...styles.button, marginRight: 20}}
+                                onClick={() => setIsRewardsPopupOpened(true)}>
+                            Потратить
+                        </button>
                         <button style={{...styles.button, marginRight: 20}}
                                 onClick={() => setIsBadDeedPopupOpened(true)}>
                             -
@@ -128,11 +137,15 @@ const ChildPage = props => {
                             +
                         </button>
                     </div>
-                    <BadDeedsPopup onChosen={(reward) => spendCoin(reward.price)}
+                    <RewardsPopup onChosen={(reward) => spendCoin(reward)}
+                                   open={isRewardsPopupOpened}
+                                   onOpenChanged={setIsRewardsPopupOpened}>
+                    </RewardsPopup>
+                    <BadDeedsPopup onChosen={(reward) => spendCoin(reward)}
                                    open={isBadDeedPopupOpened}
                                    onOpenChanged={setIsBadDeedPopupOpened}>
                     </BadDeedsPopup>
-                    <GoodDeedsPopup onChosen={(reward) => earnCoin(reward.price)}
+                    <GoodDeedsPopup onChosen={(reward) => earnCoin(reward)}
                                     open={isGoodDeedPopupOpened}
                                     onOpenChanged={setIsGoodDeedPopupOpened}>
                     </GoodDeedsPopup>

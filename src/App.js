@@ -13,6 +13,7 @@ import AddBadDeedPage from "./pages/BadDeeds/AddBadDeedPage";
 import GoodDeedsPage from "./pages/GoodDeeds/GoodDeedsPage";
 import EditGoodDeedPage from "./pages/GoodDeeds/EditGoodDeedPage";
 import AddGoodDeedPage from "./pages/GoodDeeds/AddGoodDeedPage";
+import CoinHistoryPage from "./pages/CoinHistoryPage";
 
 function App() {
     return (
@@ -22,6 +23,7 @@ function App() {
             </header>
             <Routes>
                 <Route path="/" element={<HomePage/>}/>
+                <Route path="/coinhistory/:childId" element={<CoinHistoryPage/>}/>
                 <Route path="/children/:childId">
                     <Route path="/children/:childId/" element={<ChildPage/>}/>
                     <Route path="/children/:childId/SelectGoal" element={<SelectGoalPage/>}/>
