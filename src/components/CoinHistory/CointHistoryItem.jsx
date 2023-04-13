@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Coins from "./Coins";
+import Coins from "../Coins";
 
 const CoinHistoryItem = props => {
     function revert() {
@@ -17,6 +17,8 @@ const CoinHistoryItem = props => {
             }}
                    src={props.item.imageUrl}>
             </img>
+            <span style={{marginRight: 20}}>{new Date(Date.parse(props.item.dateTime)).toLocaleString("ru-RU")}</span>
+            <span>{props.item.type}</span>
             <div style={{
                 flexDirection: "column",
                 flex: 1
@@ -36,6 +38,8 @@ CoinHistoryItem.propTypes = {
 
 const styles = {
     item: {
+        paddingBottom: "20px",
+        display: "flex",
         marginVertical: 8,
         flexDirection: "row",
         alignItems: "center",

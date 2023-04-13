@@ -30,8 +30,10 @@ const RewardsPopup = props => {
             open={props.open}>
             <LoadingIndicator isLoading={isLoading}></LoadingIndicator>
             {!isLoading &&
-                <RewardList rewards={rewards} onChoose={(item) => props.onChosen(item)}>
-                </RewardList>
+                <div style={{overflow: "auto"}}>
+                    <RewardList rewards={rewards} onChoose={(item) => props.onChosen(item)}>
+                    </RewardList>
+                </div>
             }
         </Popup>
     );
