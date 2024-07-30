@@ -37,10 +37,13 @@ const styles = {
         marginVertical: 8,
         flexDirection: "row",
         alignItems: "center",
-        cursor: "pointer"
+        cursor: "pointer",
+        border: "solid 1px lightgray",
+        padding: 10,
+        marginRight: 10
     },
     title: {
-        fontSize: 22,
+        fontSize: 18,
         marginBottom: 10
     },
     balance: {

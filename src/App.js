@@ -14,6 +14,10 @@ import GoodDeedsPage from "./pages/GoodDeeds/GoodDeedsPage";
 import EditGoodDeedPage from "./pages/GoodDeeds/EditGoodDeedPage";
 import AddGoodDeedPage from "./pages/GoodDeeds/AddGoodDeedPage";
 import CoinHistoryPage from "./pages/CoinHistoryPage";
+import HabitsPage from "./pages/Habits/HabitsPage";
+import EditHabitPage from "./pages/Habits/EditHabitPage";
+import AddHabitPage from "./pages/Habits/AddHabitPage";
+import SelectHabitPage from "./pages/SelectHabitPage";
 
 function App() {
     return (
@@ -28,6 +32,7 @@ function App() {
                     <Route path="/children/:childId/" element={<ChildPage/>}/>
                     <Route path="/children/:childId/SelectGoal" element={<SelectGoalPage/>}/>
                     <Route path="/children/:childId/SelectDream" element={<SelectDreamPage/>}/>
+                    <Route path="/children/:childId/habits/" element={<SelectHabitPage/>}/>
                 </Route>
                 <Route path="/rewards">
                     <Route path="/rewards/" element={<RewardsPage/>}/>
@@ -43,6 +48,11 @@ function App() {
                     <Route path="/baddeeds/" element={<BadDeedsPage/>}/>
                     <Route path="/baddeeds/:badDeedId/" element={<EditBadDeedPage/>}/>
                     <Route path="/baddeeds/add/" element={<AddBadDeedPage/>}/>
+                </Route>
+                <Route path="/habits">
+                    <Route path="/habits/" element={<HabitsPage/>}/>
+                    <Route path="/habits/:habbitId/" element={<EditHabitPage/>}/>
+                    <Route path="/habits/add/" element={<AddHabitPage/>}/>
                 </Route>
             </Routes>
         </div>

@@ -8,6 +8,7 @@ import RewardItem from "../components/RewardItem";
 import GoodDeedsPopup from "../components/GoodDeedsPopup";
 import BadDeedsPopup from "../components/BadDeedsPopup";
 import RewardsPopup from "../components/RewardsPopup";
+import ChildHabits from "../components/Habits/ChildHabits";
 
 const ChildPage = props => {
     let navigate = useNavigate();
@@ -21,7 +22,6 @@ const ChildPage = props => {
     const [isGoodDeedPopupOpened, setIsGoodDeedPopupOpened] = useState(false)
     const [isBadDeedPopupOpened, setIsBadDeedPopupOpened] = useState(false)
     const [isRewardsPopupOpened, setIsRewardsPopupOpened] = useState(false)
-
 
     useEffect(() => {
         document.title = "Ребенок";
@@ -60,8 +60,6 @@ const ChildPage = props => {
                 alert(err.message);
             })
             .finally(() => setIsLoading(false));
-
-
     }, [])
 
     function spendCoin(reward) {
@@ -97,6 +95,10 @@ const ChildPage = props => {
         navigate("/children/" + child.id + "/SelectDream");
     }
 
+    function openCoinHistory() {
+        navigate("/coinhistory/" + child.id);
+    }
+
     return (
         <div>
             <LoadingIndicator isLoading={isLoading}></LoadingIndicator>
@@ -117,7 +119,7 @@ const ChildPage = props => {
                         <Coins count={child.balance} size={36}></Coins>
                     </div>
                     <div style={{marginBottom: 20}}>
-                        <a onClick={() => navigate("/coinhistory/" + childId)} href="">История монет</a>
+                        <a onClick={openCoinHistory} href="#">История монет</a>
                     </div>
                     <div style={{
                         flexDirection: "row",
@@ -162,6 +164,9 @@ const ChildPage = props => {
                         <button style={{...styles.button, marginTop: 20}} title="Выбрать Мечту"
                                 onClick={selectDream}>Выбрать мечту
                         </button>
+                    </div>
+                    <div>
+                        <ChildHabits></ChildHabits>
                     </div>
                 </div>
             }
