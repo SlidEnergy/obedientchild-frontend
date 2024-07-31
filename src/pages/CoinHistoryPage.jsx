@@ -26,7 +26,7 @@ const CoinHistoryPage = () => {
     function onRevert(item) {
         http.delete("/coinhistory/" + item.id)
             .then(() => {
-                alert("success");
+                console.log("success");
             })
             .catch(err => {
                 console.log(err);

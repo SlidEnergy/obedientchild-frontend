@@ -29,7 +29,7 @@ const SelectDreamPage = props => {
     function onChoose(item) {
         http.post(`/children/${childId}/setdream`, item.id)
             .then(({data}) => {
-                alert("success");
+                console.log("success");
                 navigate("/children/" + childId);
             })
             .catch(err => {

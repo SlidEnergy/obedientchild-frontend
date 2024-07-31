@@ -29,7 +29,7 @@ const EditGoodDeedPage = props => {
     function saveGoodDeed() {
         http.post("/gooddeeds/" + goodDeedId, goodDeed)
             .then(() => {
-                alert("success");
+                console.log("success");
                 navigate("/gooddeeds");
             })
             .catch(err => {
@@ -41,7 +41,7 @@ const EditGoodDeedPage = props => {
     function deleteGoodDeed() {
         http.delete("/gooddeeds/" + goodDeedId)
             .then(() => {
-                alert("success");
+                console.log("success");
                 navigate("/gooddeeds");
             })
             .catch(err => {

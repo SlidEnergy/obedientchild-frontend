@@ -13,7 +13,7 @@ const AddRewardPage = props => {
     function addReward() {
         http.put("/rewards", reward)
             .then(() => {
-                alert("success");
+                console.log("success");
                 navigate("/rewards");
             })
             .catch(err => {

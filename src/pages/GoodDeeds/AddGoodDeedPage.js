@@ -11,7 +11,7 @@ const AddGoodDeedPage = props => {
     function addGoodDeed() {
         http.put("/gooddeeds", goodDeed)
             .then(() => {
-                alert("success");
+                console.log("success");
                 navigate("/gooddeeds");
             })
             .catch(err => {

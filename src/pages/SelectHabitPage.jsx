@@ -28,7 +28,7 @@ const SelectHabitPage = props => {
     function onChoose(item) {
         http.post(`/habits/${item.id}/child/${childId}`, undefined)
             .then(({data}) => {
-                alert("success");
+                console.log("success");
                 navigate("/children/" + childId);
             })
             .catch(err => {

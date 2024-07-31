@@ -29,7 +29,7 @@ const EditHabitPage = props => {
     function saveHabit() {
         http.post("/gooddeeds/" + habitId, habit)
             .then(() => {
-                alert("success");
+                console.log("success");
                 navigate("/gooddeeds");
             })
             .catch(err => {
@@ -41,7 +41,7 @@ const EditHabitPage = props => {
     function deleteHabit() {
         http.delete("/gooddeeds/" + habitId)
             .then(() => {
-                alert("success");
+                console.log("success");
                 navigate("/gooddeeds");
             })
             .catch(err => {

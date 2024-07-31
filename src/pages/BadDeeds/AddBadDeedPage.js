@@ -11,7 +11,7 @@ const AddBadDeedPage = props => {
     function addBadDeed() {
         http.put("/baddeeds", badDeed)
             .then(() => {
-                alert("success");
+                console.log("success");
                 navigate("/baddeeds");
             })
             .catch(err => {

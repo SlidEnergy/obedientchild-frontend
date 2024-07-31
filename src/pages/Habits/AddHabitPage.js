@@ -11,7 +11,7 @@ const AddHabitPage = props => {
     function addHabit() {
         http.put("/habits", habit)
             .then(() => {
-                alert("success");
+                console.log("success");
                 navigate("/habits");
             })
             .catch(err => {

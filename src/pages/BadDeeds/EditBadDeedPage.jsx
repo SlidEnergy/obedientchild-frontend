@@ -29,7 +29,7 @@ const EditBadDeedPage = props => {
     function saveBadDeed() {
         http.post("/baddeeds/" + badDeedId, badDeed)
             .then(() => {
-                alert("success");
+                console.log("success");
                 navigate("/baddeeds");
             })
             .catch(err => {
@@ -41,7 +41,7 @@ const EditBadDeedPage = props => {
     function deleteBadDeed() {
         http.delete("/baddeeds/" + badDeedId)
             .then(() => {
-                alert("success");
+                console.log("success");
                 navigate("/baddeeds");
             })
             .catch(err => {

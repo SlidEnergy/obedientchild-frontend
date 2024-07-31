@@ -32,7 +32,7 @@ const EditRewardPage = props => {
     function deleteReward() {
         http.delete("/rewards/" + rewardId)
             .then(() => {
-                alert("success");
+                console.log("success");
                 navigate("/rewards");
             })
             .catch(err => {
@@ -44,7 +44,7 @@ const EditRewardPage = props => {
     function saveReward() {
         http.post("/rewards/" + rewardId, reward)
             .then(() => {
-                alert("success");
+                console.log("success");
                 navigate("/rewards");
             })
             .catch(err => {

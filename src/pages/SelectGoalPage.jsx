@@ -28,7 +28,7 @@ const SelectGoalPage = props => {
     function onChoose(item) {
         http.post(`/children/${childId}/setgoal`, item.id)
             .then(({data}) => {
-                alert("success");
+                console.log("success");
                 navigate("/children/" + childId);
             })
             .catch(err => {
