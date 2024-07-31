@@ -51,7 +51,7 @@ function App() {
                 </Route>
                 <Route path="/habits">
                     <Route path="/habits/" element={<HabitsPage/>}/>
-                    <Route path="/habits/:habbitId/" element={<EditHabitPage/>}/>
+                    <Route path="/habits/:habitId/" element={<EditHabitPage/>}/>
                     <Route path="/habits/add/" element={<AddHabitPage/>}/>
                 </Route>
             </Routes>

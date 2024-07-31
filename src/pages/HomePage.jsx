@@ -47,7 +47,7 @@ const HomePage = props => {
                 <button style={styles.button} onClick={() => navigate("/GoodDeeds")}>Хорошие дела</button>
                 <button style={styles.button} onClick={() => navigate("/BadDeeds")}>Плохие дела</button>
                 <button style={styles.button} onClick={() => navigate("/rewards")}>Желания</button>
-                <button style={styles.button} onClick={() => navigate("/habbits")}>Привычки</button>
+                <button style={styles.button} onClick={() => navigate("/habits")}>Привычки</button>
             </div>
         </div>
     );

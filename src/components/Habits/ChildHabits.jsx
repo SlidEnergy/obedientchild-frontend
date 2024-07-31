@@ -16,10 +16,10 @@ const ChildHabits = props => {
     const statisticsRef = useRef({})
 
     useEffect(() => {
-        loadHabbits();
+        loadHabits();
     }, [selectedDay]);
 
-    function loadHabbits(){
+    function loadHabits(){
         setIsLoading(true);
         http.get(`/habits/day?childId=${childId}&day=${toApiDateString(selectedDay)}`)
             .then(({data}) => {
@@ -43,7 +43,7 @@ const ChildHabits = props => {
     function doneHabit(item) {
         http.post(`/habits/${item.habitId}/status?childId=${childId}&day=${toApiDateString(selectedDay)}&status=Done`)
             .then(({data}) => {
-                loadHabbits();
+                loadHabits();
                 statisticsRef.current.loadStatistics();
             })
             .catch(err => {
@@ -55,7 +55,7 @@ const ChildHabits = props => {
     function skipHabit(item) {
         http.post(`/habits/${item.habitId}/status?childId=${childId}&day=${toApiDateString(selectedDay)}&status=Skipped`)
             .then(({data}) => {
-                loadHabbits();
+                loadHabits();
                 statisticsRef.current.loadStatistics();
             })
             .catch(err => {
@@ -67,7 +67,7 @@ const ChildHabits = props => {
     function clearHabitStatus(item) {
         http.post(`/habits/${item.habitId}/status?childId=${childId}&day=${toApiDateString(selectedDay)}&status=None`)
             .then(({data}) => {
-                loadHabbits();
+                loadHabits();
                 statisticsRef.current.loadStatistics();
             })
             .catch(err => {
@@ -79,7 +79,7 @@ const ChildHabits = props => {
     function unsetHabit(item) {
         http.delete(`/habits/${item.habitId}/child/${childId}?day=${toApiDateString(selectedDay)}`)
             .then(({data}) => {
-                loadHabbits();
+                loadHabits();
                 statisticsRef.current.loadStatistics();
             })
             .catch(err => {
