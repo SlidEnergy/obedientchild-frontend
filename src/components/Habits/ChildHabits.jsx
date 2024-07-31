@@ -64,6 +64,18 @@ const ChildHabits = props => {
             });
     }
 
+    function clearHabitStatus(item) {
+        http.post(`/habits/${item.habitId}/status?childId=${childId}&day=${toApiDateString(selectedDay)}&status=None`)
+            .then(({data}) => {
+                loadHabbits();
+                statisticsRef.current.loadStatistics();
+            })
+            .catch(err => {
+                console.log(err);
+                alert(err.message);
+            });
+    }
+
     function unsetHabit(item) {
         http.delete(`/habits/${item.habitId}/child/${childId}?day=${toApiDateString(selectedDay)}`)
             .then(({data}) => {
@@ -84,7 +96,7 @@ const ChildHabits = props => {
         <div>
             <HabitsPeriodLine parentRef={statisticsRef} childId={childId} selectedDay={selectedDay} chooseItem={chooseItem}></HabitsPeriodLine>
             <LoadingIndicator isLoading={isLoading}></LoadingIndicator>
-            {habits && <HabitList habits={habits} doneHabit={doneHabit} skipHabit={skipHabit} unsetHabit={unsetHabit}></HabitList>}
+            {habits && <HabitList habits={habits} doneHabit={doneHabit} skipHabit={skipHabit} unsetHabit={unsetHabit} clearHabitStatus={clearHabitStatus}></HabitList>}
             <button style={{...styles.button, marginTop: 20}} title="Добавить привычку" onClick={addHabit}>Добавить привычку
             </button>
         </div>

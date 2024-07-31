@@ -11,6 +11,10 @@ const HabitItem = props => {
         props.skipHabit && props.skipHabit(props.habit);
     }
 
+    function clearHabitStatus() {
+        props.clearHabitStatus && props.clearHabitStatus(props.habit);
+    }
+
     function unsetHabit() {
         props.unsetHabit && props.unsetHabit(props.habit);
     }
@@ -31,9 +35,10 @@ const HabitItem = props => {
                 <p style={styles.title}>{props.habit.title}</p>
                 <Coins count={props.habit.price} size={22}></Coins>
                 <p style={styles.title}>{props.habit.status}</p>
-                {props.habit.status != "Done" && <button onClick={doneHabit}>Выполнить</button>}
-                {props.habit.status != "Skipped" && <button onClick={skipHabit}>Пропустить</button>}
-                <button onClick={unsetHabit}>Удалить</button>
+                {props.habit.status == "None" && <button onClick={doneHabit}>Выполнить</button>}
+                {props.habit.status == "None" && <button onClick={skipHabit}>Пропустить</button>}
+                {props.habit.status != "None" && <button onClick={clearHabitStatus}>Отменить</button>}
+                {props.habit.status == "None" && <button onClick={unsetHabit}>Удалить</button>}
             </div>
         </div>
     );
