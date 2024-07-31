@@ -8,11 +8,10 @@ const HabitsPeriodLineItem = props => {
     }
 
     return (
-        <div onClick={chooseItem} style={{...styles.container, ...{...props.isSelected ? {border: "solid 1px red" } : {}}}}>
-            <div>{props.text}</div>
-            <div>{props.date.getFullYear() + "." + (props.date.getMonth()+1) + "." + props.date.getDate()}</div>
+        <div onClick={chooseItem} style={{...styles.container, ...{...props.isSelected ? {border: "solid 2px red" } : {}}}}>
+            <div>{props.text + " " + props.date.getDate()}</div>
             {props.dayStatistic && <div>
-                {`${props.dayStatistic.doneHabitsCount + props.dayStatistic.skippedHabitsCount}/${props.dayStatistic.habitsCount}\n(${(props.dayStatistic.dayPercent * 100).toFixed(0)}%)`}
+                {`${(props.dayStatistic.dayPercent * 100).toFixed(0)}%`}
             </div>}
         </div>
     );
@@ -32,8 +31,14 @@ const styles = {
         flexDirection: 'column',
         margin: 10,
         cursor: "pointer",
-        padding: 10
-    }
+        padding: 10,
+        minWidth: 80,
+        minHeight: 80,
+        borderRadius: "50%",
+        border: "solid 1px lightgray",
+        marginRight: 5,
+        marginLeft: 5
+    },
 };
 
 export default HabitsPeriodLineItem;

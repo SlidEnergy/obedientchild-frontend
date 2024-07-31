@@ -104,7 +104,7 @@ const HabitsPeriodLine = props => {
             })}
             <div style={styles.arrow} onClick={nextWeek}>&gt;</div>
             {statistics && <div style={styles.weekStatistic}>
-                {`${statistics.doneHabitsCount + statistics.skippedHabitsCount}/${statistics.habitsCount}\n(${(statistics.weekPercent * 100).toFixed(0)}%)`}
+                {`${(statistics.weekPercent * 100).toFixed(0)}%`}
             </div>}
         </div>
     );
@@ -121,21 +121,23 @@ const styles = {
     container: {
         display: 'flex',
         flexDirection: 'row',
-        margin: 10
+        margin: 10,
+        overflow: "scroll"
     },
     arrow: {
         cursor: "pointer",
         display: 'flex',
-        margin: 15,
-        padding: 15
+        margin: "15px 5px 15px 5px",
+        padding: "15px 5px 15px 5px"
     },
     weekStatistic: {
         margin: 10,
+        marginLeft: 30,
         borderRadius: "50%",
-        border: "solid 1px gray",
+        border: "solid 2px gray",
         whiteSpace: "pre-line",
-        width: 100,
-        height: 100,
+        minWidth: 80,
+        minHeight: 80,
         paddingTop: 25
     }
 };

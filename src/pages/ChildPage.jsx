@@ -154,19 +154,21 @@ const ChildPage = props => {
                     <div style={{
                         marginTop: 20
                     }}>
+                        <ChildHabits></ChildHabits>
+                    </div>
+                    <div>
                         {bigGoal && <RewardItem reward={{...bigGoal, title: "Цель: " + bigGoal.title}}></RewardItem>}
                         <button style={{...styles.button, marginTop: 20}} title="Выбрать цель"
                                 onClick={selectGoal}>Выбрать цель
                         </button>
                     </div>
-                    <div>
+                    <div  style={{
+                        marginBottom: 20
+                    }}>
                         {dream && <RewardItem reward={{...dream, title: "Мечта: " + dream.title}}></RewardItem>}
                         <button style={{...styles.button, marginTop: 20}} title="Выбрать Мечту"
                                 onClick={selectDream}>Выбрать мечту
                         </button>
-                    </div>
-                    <div>
-                        <ChildHabits></ChildHabits>
                     </div>
                 </div>
             }
