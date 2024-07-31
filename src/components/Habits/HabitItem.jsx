@@ -4,19 +4,23 @@ import Coins from "../Coins";
 
 const HabitItem = props => {
     function doneHabit() {
-        props.doneHabit && props.doneHabit(props.habit);
+        props.setHabitStatus && props.setHabitStatus(props.habit, "Done");
     }
 
     function skipHabit() {
-        props.skipHabit && props.skipHabit(props.habit);
+        props.setHabitStatus && props.setHabitStatus(props.habit, "Skipped");
     }
 
     function clearHabitStatus() {
-        props.clearHabitStatus && props.clearHabitStatus(props.habit);
+        props.setHabitStatus && props.setHabitStatus(props.habit, "None");
     }
 
     function unsetHabit() {
         props.unsetHabit && props.unsetHabit(props.habit);
+    }
+
+    function failedHabit() {
+        props.setHabitStatus && props.setHabitStatus(props.habit, "Failed");
     }
 
     return (
@@ -37,6 +41,7 @@ const HabitItem = props => {
                 <p style={styles.title}>{props.habit.status}</p>
                 {props.habit.status == "None" && <button onClick={doneHabit}>Выполнить</button>}
                 {props.habit.status == "None" && <button onClick={skipHabit}>Пропустить</button>}
+                {props.habit.status == "None" && <button onClick={failedHabit}>Провалить</button>}
                 {props.habit.status != "None" && <button onClick={clearHabitStatus}>Отменить</button>}
                 {props.habit.status == "None" && <button onClick={unsetHabit}>Удалить</button>}
             </div>
@@ -46,8 +51,7 @@ const HabitItem = props => {
 
 HabitItem.propTypes = {
     habit: PropTypes.any,
-    doneHabit: PropTypes.func,
-    skipHabit: PropTypes.func,
+    setHabitStatus: PropTypes.func,
     unsetHabit: PropTypes.func
 };
 

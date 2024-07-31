@@ -40,32 +40,8 @@ const ChildHabits = props => {
         navigate("/children/" + childId + "/habits/");
     }
 
-    function doneHabit(item) {
-        http.post(`/habits/${item.habitId}/status?childId=${childId}&day=${toApiDateString(selectedDay)}&status=Done`)
-            .then(({data}) => {
-                loadHabits();
-                statisticsRef.current.loadStatistics();
-            })
-            .catch(err => {
-                console.log(err);
-                alert(err.message);
-            });
-    }
-
-    function skipHabit(item) {
-        http.post(`/habits/${item.habitId}/status?childId=${childId}&day=${toApiDateString(selectedDay)}&status=Skipped`)
-            .then(({data}) => {
-                loadHabits();
-                statisticsRef.current.loadStatistics();
-            })
-            .catch(err => {
-                console.log(err);
-                alert(err.message);
-            });
-    }
-
-    function clearHabitStatus(item) {
-        http.post(`/habits/${item.habitId}/status?childId=${childId}&day=${toApiDateString(selectedDay)}&status=None`)
+    function setHabitStatus(item, status) {
+        http.post(`/habits/${item.habitId}/status?childId=${childId}&day=${toApiDateString(selectedDay)}&status=${status}`)
             .then(({data}) => {
                 loadHabits();
                 statisticsRef.current.loadStatistics();
@@ -96,7 +72,7 @@ const ChildHabits = props => {
         <div>
             <HabitsPeriodLine parentRef={statisticsRef} childId={childId} selectedDay={selectedDay} chooseItem={chooseItem}></HabitsPeriodLine>
             <LoadingIndicator isLoading={isLoading}></LoadingIndicator>
-            {habits && <HabitList habits={habits} doneHabit={doneHabit} skipHabit={skipHabit} unsetHabit={unsetHabit} clearHabitStatus={clearHabitStatus}></HabitList>}
+            {habits && <HabitList habits={habits} setHabitStatus={setHabitStatus} unsetHabit={unsetHabit}></HabitList>}
             <button style={{...styles.button, marginTop: 20}} title="Добавить привычку" onClick={addHabit}>Добавить привычку
             </button>
         </div>
