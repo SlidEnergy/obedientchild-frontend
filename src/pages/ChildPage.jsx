@@ -9,6 +9,7 @@ import GoodDeedsPopup from "../components/GoodDeedsPopup";
 import BadDeedsPopup from "../components/BadDeedsPopup";
 import RewardsPopup from "../components/RewardsPopup";
 import ChildHabits from "../components/Habits/ChildHabits";
+import ChildStatusList from "../components/ChildStatusList";
 
 const ChildPage = props => {
     let navigate = useNavigate();
@@ -26,7 +27,12 @@ const ChildPage = props => {
     useEffect(() => {
         document.title = "Ребенок";
 
+        loadChild();
+    }, []);
+
+    function loadChild() {
         setIsLoading(true);
+
         http.get("/children/" + childId)
             .then(({data}) => {
                 let child = data;
@@ -60,7 +66,7 @@ const ChildPage = props => {
                 alert(err.message);
             })
             .finally(() => setIsLoading(false));
-    }, [])
+    }
 
     function spendCoin(reward) {
         http.put("/children/" + child.id + "/spend/", reward)
@@ -99,6 +105,17 @@ const ChildPage = props => {
         navigate("/coinhistory/" + child.id);
     }
 
+    function deleteChildStatus(childStatus) {
+        http.delete("/children/" + childStatus.childId + "/status/" + childStatus.id)
+            .then(({data}) => {
+                loadChild();
+            })
+            .catch(err => {
+                console.log(err);
+                alert(err.message);
+            });
+    }
+
     return (
         <div>
             <LoadingIndicator isLoading={isLoading}></LoadingIndicator>
@@ -116,7 +133,14 @@ const ChildPage = props => {
                         }}
                              src={child.avatar}
                         />
-                        <Coins count={child.balance} size={36}></Coins>
+                        <div style={{
+                            display: 'flex',
+                            flexDirection: "column",
+                            padding: '20px'
+                        }}>
+                            <Coins count={child.balance} size={36}></Coins>
+                            <ChildStatusList childStatuses={child.statuses} deleteChildStatus={deleteChildStatus}></ChildStatusList>
+                        </div>
                     </div>
                     <div style={{marginBottom: 20}}>
                         <a onClick={openCoinHistory} href="#">История монет</a>
