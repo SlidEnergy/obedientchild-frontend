@@ -40,7 +40,8 @@ const styles = {
         cursor: "pointer",
         border: "solid 1px lightgray",
         padding: 10,
-        marginRight: 10
+        marginRight: 10,
+        marginBottom: 10
     },
     title: {
         fontSize: 18,

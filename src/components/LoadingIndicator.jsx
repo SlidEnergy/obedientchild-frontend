@@ -8,8 +8,6 @@ const LoadingIndicator = (props) => {
             </div>
         );
     }
-
-    return <div></div>;
 };
 
 export default LoadingIndicator;

@@ -1,6 +1,5 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import PropTypes from 'prop-types';
-import Popup from "reactjs-popup";
 import LoadingIndicator from "./LoadingIndicator";
 import RewardList from "./RewardList";
 import 'reactjs-popup/dist/index.css';
@@ -10,7 +9,16 @@ const GoodDeedsPopup = props => {
     const [isLoading, setIsLoading] = useState(true);
     const [rewards, setRewards] = useState();
 
-    function loadRewards() {
+    useEffect(() => {
+        document.documentElement.style.overflow = props.isOpened ? 'hidden' : "scroll";
+        document.body.scroll = props.isOpened ? "no" : "yes";
+    },[props.isOpened])
+
+    useEffect(() => {
+        loadData();
+    }, []);
+
+    function loadData() {
         setIsLoading(true);
         http.get("/gooddeeds")
             .then(({data}) => {
@@ -24,23 +32,42 @@ const GoodDeedsPopup = props => {
     }
 
     return (
-        <Popup
-            onClose={() => props.onOpenChanged(false)}
-            onOpen={loadRewards}
-            open={props.open}>
+        <div style={{...styles.container, ...{...{display: props.isOpened ? "block" : "none" }}}}>
             <LoadingIndicator isLoading={isLoading}></LoadingIndicator>
             {!isLoading &&
-                <div style={{overflow: "auto"}}>
-                    <RewardList rewards={rewards} onChoose={(item) => props.onChosen(item)}>
-                    </RewardList>
-                </div>
+                <RewardList rewards={rewards} onChoose={(item) => props.onChosen(item)}>
+                </RewardList>
             }
-        </Popup>
+            <button style={styles.button} onClick={() => props.onOpenChanged(false)}>Закрыть</button>
+        </div>
     );
 };
 
+const styles = {
+    container: {
+        width: "100%",
+        height: "100%",
+        position: "fixed",
+        top: 0,
+        left: 0,
+        backgroundColor: "white",
+        padding: 10,
+        overflow: "auto"
+    },
+    button: {
+        marginTop: 10,
+        height: 60,
+        width: 300,
+        fontSize: 24,
+        borderRadius: 2,
+        alignItems: "center",
+        backgroundColor: "#337ab7",
+        flex: 1,
+    }
+}
+
 GoodDeedsPopup.propTypes = {
-    open: PropTypes.bool,
+    isOpened: PropTypes.bool,
     onOpenChanged: PropTypes.func,
     onChosen: PropTypes.func
 };

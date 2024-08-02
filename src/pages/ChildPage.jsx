@@ -164,15 +164,15 @@ const ChildPage = props => {
                         </button>
                     </div>
                     <RewardsPopup onChosen={(reward) => spendCoin(reward)}
-                                   open={isRewardsPopupOpened}
+                                   isOpened={isRewardsPopupOpened}
                                    onOpenChanged={setIsRewardsPopupOpened}>
                     </RewardsPopup>
                     <BadDeedsPopup onChosen={(reward) => spendCoin(reward)}
-                                   open={isBadDeedPopupOpened}
+                                   isOpened={isBadDeedPopupOpened}
                                    onOpenChanged={setIsBadDeedPopupOpened}>
                     </BadDeedsPopup>
                     <GoodDeedsPopup onChosen={(reward) => earnCoin(reward)}
-                                    open={isGoodDeedPopupOpened}
+                                    isOpened={isGoodDeedPopupOpened}
                                     onOpenChanged={setIsGoodDeedPopupOpened}>
                     </GoodDeedsPopup>
                     <div style={{

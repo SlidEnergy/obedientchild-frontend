@@ -4,7 +4,7 @@ import RewardItem from "./RewardItem";
 
 const RewardList = props => {
     return (
-        <div style={{display: 'flex', flexDirection: 'row'}}>
+        <div style={styles.container}>
             {props.rewards.map(item => {
                 return <RewardItem key={item.id} reward={item} onChoose={props.onChoose}></RewardItem>;
             })}
@@ -19,11 +19,9 @@ RewardList.propTypes = {
 
 const styles = {
     container: {
-        flex: 1,
-        width: "100%",
-        alignItems: 'center',
-        justifyContent: 'center',
-
+        display: "flex",
+        flexDirection: "row",
+        flexWrap: "wrap"
     }
 };
 
