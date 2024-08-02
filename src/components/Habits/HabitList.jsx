@@ -22,7 +22,8 @@ const styles = {
     container: {
         display: 'flex',
         flexDirection: 'row',
-        margin: 10
+        margin: 10,
+        flexWrap: "wrap"
     }
 };
 

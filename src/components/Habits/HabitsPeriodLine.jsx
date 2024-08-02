@@ -95,6 +95,12 @@ const HabitsPeriodLine = props => {
     return (
         <div style={styles.container}>
             <div style={styles.arrow} onClick={prevWeek}>&lt;</div>
+            {statistics && <div style={styles.weekStatistic}>
+                {`${(statistics.weekPercent * 100).toFixed(0)}%`}
+            </div>}
+            <div style={styles.arrow} onClick={nextWeek}>&gt;</div>
+
+            <div style={styles.periodLine}>
             {period && period.list.map((item, index) => {
                 return <HabitsPeriodLineItem key={item.date} date={item.date} text={item.text}
                                              isSelected={props.selectedDay.getDate() == item.date.getDate()}
@@ -102,10 +108,9 @@ const HabitsPeriodLine = props => {
                 dayStatistic={statistics?.dayStatistics[index]}>
                 </HabitsPeriodLineItem>;
             })}
-            <div style={styles.arrow} onClick={nextWeek}>&gt;</div>
-            {statistics && <div style={styles.weekStatistic}>
-                {`${(statistics.weekPercent * 100).toFixed(0)}%`}
-            </div>}
+            </div>
+
+
         </div>
     );
 };
@@ -122,23 +127,30 @@ const styles = {
         display: 'flex',
         flexDirection: 'row',
         margin: 10,
-        overflow: "scroll"
+        flexWrap: "wrap",
+        justifyContent: "center"
+    },
+    periodLine: {
+        display: 'flex',
+        flexDirection: 'row',
+        margin: 10,
+        flexWrap: "wrap"
     },
     arrow: {
         cursor: "pointer",
         display: 'flex',
-        margin: "15px 5px 15px 5px",
-        padding: "15px 5px 15px 5px"
+        margin: "15px 10px 15px 10px",
+        padding: "15px 10px 15px 10px",
+        alignItems: "center"
     },
     weekStatistic: {
-        margin: 10,
-        marginLeft: 30,
         borderRadius: "50%",
         border: "solid 2px gray",
         whiteSpace: "pre-line",
-        minWidth: 80,
-        minHeight: 80,
-        paddingTop: 25
+        width: 80,
+        height: 80,
+        paddingTop: 25,
+        alignSelf: "center"
     }
 };
 

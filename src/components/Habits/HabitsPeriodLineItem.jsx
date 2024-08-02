@@ -8,8 +8,9 @@ const HabitsPeriodLineItem = props => {
     }
 
     return (
-        <div onClick={chooseItem} style={{...styles.container, ...{...props.isSelected ? {border: "solid 2px red" } : {}}}}>
-            <div>{props.text + " " + props.date.getDate()}</div>
+        <div onClick={chooseItem}>
+            <div style={{...styles.container, ...{...props.isSelected ? {border: "solid 2px red" } : {}}}}>{props.date.getDate()}</div>
+            <div>{props.text}</div>
             {props.dayStatistic && <div>
                 {`${(props.dayStatistic.dayPercent * 100).toFixed(0)}%`}
             </div>}
@@ -29,15 +30,13 @@ const styles = {
     container: {
         display: 'flex',
         flexDirection: 'column',
-        margin: 10,
+        margin: 5,
         cursor: "pointer",
-        padding: 10,
-        minWidth: 80,
-        minHeight: 80,
+        padding: 8,
+        width: 40,
+        height: 40,
         borderRadius: "50%",
         border: "solid 1px lightgray",
-        marginRight: 5,
-        marginLeft: 5
     },
 };
 
