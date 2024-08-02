@@ -23,12 +23,28 @@ const ChildPage = props => {
     const [isGoodDeedPopupOpened, setIsGoodDeedPopupOpened] = useState(false)
     const [isBadDeedPopupOpened, setIsBadDeedPopupOpened] = useState(false)
     const [isRewardsPopupOpened, setIsRewardsPopupOpened] = useState(false)
+    const [children, setChildren] = useState()
 
     useEffect(() => {
         document.title = "Ребенок";
+        loadChildren();
+    })
 
+    useEffect(() => {
         loadChild();
-    }, []);
+    }, [childId]);
+
+    function loadChildren() {
+        http.get("/children/")
+            .then(({data}) => {
+                setChildren(data);
+            })
+            .catch(err => {
+                console.log(err);
+                alert(err.message);
+            })
+            .finally();
+    }
 
     function loadChild() {
         setIsLoading(true);
@@ -116,6 +132,36 @@ const ChildPage = props => {
             });
     }
 
+    function navigationLeft() {
+        if (children == null)
+            return;
+
+        let i = 0;
+
+        for (i; i < children.length; i++) {
+            if (children[i].id == child.id)
+                break;
+        }
+
+        if (i - 1 >= 0)
+            navigate("/children/" + children[i - 1].id);
+    }
+
+    function navigationRight() {
+        if (children == null)
+            return;
+
+        let i = 0;
+
+        for (i; i < children.length; i++) {
+            if (children[i].id == child.id)
+                break;
+        }
+
+        if (i + 1 < children.length)
+            navigate("/children/" + children[i + 1].id);
+    }
+
     return (
         <div>
             <LoadingIndicator isLoading={isLoading}></LoadingIndicator>
@@ -133,13 +179,18 @@ const ChildPage = props => {
                         }}
                              src={child.avatar}
                         />
+                        <div style={styles.navigation}>
+                            <div style={styles.navigationButton} onClick={navigationLeft}></div>
+                            <div style={styles.navigationButton} onClick={navigationRight}></div>
+                        </div>
                         <div style={{
                             display: 'flex',
                             flexDirection: "column",
                             padding: '20px'
                         }}>
                             <Coins count={child.balance} size={36}></Coins>
-                            <ChildStatusList childStatuses={child.statuses} deleteChildStatus={deleteChildStatus}></ChildStatusList>
+                            <ChildStatusList childStatuses={child.statuses}
+                                             deleteChildStatus={deleteChildStatus}></ChildStatusList>
                         </div>
                     </div>
                     <div style={{marginBottom: 20}}>
@@ -164,8 +215,8 @@ const ChildPage = props => {
                         </button>
                     </div>
                     <RewardsPopup onChosen={(reward) => spendCoin(reward)}
-                                   isOpened={isRewardsPopupOpened}
-                                   onOpenChanged={setIsRewardsPopupOpened}>
+                                  isOpened={isRewardsPopupOpened}
+                                  onOpenChanged={setIsRewardsPopupOpened}>
                     </RewardsPopup>
                     <BadDeedsPopup onChosen={(reward) => spendCoin(reward)}
                                    isOpened={isBadDeedPopupOpened}
@@ -186,7 +237,7 @@ const ChildPage = props => {
                                 onClick={selectGoal}>Выбрать цель
                         </button>
                     </div>
-                    <div  style={{
+                    <div style={{
                         marginBottom: 20
                     }}>
                         {dream && <RewardItem reward={{...dream, title: "Мечта: " + dream.title}}></RewardItem>}
@@ -219,6 +270,18 @@ const styles = {
     },
     h2: {
         fontSize: 24
+    },
+    navigation: {
+        position: "absolute",
+        display: "flex",
+        flexDirection: "row",
+        width: 160,
+        height: 320
+    },
+    navigationButton: {
+        width: 80,
+        height: 240,
+        cursor: "pointer"
     }
 }
 
