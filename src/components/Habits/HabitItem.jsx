@@ -37,9 +37,8 @@ const HabitItem = props => {
     return (
         <div style={{...styles.item, ...{...{border: getBorderByStatus(props.habit.status) }}}}>
             <img style={{
-                width: 105,
-                height: 105,
-                marginRight: 20,
+                width: 100,
+                height: 100,
                 borderRadius: 10
             }}
                    src={props.habit.imageUrl}></img>
@@ -69,7 +68,7 @@ const styles = {
     item: {
         marginVertical: 8,
         flexDirection: "row",
-        width: 150,
+        width: 120,
         alignItems: "center",
         padding: 10,
         marginRight: 10
