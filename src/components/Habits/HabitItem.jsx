@@ -23,8 +23,19 @@ const HabitItem = props => {
         props.setHabitStatus && props.setHabitStatus(props.habit, "Failed");
     }
 
+    function getBorderByStatus(status) {
+        if(status == "Failed")
+            return "solid 1px red";
+        if(status == "Done")
+            return "solid 1px lightgreen";
+        if(status == "None")
+            return "solid 1px lightgray";
+        if(status == "Skipped")
+            return "solid 1px yellow";
+    }
+
     return (
-        <div style={styles.item}>
+        <div style={{...styles.item, ...{...{border: getBorderByStatus(props.habit.status) }}}}>
             <img style={{
                 width: 105,
                 height: 105,
@@ -38,7 +49,6 @@ const HabitItem = props => {
             }}>
                 <p style={styles.title}>{props.habit.title}</p>
                 <Coins count={props.habit.price} size={22}></Coins>
-                <p style={styles.title}>{props.habit.status}</p>
                 {props.habit.status == "None" && <button onClick={doneHabit}>Выполнить</button>}
                 {props.habit.status == "None" && <button onClick={skipHabit}>Пропустить</button>}
                 {props.habit.status == "None" && <button onClick={failedHabit}>Провалить</button>}
@@ -61,16 +71,8 @@ const styles = {
         flexDirection: "row",
         width: 150,
         alignItems: "center",
-        border: "solid 1px lightgray",
         padding: 10,
         marginRight: 10
-    },
-    title: {
-        fontSize: 18,
-        marginBottom: 10
-    },
-    balance: {
-        fontSize: 12,
     },
 };
 

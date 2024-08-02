@@ -21,7 +21,7 @@ HabitList.propTypes = {
 const styles = {
     container: {
         display: 'flex',
-        flexDirection: 'row',
+        flexDirection: 'column',
         margin: 10,
         flexWrap: "wrap"
     }
