@@ -43,7 +43,6 @@ const HomePage = props => {
                 <ChildList children={children}>
                 </ChildList>
             }
-            <iframe src="https://www.toodledo.com/slim" width="100%" height="500"></iframe>
             <iframe
                 src="https://calendar.google.com/calendar/embed?height=NaN&wkst=1&ctz=Europe%2FMoscow&bgcolor=%23ffffff&showTz=0&showPrint=0&showTitle=0&src=c2xpZGVuZXJneUBnbWFpbC5jb20&src=NjgwNGUyZDMwMDM3OWY5MTRmZDU5MTM1ZDk4NzgwNjUxNGQ5OWFhZmRkNzE5ZDJiNWNmMGI4MjlmOWUxNTNkNkBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&src=OGMwYjY3YjE3ODY1ZGM1NjkzNzc5NjNlMTc2ODg1MjQwZmU2MmFjZjNiMzhkNzk3OGY0ZmYzNDVhMjI3YzNkOEBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&src=M2M5YWExNjRiOGNmYjY2ZDI5NDIxYTU2ZjQyMGYyMzY0YTNmY2ZiNDBmNWFmYTZkMmFkYTBjOTE3YzdjNWE0NEBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&src=YWRkcmVzc2Jvb2sjY29udGFjdHNAZ3JvdXAudi5jYWxlbmRhci5nb29nbGUuY29t&src=cnUucnVzc2lhbiNob2xpZGF5QGdyb3VwLnYuY2FsZW5kYXIuZ29vZ2xlLmNvbQ&color=%237986CB&color=%230B8043&color=%23D81B60&color=%238E24AA&color=%2333B679&color=%230B8043"
                 css="border-width:0" width="100%" height="900px" frameBorder="0" scrolling="no"></iframe>
