@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {http} from "../core/http-common";
 import LoadingIndicator from "../components/LoadingIndicator";
-import {Link, useNavigate, useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import Coins from "../components/Coins";
 import RewardItem from "../components/RewardItem";
 
@@ -10,6 +10,7 @@ import BadDeedsPopup from "../components/BadDeedsPopup";
 import RewardsPopup from "../components/RewardsPopup";
 import ChildHabits from "../components/Habits/ChildHabits";
 import ChildStatusList from "../components/ChildStatusList";
+import ChildTasks from "../components/Tasks/ChildTasks";
 
 const ChildPage = props => {
     let navigate = useNavigate();
@@ -28,7 +29,7 @@ const ChildPage = props => {
     useEffect(() => {
         document.title = "Ребенок";
         loadChildren();
-    })
+    }, [])
 
     useEffect(() => {
         loadChild();
@@ -230,6 +231,11 @@ const ChildPage = props => {
                         marginTop: 20
                     }}>
                         <ChildHabits></ChildHabits>
+                    </div>
+                    <div style={{
+                        marginTop: 20
+                    }}>
+                        <ChildTasks></ChildTasks>
                     </div>
                     <div>
                         {bigGoal && <RewardItem reward={{...bigGoal, title: "Цель: " + bigGoal.title}}></RewardItem>}

@@ -18,6 +18,7 @@ import HabitsPage from "./pages/Habits/HabitsPage";
 import EditHabitPage from "./pages/Habits/EditHabitPage";
 import AddHabitPage from "./pages/Habits/AddHabitPage";
 import SelectHabitPage from "./pages/SelectHabitPage";
+import SelectGoodDeedPage from "./pages/SelectGoodDeedPage";
 
 function App() {
     return (
@@ -33,6 +34,7 @@ function App() {
                     <Route path="/children/:childId/SelectGoal" element={<SelectGoalPage/>}/>
                     <Route path="/children/:childId/SelectDream" element={<SelectDreamPage/>}/>
                     <Route path="/children/:childId/habits/" element={<SelectHabitPage/>}/>
+                    <Route path="/children/:childId/childtasks/" element={<SelectGoodDeedPage/>}/>
                 </Route>
                 <Route path="/rewards">
                     <Route path="/rewards/" element={<RewardsPage/>}/>
