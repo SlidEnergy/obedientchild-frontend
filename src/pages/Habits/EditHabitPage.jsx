@@ -13,7 +13,7 @@ const EditHabitPage = props => {
 
     useEffect(() => {
         setIsLoading(true);
-        http.get("/gooddeeds/" + habitId)
+        http.get("/habits/" + habitId)
             .then(({data}) => {
                 setHabit(data);
             })
@@ -27,7 +27,7 @@ const EditHabitPage = props => {
     }, [])
 
     function saveHabit() {
-        http.post("/gooddeeds/" + habitId, habit)
+        http.post("/habits/" + habitId, habit)
             .then(() => {
                 console.log("success");
                 navigate("/gooddeeds");
@@ -39,7 +39,7 @@ const EditHabitPage = props => {
     }
 
     function deleteHabit() {
-        http.delete("/gooddeeds/" + habitId)
+        http.delete("/habits/" + habitId)
             .then(() => {
                 console.log("success");
                 navigate("/gooddeeds");
