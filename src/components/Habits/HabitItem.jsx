@@ -54,7 +54,7 @@ const HabitItem = ({habit, setHabitStatus, unsetHabit, className}) => {
                 <button className='btn btn-link skip-button' onClick={skipHabit}>Пропустить</button>}
 
             {habit.status != "None" &&
-                <button className='btn btn-link cancel-button' onClick={clearHabitStatus}/>}
+                <button className='btn btn-link cancel-button' onClick={clearHabitStatus}>Отменить</button>}
             {habit.status == "None" &&
                 <button className='btn btn-link close-button' onClick={unsetHabit}>x</button>}
 
