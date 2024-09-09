@@ -72,6 +72,7 @@ const HabitItem = ({habit, setHabitStatus, unsetHabit, className}) => {
                 margin-right: 10px;
                 position: relative;
                 flex: 1;
+                min-width: 335px;
               }
 
               .habit-image {
