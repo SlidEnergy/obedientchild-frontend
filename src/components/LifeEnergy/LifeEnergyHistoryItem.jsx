@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Coins from "../Coins";
+import Energy from "../Energy";
 
 const LifeEnergyHistoryItem = props => {
     function revert() {
@@ -15,7 +16,7 @@ const LifeEnergyHistoryItem = props => {
                 flex: 1
             }}>
                 <p style={styles.title}>{props.item.title}</p>
-                <Coins count={props.item.amount} size={22}></Coins>
+                <Energy count={props.item.amount} size={22}></Energy>
             </div>
             <button onClick={revert}>revert</button>
         </div>

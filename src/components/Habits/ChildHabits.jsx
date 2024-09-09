@@ -19,7 +19,7 @@ const ChildHabits = props => {
         loadHabits();
     }, [selectedDay]);
 
-    function loadHabits(){
+    function loadHabits() {
         setIsLoading(true);
         http.get(`/habits/day?childId=${childId}&day=${toApiDateString(selectedDay)}`)
             .then(({data}) => {
@@ -33,7 +33,7 @@ const ChildHabits = props => {
     }
 
     function toApiDateString(date) {
-        return `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`;
+        return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
     }
 
     function addHabit() {
@@ -70,35 +70,25 @@ const ChildHabits = props => {
 
     return (
         <div>
-            <HabitsPeriodLine parentRef={statisticsRef} childId={childId} selectedDay={selectedDay} chooseItem={chooseItem}></HabitsPeriodLine>
+            <HabitsPeriodLine parentRef={statisticsRef} childId={childId} selectedDay={selectedDay}
+                              chooseItem={chooseItem}></HabitsPeriodLine>
             <LoadingIndicator isLoading={isLoading}></LoadingIndicator>
             {habits && <HabitList habits={habits} setHabitStatus={setHabitStatus} unsetHabit={unsetHabit}></HabitList>}
-            <button style={{...styles.button, marginTop: 20}} title="Добавить привычку" onClick={addHabit}>Добавить привычку
+            <button className='btn btn-outline-primary button' title="Добавить привычку" onClick={addHabit}>Добавить
+                привычку
             </button>
+            <style jsx="true">{`
+              .button {
+                height: 60px;
+                width: 300px;
+                align-items: center;
+                flex: 1;
+                margin-top: 1.5rem;
+              }
+
+            `}</style>
         </div>
     );
 };
-
-ChildHabits.propTypes = {};
-
-const styles = {
-    button: {
-        height: 60,
-        width: 300,
-        fontSize: 24,
-        borderRadius: 2,
-        alignItems: "center",
-        backgroundColor: "#337ab7",
-        flex: 1,
-    },
-    buttonText: {
-        fontSize: 22,
-        marginTop: 10,
-        color: "white"
-    },
-    h2: {
-        fontSize: 24
-    }
-}
 
 export default ChildHabits;

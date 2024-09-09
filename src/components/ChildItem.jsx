@@ -2,8 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {useNavigate} from 'react-router-dom';
 
-const ChildItem = props => {
-    const child = props.child
+const ChildItem = ({child}) => {
     const navigate = useNavigate();
 
     function selectChild() {
@@ -11,44 +10,34 @@ const ChildItem = props => {
     }
 
     return (
-        <div style={{cursor: 'pointer'}} onClick={selectChild}>
-            <img style={{
-                width: 160,
-                height: 240,
-                marginRight: 30,
-                borderRadius: 10
-            }}
-                 src={child.avatar}></img>
-            <p style={styles.title}>{child.name}</p>
-            <p style={styles.balance}>{child.balance + "/" + child.bigGoalBalance + "/" + child.dreamBalance}</p>
+        <div className='item' onClick={selectChild}>
+            <div className='image-container'>
+                <img src={child.avatar}></img>
+                <div className='title'>{child.name} ({child.balance})</div>
+            </div>
+            {/*<p style={styles.balance}>{child.balance + "/" + child.bigGoalBalance + "/" + child.dreamBalance}</p>*/}
+            <style jsx="true">{`
+              .item {
+                position: relative;
+                cursor: pointer;
+              }
+
+              .image-container, img {
+                width: 160px;
+                height: 240px;
+                margin-right: 30px;
+                border-radius: 10px;
+              }
+
+              .title {
+                font-size: 24px;
+                position: absolute;
+                bottom: 1.5rem;
+                left: 1.5rem;
+              }
+            `}</style>
         </div>
     );
-};
-
-ChildItem.propTypes = {
-    child: PropTypes.any
-};
-
-const styles = {
-    container: {
-        flex: 1,
-        marginTop: 10,
-    },
-    item: {
-        padding: 20,
-        marginVertical: 8,
-        marginHorizontal: 16,
-        flexDirection: "row",
-        alignItems: "center",
-        alignContent: "center"
-    },
-    title: {
-        fontSize: 32,
-        marginRight: 20
-    },
-    balance: {
-        fontSize: 12,
-    },
 };
 
 export default ChildItem;

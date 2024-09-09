@@ -1,12 +1,11 @@
 import React, {useEffect, useState} from 'react';
-import PropTypes from 'prop-types';
 import {http} from "../../core/http-common";
 import LoadingIndicator from "../LoadingIndicator";
 import LifeEnergyPopup from "./LifeEnergyPopup";
 import Battery from "./Battery";
 import {useNavigate} from "react-router-dom";
 
-const LifeEnergy = props => {
+const LifeEnergy = ({style}) => {
     const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(true);
     const [isLifeEnergyPopupOpened, setIsLifeEnergyPopupOpened] = useState(false);
@@ -74,28 +73,38 @@ const LifeEnergy = props => {
     }
 
     return (
-        <div style={{...props.style, ...{display: 'flex', alignItems: 'center', gap: '10px'}}}>
+        <div style={style} className="battery-container">
             <LoadingIndicator isLoading={isLoading}></LoadingIndicator>
             {!isLoading &&
-                <button style={{marginRight: 20}} onClick={powerDownClick}>-</button>
+                <button className="battery-button btn btn-outline-primary"
+                        onClick={powerDownClick}>-</button>
             }
             {!isLoading && lifeEnergyBalance !== undefined &&
                 <Battery onClick={batteryClick} level={lifeEnergyBalance}></Battery>
             }
             {!isLoading &&
-                <button style={{marginLeft: 20}} onClick={powerUpClick}>+</button>
+                <button className="battery-button btn btn-outline-primary"
+                        onClick={powerUpClick}>+</button>
             }
             <LifeEnergyPopup onClosed={closed}
                              type={lifeEnergyPopupType}
                              isOpened={isLifeEnergyPopupOpened}>
             </LifeEnergyPopup>
+
+            <style jsx="true">{`
+              .battery-container {
+                display: flex;
+                align-items: center;
+                gap: 20px; /* Отступы между элементами */
+                margin-bottom: 1.5rem;
+              }
+
+              .battery-button {
+                width: 38px;
+              }
+            `}</style>
         </div>
     );
-};
-
-LifeEnergy.propTypes = {
-    count: PropTypes.number,
-    size: PropTypes.number
 };
 
 export default LifeEnergy;

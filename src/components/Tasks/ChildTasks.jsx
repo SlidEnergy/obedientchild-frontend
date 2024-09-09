@@ -16,7 +16,7 @@ const ChildTasks = props => {
         loadTasks();
     }, []);
 
-    function loadTasks(){
+    function loadTasks() {
         setIsLoading(true);
         http.get(`/childtasks/day?childId=${childId}&day=${toApiDateString(new Date())}`)
             .then(({data}) => {
@@ -58,33 +58,22 @@ const ChildTasks = props => {
     return (
         <div>
             <LoadingIndicator isLoading={isLoading}></LoadingIndicator>
-            {childTasks && <ChildTaskList childTasks={childTasks} setChildTaskStatus={setChildTaskStatus} removeChildTask={removeChildTask}></ChildTaskList>}
-            <button style={{...styles.button, marginTop: 20}} title="Добавить Задачу" onClick={addChildTask}>Добавить задачу
+            {childTasks && <ChildTaskList childTasks={childTasks} setChildTaskStatus={setChildTaskStatus}
+                                          removeChildTask={removeChildTask}></ChildTaskList>}
+            <button className='btn btn-outline-primary button' title="Добавить Задачу" onClick={addChildTask}>Добавить
+                задачу
             </button>
+            <style jsx="true">{`
+              .button {
+                height: 60px;
+                width: 300px;
+                align-items: center;
+                flex: 1;
+                margin-top: 1.5rem;
+              }
+            `}</style>
         </div>
     );
 };
-
-ChildTasks.propTypes = {};
-
-const styles = {
-    button: {
-        height: 60,
-        width: 300,
-        fontSize: 24,
-        borderRadius: 2,
-        alignItems: "center",
-        backgroundColor: "#337ab7",
-        flex: 1,
-    },
-    buttonText: {
-        fontSize: 22,
-        marginTop: 10,
-        color: "white"
-    },
-    h2: {
-        fontSize: 24
-    }
-}
 
 export default ChildTasks;

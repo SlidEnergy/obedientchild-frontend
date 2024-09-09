@@ -4,10 +4,28 @@ import HabitItem from "./HabitItem";
 
 const HabitList = props => {
     return (
-        <div style={styles.container}>
+        <div className='habit-list'>
             {props.habits.map(item => {
-                return <HabitItem key={item.habitId} habit={item} setHabitStatus={props.setHabitStatus} unsetHabit={props.unsetHabit}></HabitItem>;
+                return <HabitItem key={item.habitId} habit={item} setHabitStatus={props.setHabitStatus}
+                                  unsetHabit={props.unsetHabit}></HabitItem>;
             })}
+            <style jsx>{`
+              .habit-list {
+                display: flex;
+                flex-direction: row;
+                margin: 10px;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 20px
+              }
+
+              /* Медиа-запрос для мобильных устройств */
+              @media (max-width: 768px) {
+                .habit-list {
+                  flex-direction: column;
+                }
+              }
+            `}</style>
         </div>
     );
 };
@@ -24,7 +42,8 @@ const styles = {
         flexDirection: 'row',
         margin: 10,
         flexWrap: "wrap",
-        justifyContent: "center"
+        justifyContent: "center",
+        gap: '20px'
     }
 };
 

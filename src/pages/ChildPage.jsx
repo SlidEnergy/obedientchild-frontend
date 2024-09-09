@@ -168,49 +168,35 @@ const ChildPage = props => {
             <LoadingIndicator isLoading={isLoading}></LoadingIndicator>
             {!isLoading &&
                 <div>
-                    <div style={{
-                        display: 'flex',
-                        padding: '20px'
-                    }}>
-                        <img style={{
-                            width: 160,
-                            height: 240,
-                            borderRadius: 10,
-                            marginRight: 20
-                        }}
-                             src={child.avatar}
-                        />
-                        <div style={styles.navigation}>
-                            <div style={styles.navigationButton} onClick={navigationLeft}></div>
-                            <div style={styles.navigationButton} onClick={navigationRight}></div>
+                    <div className='d-flex p-4'>
+                        <img src={child.avatar} />
+                        <div className='navigation'>
+                            <div className='navigation-button' onClick={navigationLeft}></div>
+                            <div className='navigation-button' onClick={navigationRight}></div>
                         </div>
-                        <div style={{
-                            display: 'flex',
-                            flexDirection: "column",
-                            padding: '20px'
-                        }}>
+                        <div className='d-flex flex-column p-4'>
                             <Coins count={child.balance} size={36}></Coins>
                             <ChildStatusList childStatuses={child.statuses}
                                              deleteChildStatus={deleteChildStatus}></ChildStatusList>
                         </div>
                     </div>
                     <div style={{marginBottom: 20}}>
-                        <a onClick={openCoinHistory} href="#">История монет</a>
+                        <button className='btn btn-link' onClick={openCoinHistory} href="#">История монет</button>
                     </div>
                     <div style={{
                         flexDirection: "row",
                         alignItems: "center",
                         alignContent: "center",
                     }}>
-                        <button style={{...styles.button, marginRight: 20}}
+                        <button className='btn btn-outline-primary button me-4'
                                 onClick={() => setIsRewardsPopupOpened(true)}>
                             Потратить
                         </button>
-                        <button style={{...styles.button, marginRight: 20}}
+                        <button className='btn btn-outline-primary button me-4'
                                 onClick={() => setIsBadDeedPopupOpened(true)}>
                             -
                         </button>
-                        <button style={{...styles.button, marginRight: 20}}
+                        <button className='btn btn-outline-primary button me-4'
                                 onClick={() => setIsGoodDeedPopupOpened(true)}>
                             +
                         </button>
@@ -239,7 +225,7 @@ const ChildPage = props => {
                     </div>
                     <div>
                         {bigGoal && <RewardItem reward={{...bigGoal, title: "Цель: " + bigGoal.title}}></RewardItem>}
-                        <button style={{...styles.button, marginTop: 20}} title="Выбрать цель"
+                        <button className='btn btn-outline-primary button mt-4' title="Выбрать цель"
                                 onClick={selectGoal}>Выбрать цель
                         </button>
                     </div>
@@ -247,48 +233,43 @@ const ChildPage = props => {
                         marginBottom: 20
                     }}>
                         {dream && <RewardItem reward={{...dream, title: "Мечта: " + dream.title}}></RewardItem>}
-                        <button style={{...styles.button, marginTop: 20}} title="Выбрать Мечту"
+                        <button className='btn btn-outline-primary button mt-4' title="Выбрать Мечту"
                                 onClick={selectDream}>Выбрать мечту
                         </button>
                     </div>
                 </div>
             }
+            <style jsx="true">{`
+              .button {
+                height: 60px;
+                width: 300px;
+                align-items: center;
+                flex: 1;
+              }
+
+              .navigation {
+                position: absolute;
+                display: flex;
+                flex-direction: row;
+                width: 160px;
+                height: 320px;
+              }
+
+              .navigation-button {
+                width: 80px;
+                height: 240px;
+                cursor: pointer;
+              }
+
+              img {
+                width: 160px;
+                height: 240px;
+                border-radius: 10px;
+                margin-right: 20px;
+              }
+            `}</style>
         </div>
     );
 };
-
-ChildPage.propTypes = {};
-
-const styles = {
-    button: {
-        height: 60,
-        width: 300,
-        fontSize: 24,
-        borderRadius: 2,
-        alignItems: "center",
-        backgroundColor: "#337ab7",
-        flex: 1,
-    },
-    buttonText: {
-        fontSize: 22,
-        marginTop: 10,
-        color: "white"
-    },
-    h2: {
-        fontSize: 24
-    },
-    navigation: {
-        position: "absolute",
-        display: "flex",
-        flexDirection: "row",
-        width: 160,
-        height: 320
-    },
-    navigationButton: {
-        width: 80,
-        height: 240,
-        cursor: "pointer"
-    }
-}
 
 export default ChildPage;
