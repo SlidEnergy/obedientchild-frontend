@@ -4,6 +4,7 @@ import {http} from "../core/http-common";
 import LoadingIndicator from "../components/LoadingIndicator";
 import ChildList from "../components/ChildList";
 import {useNavigate} from "react-router-dom";
+import LifeEnergy from "../components/LifeEnergy/LifeEnery";
 
 const HomePage = props => {
     document.title = "Home";
@@ -39,6 +40,8 @@ const HomePage = props => {
     return (
         <div style={{padding: '20px'}}>
             {isLoading && <LoadingIndicator isLoading={isLoading}></LoadingIndicator>}
+            <LifeEnergy style={{marginBottom: "20px"}}>
+            </LifeEnergy>
             {!isLoading &&
                 <ChildList children={children}>
                 </ChildList>
@@ -56,9 +59,7 @@ const HomePage = props => {
     );
 };
 
-HomePage.propTypes = {
-
-};
+HomePage.propTypes = {};
 
 const styles = {
     container: {

@@ -19,16 +19,23 @@ import EditHabitPage from "./pages/Habits/EditHabitPage";
 import AddHabitPage from "./pages/Habits/AddHabitPage";
 import SelectHabitPage from "./pages/SelectHabitPage";
 import SelectGoodDeedPage from "./pages/SelectGoodDeedPage";
+import SettingsPage from "./pages/SettingsPage";
+import LoginPage from "./pages/LoginPage";
+import LifeEnergyHistoryPage from "./pages/LifeEnergyHistoryPage";
 
 function App() {
     return (
         <div className="App">
             <header className="App-header">
-                <Link to="/">Home</Link>
+                <Link to="/">Главная</Link>
+                <Link to="/settings">Настройки</Link>
             </header>
             <Routes>
                 <Route path="/" element={<HomePage/>}/>
+                <Route path="/login" element={<LoginPage/>}/>
                 <Route path="/coinhistory/:childId" element={<CoinHistoryPage/>}/>
+                <Route path="/lifeenergy/history" element={<LifeEnergyHistoryPage/>}/>
+                <Route path="/settings" element={<SettingsPage/>}/>
                 <Route path="/children/:childId">
                     <Route path="/children/:childId/" element={<ChildPage/>}/>
                     <Route path="/children/:childId/SelectGoal" element={<SelectGoalPage/>}/>

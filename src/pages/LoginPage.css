@@ -1,0 +1,80 @@
+/* LoginComponent.css */
+
+/* Общие стили для контейнера компонента */
+.login-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh; /* Высота на весь экран */
+    background-color: #f0f2f5; /* Легкий серый фон */
+}
+
+/* Стили для формы */
+.login-form {
+    display: flex;
+    flex-direction: column;
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px; /* Максимальная ширина формы */
+}
+
+/* Стили для заголовка формы */
+.login-form h2 {
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #333; /* Темный цвет для заголовка */
+}
+
+/* Стили для сообщений об ошибке */
+.error-message {
+    color: #d9534f; /* Красный цвет для сообщения об ошибке */
+    margin-bottom: 15px;
+}
+
+/* Стили для групп ввода */
+.input-group {
+    margin-bottom: 15px;
+}
+
+/* Стили для меток */
+.input-group label {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+/* Стили для полей ввода */
+.input-group input {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+/* Стили для кнопки */
+.login-button {
+    background-color: #007bff; /* Синий цвет кнопки */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.login-button:hover {
+    background-color: #0056b3; /* Темнее синий при наведении */
+}
+
+.login-button:disabled {
+    background-color: #6c757d; /* Серый цвет при отключении */
+    cursor: not-allowed;
+}

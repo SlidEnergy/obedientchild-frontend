@@ -6,3 +6,22 @@ export const http = axios.create({
         'content-type': 'application/json'
     }
 })
+
+// Добавляем интерсептор для автоматического добавления токена к каждому запросу
+http.interceptors.request.use(
+    (config) => {
+        // Получаем токен из localStorage
+        const token = localStorage.getItem('token');
+
+        // Если токен существует, добавляем его в заголовки
+        if (token) {
+            config.headers.Authorization = `Bearer ${token}`;
+        }
+
+        return config;
+    },
+    (error) => {
+        // Обрабатываем ошибку перед отправкой запроса
+        return Promise.reject(error);
+    }
+);
