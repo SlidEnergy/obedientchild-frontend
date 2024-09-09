@@ -40,8 +40,8 @@
     ]
   },
   "devDependencies": {
+    "customize-cra": "^1.0.0",
     "react-app-rewired": "^2.2.1",
-    "styled-jsx": "^5.1.6",
-    "customize-cra": "^1.0.0"
+    "styled-jsx": "^5.1.6"
   }
 }
