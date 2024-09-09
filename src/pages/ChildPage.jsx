@@ -180,7 +180,7 @@ const ChildPage = props => {
                                              deleteChildStatus={deleteChildStatus}></ChildStatusList>
                         </div>
                     </div>
-                    <div style={{marginBottom: 20}}>
+                    <div>
                         <button className='btn btn-link' onClick={openCoinHistory} href="#">История монет</button>
                     </div>
                     <div style={{
@@ -188,15 +188,15 @@ const ChildPage = props => {
                         alignItems: "center",
                         alignContent: "center",
                     }}>
-                        <button className='btn btn-outline-primary button me-4'
+                        <button className='btn btn-outline-primary button me-4 mt-4'
                                 onClick={() => setIsRewardsPopupOpened(true)}>
                             Потратить
                         </button>
-                        <button className='btn btn-outline-primary button me-4'
+                        <button className='btn btn-outline-primary button me-4 mt-4'
                                 onClick={() => setIsBadDeedPopupOpened(true)}>
                             -
                         </button>
-                        <button className='btn btn-outline-primary button me-4'
+                        <button className='btn btn-outline-primary button me-4 mt-4'
                                 onClick={() => setIsGoodDeedPopupOpened(true)}>
                             +
                         </button>

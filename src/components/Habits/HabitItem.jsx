@@ -37,20 +37,18 @@ const HabitItem = ({habit, setHabitStatus, unsetHabit, className}) => {
     return (
         <div className={className + ' item'}>
             <img className='habit-image' src={habit.imageUrl}></img>
-            <div style={{
-                flexDirection: "column",
-                flex: 1,
-                marginRight: 70,
-                marginLeft: 10,
-                gap: 20
-            }}>
+            <div className='habit-content'>
                 <p>{habit.title}</p>
                 <Coins count={habit.price} size={22}></Coins>
 
                 {/*{habit.status == "None" && <img className='image-button' src={'/done.jpg'} onClick={doneHabit}/>}*/}
                 {/*{habit.status == "None" && <img className='image-button' src={'/fail.jpg'} onClick={failedHabit}/>}*/}
-                {habit.status == "None" && <button className='btn btn-outline-success square-button' onClick={doneHabit}>+</button>}
-                {habit.status == "None" && <button className='btn btn-outline-danger square-button' onClick={failedHabit}>-</button>}
+                <div className='button-container'>
+                    {habit.status == "None" &&
+                        <button className='btn btn-outline-success square-button' onClick={doneHabit}>+</button>}
+                    {habit.status == "None" &&
+                        <button className='btn btn-outline-danger square-button' onClick={failedHabit}>-</button>}
+                </div>
             </div>
             {habit.status == "None" &&
                 <button className='btn btn-link skip-button' onClick={skipHabit}>Пропустить</button>}
@@ -61,10 +59,17 @@ const HabitItem = ({habit, setHabitStatus, unsetHabit, className}) => {
                 <button className='btn btn-link close-button' onClick={unsetHabit}>x</button>}
 
             <style jsx>{`
+              .habit-content {
+                flex-direction: column;
+                flex: 1;
+                margin-left: 10px;
+                gap: 20px;
+              }
+
               .item {
                 border: ${getBorderByStatus(habit.status)};
                 margin-vertical: 8px;
-                flex-direction: row;
+                flex-direction: column;
                 display: flex;
                 //width: 120px;
                 align-items: center;
@@ -72,7 +77,7 @@ const HabitItem = ({habit, setHabitStatus, unsetHabit, className}) => {
                 margin-right: 10px;
                 position: relative;
                 flex: 1;
-                min-width: 335px;
+                max-width: 150px;
               }
 
               .habit-image {
@@ -92,6 +97,10 @@ const HabitItem = ({habit, setHabitStatus, unsetHabit, className}) => {
                 width: 60px;
               }
 
+              .button-container {
+                display: flex;
+              }
+
               .close-button {
                 text-decoration-style: unset !important;
                 text-decoration: none;
@@ -106,16 +115,26 @@ const HabitItem = ({habit, setHabitStatus, unsetHabit, className}) => {
                 padding: 0;
               }
 
-              .skip-button, .cancel-button {
-                position: absolute;
-                right: 10px;
-                bottom: 5px;
-                padding: 0;
-              }
-              
               /* Медиа-запрос для мобильных устройств */
               @media (max-width: 768px) {
+                .skip-button, .cancel-button {
+                  position: absolute;
+                  right: 10px;
+                  bottom: 5px;
+                  padding: 0;
+                }
+
                 .item {
+                  margin-vertical: 8px;
+                  flex-direction: row;
+                  display: flex;
+                  //width: 120px;
+                  align-items: center;
+                  padding: 10px;
+                  margin-right: 10px;
+                  position: relative;
+                  flex: 1;
+                  max-width: none;
                   width: 100%;
                 }
               }
