@@ -30,7 +30,7 @@ const EditHabitPage = props => {
         http.post("/habits/" + habitId, habit)
             .then(() => {
                 console.log("success");
-                navigate("/gooddeeds");
+                navigate("/habits");
             })
             .catch(err => {
                 console.log(err);
@@ -42,7 +42,7 @@ const EditHabitPage = props => {
         http.delete("/habits/" + habitId)
             .then(() => {
                 console.log("success");
-                navigate("/gooddeeds");
+                navigate("/habits");
             })
             .catch(err => {
                 console.log(err);
