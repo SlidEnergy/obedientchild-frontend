@@ -45,9 +45,9 @@ const HabitItem = ({habit, setHabitStatus, unsetHabit, className}) => {
                 {/*{habit.status == "None" && <img className='image-button' src={'/fail.jpg'} onClick={failedHabit}/>}*/}
                 <div className='button-container'>
                     {habit.status == "None" &&
-                        <button className='btn btn-outline-success square-button' onClick={doneHabit}>+</button>}
-                    {habit.status == "None" &&
                         <button className='btn btn-outline-danger square-button' onClick={failedHabit}>-</button>}
+                    {habit.status == "None" &&
+                        <button className='btn btn-outline-success square-button' onClick={doneHabit}>+</button>}
                 </div>
             </div>
             {habit.status == "None" &&

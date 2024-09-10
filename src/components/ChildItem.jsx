@@ -27,13 +27,17 @@ const ChildItem = ({child}) => {
                 height: 240px;
                 margin-right: 30px;
                 border-radius: 10px;
+                position: relative;
               }
 
               .title {
                 font-size: 24px;
                 position: absolute;
                 bottom: 1.5rem;
-                left: 1.5rem;
+                font-weight: bold;
+                background-color: rgba(255, 255, 255, 0.6);
+                width: 100%;
+                text-align: center;
               }
             `}</style>
         </div>
