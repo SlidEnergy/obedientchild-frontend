@@ -39,23 +39,23 @@ const SelectGoodDeedPage = props => {
     }
 
     return (
-        <div style={{
-            alignItems: "center",
-            alignContent: "center",
-            flexDirection: "column",
-            height: "100%",
-            width: "100%",
-            padding: 0
-        }}>
-            <LoadingIndicator isLoading={isLoading}></LoadingIndicator>
+        <div className='page-container'>
+            <LoadingIndicator isLoading={isLoading}/>
             {!isLoading && <RewardList rewards={goodDeeds} onChoose={onChoose}>
             </RewardList>}
+            <style jsx>{`
+              .page-container {
+                align-items: center;
+                align-content: center;
+                flex-direction: column;
+                height: 100%;
+                width: 100%;
+                padding: 0;
+                margin: 1.5rem;
+              }
+            `}</style>
         </div>
     );
-};
-
-SelectGoodDeedPage.propTypes = {
-
 };
 
 export default SelectGoodDeedPage;

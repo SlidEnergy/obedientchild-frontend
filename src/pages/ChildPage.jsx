@@ -3,7 +3,7 @@ import {http} from "../core/http-common";
 import LoadingIndicator from "../components/LoadingIndicator";
 import {useNavigate, useParams} from "react-router-dom";
 import Coins from "../components/Coins";
-import RewardItem from "../components/RewardItem";
+import ItemCard from "../components/ItemCard";
 
 import GoodDeedsPopup from "../components/GoodDeedsPopup";
 import BadDeedsPopup from "../components/BadDeedsPopup";
@@ -224,7 +224,7 @@ const ChildPage = props => {
                         <ChildTasks></ChildTasks>
                     </div>
                     <div>
-                        {bigGoal && <RewardItem reward={{...bigGoal, title: "Цель: " + bigGoal.title}}></RewardItem>}
+                        {bigGoal && <ItemCard item={{...bigGoal, title: "Цель: " + bigGoal.title}}></ItemCard>}
                         <button className='btn btn-outline-primary button mt-4' title="Выбрать цель"
                                 onClick={selectGoal}>Выбрать цель
                         </button>
@@ -232,7 +232,7 @@ const ChildPage = props => {
                     <div style={{
                         marginBottom: 20
                     }}>
-                        {dream && <RewardItem reward={{...dream, title: "Мечта: " + dream.title}}></RewardItem>}
+                        {dream && <ItemCard item={{...dream, title: "Мечта: " + dream.title}}></ItemCard>}
                         <button className='btn btn-outline-primary button mt-4' title="Выбрать Мечту"
                                 onClick={selectDream}>Выбрать мечту
                         </button>

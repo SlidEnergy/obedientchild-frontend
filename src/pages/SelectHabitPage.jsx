@@ -4,7 +4,7 @@ import LoadingIndicator from "../components/LoadingIndicator";
 import RewardList from "../components/RewardList";
 import {useEffect, useState} from "react";
 
-const SelectHabitPage = props => {
+const SelectHabitPage = () => {
     document.title = "Выбор привычки";
 
     const navigate = useNavigate();
@@ -38,17 +38,21 @@ const SelectHabitPage = props => {
     }
 
     return (
-        <div style={{
-            alignItems: "center",
-            alignContent: "center",
-            flexDirection: "column",
-            height: "100%",
-            width: "100%",
-            padding: 0
-        }}>
-            <LoadingIndicator isLoading={isLoading}></LoadingIndicator>
+        <div className='page-container'>
+            <LoadingIndicator isLoading={isLoading}/>
             {!isLoading && <RewardList rewards={habits} onChoose={onChoose}>
             </RewardList>}
+            <style jsx>{`
+              .page-container {
+                align-items: center;
+                align-content: center;
+                flex-direction: column;
+                height: 100%;
+                width: 100%;
+                padding: 0;
+                margin: 1.5rem;
+              }
+            `}</style>
         </div>
     );
 };

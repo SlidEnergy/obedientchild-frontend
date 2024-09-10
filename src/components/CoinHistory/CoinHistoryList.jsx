@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import RewardItem from "../RewardItem";
+import ItemCard from "../ItemCard";
 import CoinHistoryItem from "./CointHistoryItem";
 
 const CoinHistoryList = props => {

@@ -1,28 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import RewardItem from "./RewardItem";
+import ItemCard from "./ItemCard";
 
-const RewardList = props => {
+const RewardList = ({rewards, onChoose}) => {
     return (
-        <div style={styles.container}>
-            {props.rewards.map(item => {
-                return <RewardItem key={item.id} reward={item} onChoose={props.onChoose}></RewardItem>;
+        <div className='list'>
+            {rewards.map(item => {
+                return <ItemCard key={item.id} item={item} onChoose={onChoose}></ItemCard>;
             })}
+            <style jsx>{`
+              .list {
+                display: flex;
+                flexDirection: row;
+                flexWrap: wrap;
+                gap: 1.5rem;
+              }
+            `}</style>
         </div>
     );
-};
-
-RewardList.propTypes = {
-    rewards: PropTypes.any,
-    onChoose: PropTypes.func
-};
-
-const styles = {
-    container: {
-        display: "flex",
-        flexDirection: "row",
-        flexWrap: "wrap"
-    }
 };
 
 export default RewardList;

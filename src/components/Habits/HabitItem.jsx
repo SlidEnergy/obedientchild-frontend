@@ -64,6 +64,8 @@ const HabitItem = ({habit, setHabitStatus, unsetHabit, className}) => {
                 flex: 1;
                 margin-left: 10px;
                 gap: 20px;
+                display: flex;
+                align-items: center;
               }
 
               .item {

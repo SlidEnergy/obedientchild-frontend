@@ -1,11 +1,10 @@
 import React, {useEffect, useState} from 'react';
-import PropTypes from 'prop-types';
 import LoadingIndicator from "../components/LoadingIndicator";
 import {useNavigate, useParams} from "react-router-dom";
 import RewardList from "../components/RewardList";
 import {http} from "../core/http-common";
 
-const SelectDreamPage = props => {
+const SelectDreamPage = () => {
     document.title = "Выбор мечты";
 
     const navigate = useNavigate();
@@ -39,23 +38,23 @@ const SelectDreamPage = props => {
     }
 
     return (
-        <div style={{
-            alignItems: "center",
-            alignContent: "center",
-            flexDirection: "column",
-            height: "100%",
-            width: "100%",
-            padding: 0
-        }}>
-            <LoadingIndicator isLoading={isLoading}></LoadingIndicator>
+        <div className='page-container'>
+            <LoadingIndicator isLoading={isLoading}/>
             {!isLoading && <RewardList rewards={rewards} onChoose={onChoose}>
             </RewardList>}
+            <style jsx>{`
+              .page-container {
+                align-items: center;
+                align-content: center;
+                flex-direction: column;
+                height: 100%;
+                width: 100%;
+                padding: 0;
+                margin: 1.5rem;
+              }
+            `}</style>
         </div>
     );
-};
-
-SelectDreamPage.propTypes = {
-
 };
 
 export default SelectDreamPage;
