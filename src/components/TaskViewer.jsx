@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import axios from "axios";
+import {http} from '../core/http-common';
 import xml2js from 'xml2js';
 
 const TaskViewer = () => {
@@ -13,9 +13,9 @@ const TaskViewer = () => {
 
     async function loadTasks() {
         try {
-            let response = await axios.get(process.env.REACT_APP_TASKS_URL,
+            let response = await http.get('/tasks',
                 {
-                    responseType: 'text',
+                    responseType: 'application/xml',
                 });
 
             // Парсим OPML с помощью xml2js
