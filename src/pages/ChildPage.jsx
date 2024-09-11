@@ -10,7 +10,7 @@ import BadDeedsPopup from "../components/BadDeedsPopup";
 import RewardsPopup from "../components/RewardsPopup";
 import ChildHabits from "../components/Habits/ChildHabits";
 import ChildStatusList from "../components/ChildStatusList";
-import ChildTasks from "../components/Tasks/ChildTasks";
+import ChildTasks from "../components/ChildTasks/ChildTasks";
 
 const ChildPage = props => {
     let navigate = useNavigate();
