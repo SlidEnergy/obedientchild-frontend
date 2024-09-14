@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import './LoginPage.css';
 import {useNavigate} from "react-router-dom";
 import {useAuth} from "../core/Auth/AuthContext";
@@ -6,18 +6,23 @@ import {useAuth} from "../core/Auth/AuthContext";
 function LoginPage() {
     const navigate = useNavigate();
 
-    const {login} = useAuth();
+    const {login, isAuthenticated} = useAuth();
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
+
+    useEffect(() => {
+        if(isAuthenticated)
+            navigate('/');
+    }, [])
 
     const handleLogin = async (e) => {
         e.preventDefault();
         setError('');
 
         try {
-            login(email, password);
+            await login(email, password);
 
             navigate('/');
         } catch (err) {
