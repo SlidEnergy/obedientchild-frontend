@@ -22,7 +22,6 @@ const LifeEnergy = ({style}) => {
         try {
             let {data} = await http.get("lifeenergy");
 
-            console.log(data)
             setLifeEnergyBalance(data.balance);
         } finally {
             setIsLoading(false);

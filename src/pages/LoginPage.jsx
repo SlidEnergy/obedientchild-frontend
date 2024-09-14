@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import './LoginPage.css';
-import {http} from "../core/http-common";
 import {useNavigate} from "react-router-dom";
+import {useAuth} from "../core/Auth/AuthContext";
 
 function LoginPage() {
     const navigate = useNavigate();
+
+    const {login} = useAuth();
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -15,19 +17,9 @@ function LoginPage() {
         setError('');
 
         try {
-            const response = await http.post('/token', {
-                email,
-                password,
-            });
+            login(email, password);
 
-            // Сохраняем токены в localStorage
-            const { token, refreshToken } = response.data;
-            localStorage.setItem('token', token);
-            localStorage.setItem('refreshToken', refreshToken);
-
-            // Перенаправление на страницу /calendar
             navigate('/');
-            // Перенаправление или другие действия после успешного входа
         } catch (err) {
             setError('Invalid username or password');
         }
