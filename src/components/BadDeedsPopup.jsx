@@ -11,7 +11,7 @@ const BadDeedsPopup = ({className, isOpened, onChosen, onOpenChanged}) => {
     useEffect(() => {
         document.documentElement.style.overflow = isOpened ? 'hidden' : "scroll";
         document.body.scroll = isOpened ? "no" : "yes";
-    },[isOpened])
+    }, [isOpened])
 
     useEffect(() => {
         loadData();
@@ -49,6 +49,7 @@ const BadDeedsPopup = ({className, isOpened, onChosen, onOpenChanged}) => {
                 background-color: white;
                 padding: 1.5rem;
                 overflow: auto;
+                z-index: 1;
               }
 
               button {

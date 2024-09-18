@@ -50,6 +50,7 @@ const RewardsPopup = ({className, isOpened, onChosen, onOpenChanged}) => {
                 background-color: white;
                 padding: 1.5rem;
                 overflow: auto;
+                z-index: 1;
               }
 
               button {
