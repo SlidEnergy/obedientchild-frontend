@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import ItemCard from "./ItemCard";
 
 const RewardList = ({rewards, onChoose}) => {
@@ -11,8 +10,8 @@ const RewardList = ({rewards, onChoose}) => {
             <style jsx>{`
               .list {
                 display: flex;
-                flexDirection: row;
-                flexWrap: wrap;
+                flex-direction: row;
+                flex-wrap: wrap;
                 gap: 1.5rem;
               }
             `}</style>
