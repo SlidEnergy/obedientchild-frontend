@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {useNavigate} from 'react-router-dom';
 
-const ChildItem = ({child}) => {
+const ChildItem = ({child, isSelected}) => {
     const navigate = useNavigate();
 
     function selectChild() {
@@ -11,7 +11,7 @@ const ChildItem = ({child}) => {
 
     return (
         <div className='item' onClick={selectChild}>
-            <div className='image-container'>
+            <div className={'image-container' + (isSelected ? ' selected' : '')}>
                 <img src={child.avatar}></img>
                 <div className='title'>{child.name} ({child.balance})</div>
             </div>
@@ -28,6 +28,10 @@ const ChildItem = ({child}) => {
                 margin-right: 30px;
                 border-radius: 10px;
                 position: relative;
+              }
+              
+              .image-container.selected {
+                border: 1px solid red;
               }
 
               .title {

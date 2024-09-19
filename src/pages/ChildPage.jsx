@@ -3,7 +3,7 @@ import {http} from "../core/http-common";
 import LoadingIndicator from "../components/LoadingIndicator";
 import {useNavigate, useParams} from "react-router-dom";
 import Coins from "../components/Coins";
-import ItemCard from "../components/ItemCard";
+import CardItem from "../components/CardItem";
 
 import GoodDeedsPopup from "../components/GoodDeedsPopup";
 import BadDeedsPopup from "../components/BadDeedsPopup";
@@ -11,6 +11,7 @@ import RewardsPopup from "../components/RewardsPopup";
 import ChildHabits from "../components/Habits/ChildHabits";
 import ChildStatusList from "../components/ChildStatusList";
 import ChildTasks from "../components/ChildTasks/ChildTasks";
+import RuleList from "../components/RuleList";
 
 const ChildPage = props => {
     let navigate = useNavigate();
@@ -133,82 +134,51 @@ const ChildPage = props => {
             });
     }
 
-    function navigationLeft() {
-        if (children == null)
-            return;
-
-        let i = 0;
-
-        for (i; i < children.length; i++) {
-            if (children[i].id == child.id)
-                break;
-        }
-
-        if (i - 1 >= 0)
-            navigate("/children/" + children[i - 1].id);
-    }
-
-    function navigationRight() {
-        if (children == null)
-            return;
-
-        let i = 0;
-
-        for (i; i < children.length; i++) {
-            if (children[i].id == child.id)
-                break;
-        }
-
-        if (i + 1 < children.length)
-            navigate("/children/" + children[i + 1].id);
-    }
-
     return (
         <div>
             <LoadingIndicator isLoading={isLoading}></LoadingIndicator>
             {!isLoading &&
                 <div>
-                    <div className='d-flex p-4'>
-                        <img src={child.avatar} />
-                        <div className='navigation'>
-                            <div className='navigation-button' onClick={navigationLeft}></div>
-                            <div className='navigation-button' onClick={navigationRight}></div>
+                    <div className='d-flex p-4 gap-4'>
+                        <div className='coin-container'>
+                            <button className='btn btn-outline-primary button w-50'
+                                    onClick={() => setIsRewardsPopupOpened(true)}>
+                                -
+                            </button>
+                            <Coins count={child.balance} size={36} onClick={openCoinHistory}></Coins>
+                            <button className='btn btn-outline-primary button w-50'
+                                    onClick={() => setIsGoodDeedPopupOpened(true)}>
+                                +
+                            </button>
                         </div>
-                        <div className='d-flex flex-column p-4'>
-                            <Coins count={child.balance} size={36}></Coins>
-                            <ChildStatusList childStatuses={child.statuses}
-                                             deleteChildStatus={deleteChildStatus}></ChildStatusList>
-                        </div>
+                        {/*<button className='btn btn-link' onClick={openCoinHistory} href="#">История монет</button>*/}
+                        <ChildStatusList childStatuses={child.statuses}
+                                         deleteChildStatus={deleteChildStatus}></ChildStatusList>
                     </div>
+                    <RuleList></RuleList>
                     <div>
-                        <button className='btn btn-link' onClick={openCoinHistory} href="#">История монет</button>
+
                     </div>
                     <div style={{
                         flexDirection: "row",
                         alignItems: "center",
                         alignContent: "center",
                     }}>
-                        <button className='btn btn-outline-primary button me-4 mt-4'
-                                onClick={() => setIsRewardsPopupOpened(true)}>
-                            Потратить
-                        </button>
-                        <button className='btn btn-outline-primary button me-4 mt-4'
-                                onClick={() => setIsBadDeedPopupOpened(true)}>
-                            -
-                        </button>
-                        <button className='btn btn-outline-primary button me-4 mt-4'
-                                onClick={() => setIsGoodDeedPopupOpened(true)}>
-                            +
-                        </button>
+
+                        {/*<button className='btn btn-outline-primary button me-4 mt-4'*/}
+                        {/*        onClick={() => setIsBadDeedPopupOpened(true)}>*/}
+                        {/*    -*/}
+                        {/*</button>*/}
+
                     </div>
                     <RewardsPopup onChosen={(reward) => spendCoin(reward)}
                                   isOpened={isRewardsPopupOpened}
                                   onOpenChanged={setIsRewardsPopupOpened}>
                     </RewardsPopup>
-                    <BadDeedsPopup onChosen={(reward) => spendCoin(reward)}
-                                   isOpened={isBadDeedPopupOpened}
-                                   onOpenChanged={setIsBadDeedPopupOpened}>
-                    </BadDeedsPopup>
+                    {/*<BadDeedsPopup onChosen={(reward) => spendCoin(reward)}*/}
+                    {/*               isOpened={isBadDeedPopupOpened}*/}
+                    {/*               onOpenChanged={setIsBadDeedPopupOpened}>*/}
+                    {/*</BadDeedsPopup>*/}
                     <GoodDeedsPopup onChosen={(reward) => earnCoin(reward)}
                                     isOpened={isGoodDeedPopupOpened}
                                     onOpenChanged={setIsGoodDeedPopupOpened}>
@@ -223,23 +193,23 @@ const ChildPage = props => {
                     }}>
                         <ChildTasks></ChildTasks>
                     </div>
-                    <div>
-                        {bigGoal && <ItemCard item={{...bigGoal, title: "Цель: " + bigGoal.title}}></ItemCard>}
-                        <button className='btn btn-outline-primary button mt-4' title="Выбрать цель"
-                                onClick={selectGoal}>Выбрать цель
-                        </button>
-                    </div>
-                    <div style={{
-                        marginBottom: 20
-                    }}>
-                        {dream && <ItemCard item={{...dream, title: "Мечта: " + dream.title}}></ItemCard>}
-                        <button className='btn btn-outline-primary button mt-4' title="Выбрать Мечту"
-                                onClick={selectDream}>Выбрать мечту
-                        </button>
+                    <div className='d-flex p-4 gap-4'>
+                        {bigGoal && <CardItem item={{...bigGoal, title: "Цель: " + bigGoal.title}}></CardItem>}
+                        {!bigGoal && <CardItem isEmpty={true} item={{title: "Выбрать цель"}}
+                                               onChoose={selectGoal}></CardItem>}
+                        {dream && <CardItem item={{...dream, title: "Мечта: " + dream.title}}></CardItem>}
+                        {!dream && <CardItem isEmpty={true} item={{title: "Выбрать мечту"}}
+                                             onChoose={selectDream}></CardItem>}
                     </div>
                 </div>
             }
-            <style jsx="true">{`
+            <style jsx>{`
+              .coin-container {
+                display: flex;
+                align-items: center;
+                gap: 1.5rem;
+              }
+
               .button {
                 height: 60px;
                 width: 300px;

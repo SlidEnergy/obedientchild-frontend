@@ -35,7 +35,7 @@ const HabitItem = ({habit, setHabitStatus, unsetHabit, className}) => {
     }
 
     return (
-        <div className={className + ' item'}>
+        <div className={className ?? '' + ' habit-item'}>
             <img className='habit-image' src={habit.imageUrl}></img>
             <div className='habit-content'>
                 <p>{habit.title}</p>
@@ -68,15 +68,13 @@ const HabitItem = ({habit, setHabitStatus, unsetHabit, className}) => {
                 align-items: center;
               }
 
-              .item {
+              .habit-item {
                 border: ${getBorderByStatus(habit.status)};
-                margin-vertical: 8px;
                 flex-direction: column;
                 display: flex;
                 //width: 120px;
                 align-items: center;
                 padding: 10px;
-                margin-right: 10px;
                 position: relative;
                 flex: 1;
                 max-width: 150px;
@@ -126,7 +124,7 @@ const HabitItem = ({habit, setHabitStatus, unsetHabit, className}) => {
                   padding: 0;
                 }
 
-                .item {
+                .habit-item {
                   margin-vertical: 8px;
                   flex-direction: row;
                   display: flex;

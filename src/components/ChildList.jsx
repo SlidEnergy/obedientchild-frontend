@@ -2,11 +2,11 @@ import React from 'react';
 import ChildItem from "./ChildItem";
 import PropTypes from "prop-types";
 
-const ChildList = ({children, className}) => {
+const ChildList = ({children, className, selected}) => {
     return (
         <div className={className + ' list'}>
             {children.map(child => {
-                return <ChildItem child={child} key={child.id}></ChildItem>;
+                return <ChildItem child={child} key={child.id} isSelected={child.id == selected}></ChildItem>;
             })}
             <style jsx="true">{`
               .list {

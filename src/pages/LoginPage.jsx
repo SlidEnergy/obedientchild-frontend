@@ -26,7 +26,7 @@ function LoginPage() {
 
             navigate('/');
         } catch (err) {
-            setError('Invalid username or password');
+            setError(err.message);
         }
     };
 

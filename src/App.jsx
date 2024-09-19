@@ -47,17 +47,19 @@ function App() {
             <Routes>
                 <Route path="/login" element={<LoginPage/>}/>
                 <Route element={<AuthGuard/>}>
-                    <Route path="/" element={<HomePage/>}/>
+                    <Route path="/" element={<HomePage/>}>
+                        <Route path="/children/:childId">
+                            <Route path="/children/:childId/" element={<ChildPage/>}/>
+                            <Route path="/children/:childId/SelectGoal" element={<SelectGoalPage/>}/>
+                            <Route path="/children/:childId/SelectDream" element={<SelectDreamPage/>}/>
+                            <Route path="/children/:childId/habits/" element={<SelectHabitPage/>}/>
+                            <Route path="/children/:childId/childtasks/" element={<SelectGoodDeedPage/>}/>
+                        </Route>
+                    </Route>
                     <Route path="/coinhistory/:childId" element={<CoinHistoryPage/>}/>
                     <Route path="/lifeenergy/history" element={<LifeEnergyHistoryPage/>}/>
                     <Route path="/settings" element={<SettingsPage/>}/>
-                    <Route path="/children/:childId">
-                        <Route path="/children/:childId/" element={<ChildPage/>}/>
-                        <Route path="/children/:childId/SelectGoal" element={<SelectGoalPage/>}/>
-                        <Route path="/children/:childId/SelectDream" element={<SelectDreamPage/>}/>
-                        <Route path="/children/:childId/habits/" element={<SelectHabitPage/>}/>
-                        <Route path="/children/:childId/childtasks/" element={<SelectGoodDeedPage/>}/>
-                    </Route>
+
                     <Route path="/rewards">
                         <Route path="/rewards/" element={<RewardsPage/>}/>
                         <Route path="/rewards/:rewardId/" element={<EditRewardPage/>}/>

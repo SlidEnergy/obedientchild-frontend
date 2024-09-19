@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Coins = ({count, size}) => {
+const Coins = ({count, size, onClick}) => {
     let filter = count < 0 ? "hue-rotate(314deg)" : "";
     const renderCoinCount = false
 
@@ -8,13 +8,13 @@ const Coins = ({count, size}) => {
         <div>
             {renderCoinCount && <div className='coin-list'>
                 {Array.from(Array(Math.abs(count || 0)), (e, i) => {
-                    return <img key={i} src={'/coin.png'}/>
+                    return <img key={i} src={'/coin.png'} onClick={onClick}/>
                 })}
             </div>
             }
             {!renderCoinCount && <div className='short-coin-container'>
                 <span className='text'>{count + ' x '}</span>
-                <img src={'/coin.png'}/>
+                <img src={'/coin.png'} onClick={onClick}/>
             </div>
             }
             <style jsx>{`
@@ -39,7 +39,8 @@ const Coins = ({count, size}) => {
                 height: ${size}px;
                 marginRight: 10px;
                 marginBottom: 10px;
-                filter: ${filter}
+                filter: ${filter};
+                cursor: pointer;
               }
             `}</style>
         </div>

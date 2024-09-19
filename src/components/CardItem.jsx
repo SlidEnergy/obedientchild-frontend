@@ -1,37 +1,43 @@
 import React from 'react';
 import Coins from "./Coins";
 
-const ItemCard = ({className, onChoose, item}) => {
+const CardItem = ({className, onChoose, item, isEmpty}) => {
     function chooseItem() {
         onChoose && onChoose(item);
     }
 
     return (
-        <div onClick={chooseItem} className={className +' item'}>
-            <img src={item.imageUrl}></img>
+        <div onClick={chooseItem} className={className ?? '' + ' card-item' + (isEmpty ? ' empty-card-item' : '')}>
+            {item.imageUrl && <img src={item.imageUrl}></img>}
             <div className='item-description'>
                 <p className='title'>{item.title}</p>
-                <Coins count={item.price} size={22}></Coins>
+                {item.price && <Coins count={item.price} size={22}></Coins>}
             </div>
             <style jsx>{`
-              .item {
-                marginVertical: 8px;
-                flexDirection: row;
-                alignItems: center;
-                cursor: pointer;
+              .card-item {
                 border: solid 1px lightgray;
+                flex-direction: column;
+                display: flex;
+                align-items: center;
                 padding: 10px;
-                marginRight: 10px;
-                marginBottom: 10px;
+                position: relative;
+                flex: 1;
+                max-width: 150px;
+                cursor: pointer;
+              }
+
+              .empty-card-item {
+                width: 150px;
+                height: 300px;
               }
 
               .title {
-                fontSize: 18px;
-                marginBottom: 10px;
+                font-size: 18px;
+                margin-bottom: 10px;
               }
 
               .balance {
-                fontSize: 12px;
+                font-size: 12px;
               }
 
               img {
@@ -52,4 +58,4 @@ const ItemCard = ({className, onChoose, item}) => {
     );
 };
 
-export default ItemCard;
+export default CardItem;

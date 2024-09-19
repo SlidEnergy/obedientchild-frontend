@@ -70,6 +70,7 @@ const ChildHabits = props => {
 
     return (
         <div>
+            <h3>Привычки</h3>
             <HabitsPeriodLine parentRef={statisticsRef} childId={childId} selectedDay={selectedDay}
                               chooseItem={chooseItem}></HabitsPeriodLine>
             <LoadingIndicator isLoading={isLoading}></LoadingIndicator>

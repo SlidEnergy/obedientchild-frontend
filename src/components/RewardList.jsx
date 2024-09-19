@@ -1,11 +1,11 @@
 import React from 'react';
-import ItemCard from "./ItemCard";
+import CardItem from "./CardItem";
 
 const RewardList = ({rewards, onChoose}) => {
     return (
         <div className='list'>
             {rewards.map(item => {
-                return <ItemCard key={item.id} item={item} onChoose={onChoose}></ItemCard>;
+                return <CardItem key={item.id} item={item} onChoose={onChoose}></CardItem>;
             })}
             <style jsx>{`
               .list {
