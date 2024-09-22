@@ -139,26 +139,26 @@ const ChildPage = props => {
             <LoadingIndicator isLoading={isLoading}></LoadingIndicator>
             {!isLoading &&
                 <div>
-                    <div className='d-flex p-4 gap-4'>
-                        <div className='coin-container'>
-                            <button className='btn btn-outline-primary button w-50'
-                                    onClick={() => setIsRewardsPopupOpened(true)}>
-                                -
-                            </button>
-                            <Coins count={child.balance} size={36} onClick={openCoinHistory}></Coins>
-                            <button className='btn btn-outline-primary button w-50'
-                                    onClick={() => setIsGoodDeedPopupOpened(true)}>
-                                +
-                            </button>
+                    <div className='child-info-row'>
+                        <img src={child.avatar}/>
+                        <div className='d-flex gap-4'>
+                            <div className='coin-container'>
+                                <button className='btn btn-outline-primary button w-50'
+                                        onClick={() => setIsRewardsPopupOpened(true)}>
+                                    -
+                                </button>
+                                <Coins count={child.balance} size={36} onClick={openCoinHistory}></Coins>
+                                <button className='btn btn-outline-primary button w-50'
+                                        onClick={() => setIsGoodDeedPopupOpened(true)}>
+                                    +
+                                </button>
+                            </div>
+                            {/*<button className='btn btn-link' onClick={openCoinHistory} href="#">История монет</button>*/}
+                            <ChildStatusList childStatuses={child.statuses}
+                                             deleteChildStatus={deleteChildStatus}></ChildStatusList>
                         </div>
-                        {/*<button className='btn btn-link' onClick={openCoinHistory} href="#">История монет</button>*/}
-                        <ChildStatusList childStatuses={child.statuses}
-                                         deleteChildStatus={deleteChildStatus}></ChildStatusList>
                     </div>
                     <RuleList></RuleList>
-                    <div>
-
-                    </div>
                     <div style={{
                         flexDirection: "row",
                         alignItems: "center",
@@ -204,6 +204,12 @@ const ChildPage = props => {
                 </div>
             }
             <style jsx>{`
+              .child-info-row {
+                display: flex;
+                flex-direction: row;
+                align-items: flex-start;
+              }
+
               .coin-container {
                 display: flex;
                 align-items: center;

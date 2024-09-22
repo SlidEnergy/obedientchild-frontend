@@ -28,7 +28,7 @@ const CardItem = ({className, onChoose, item, isEmpty}) => {
 
               .empty-card-item {
                 width: 150px;
-                height: 300px;
+                height: 227px;
               }
 
               .title {

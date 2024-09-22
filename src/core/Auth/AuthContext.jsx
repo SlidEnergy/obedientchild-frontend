@@ -1,6 +1,7 @@
 import React, {createContext, useContext, useEffect, useState} from 'react';
 import {http} from "../http-common";
 import {getAuthToken, removeAuthToken, setAuthToken} from "./AuthUtils";
+import {useParams} from "react-router-dom";
 
 const AuthContext = createContext({
     isAuthenticated: false,
@@ -33,7 +34,7 @@ export const AuthProvider = ({children}) => {
             setUser({email});
         } catch (err) {
             console.error('Ошибка при логине', err);
-            throw new Error('Неверное имя пользователя или пароль');
+            throw new Error(err.message);
         }
     };
 
