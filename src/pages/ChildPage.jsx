@@ -134,6 +134,17 @@ const ChildPage = props => {
             });
     }
 
+    function addChildStatus(text){
+        http.put(`/children/${childId}/status`, { text: text })
+            .then(({data}) => {
+                loadChild();
+            })
+            .catch(err => {
+                console.log(err);
+                alert(err.message);
+            });
+    }
+
     return (
         <div>
             <LoadingIndicator isLoading={isLoading}></LoadingIndicator>
@@ -141,7 +152,7 @@ const ChildPage = props => {
                 <div>
                     <div className='child-info-row'>
                         <img src={child.avatar}/>
-                        <div className='d-flex gap-4'>
+                        <div className='d-flex flex-column gap-4'>
                             <div className='coin-container'>
                                 <button className='btn btn-outline-primary button w-50'
                                         onClick={() => setIsRewardsPopupOpened(true)}>
@@ -155,7 +166,15 @@ const ChildPage = props => {
                             </div>
                             {/*<button className='btn btn-link' onClick={openCoinHistory} href="#">История монет</button>*/}
                             <ChildStatusList childStatuses={child.statuses}
-                                             deleteChildStatus={deleteChildStatus}></ChildStatusList>
+                                             deleteChildStatus={deleteChildStatus} addChildStatus={addChildStatus}></ChildStatusList>
+                        </div>
+                        <div className='d-flex gap-4'>
+                            {bigGoal && <CardItem style={{width: 110, height: 160}} item={{...bigGoal, title: "Цель: " + bigGoal.title}}></CardItem>}
+                            {!bigGoal && <CardItem style={{width: 110, height: 160}} isEmpty={true} item={{title: "Выбрать цель"}}
+                                                   onChoose={selectGoal}></CardItem>}
+                            {dream && <CardItem style={{width: 110, height: 160}} item={{...dream, title: "Мечта: " + dream.title}}></CardItem>}
+                            {!dream && <CardItem style={{width: 110, height: 160}} isEmpty={true} item={{title: "Выбрать мечту"}}
+                                                 onChoose={selectDream}></CardItem>}
                         </div>
                     </div>
                     <RuleList></RuleList>
@@ -193,14 +212,6 @@ const ChildPage = props => {
                     }}>
                         <ChildTasks></ChildTasks>
                     </div>
-                    <div className='d-flex p-4 gap-4'>
-                        {bigGoal && <CardItem item={{...bigGoal, title: "Цель: " + bigGoal.title}}></CardItem>}
-                        {!bigGoal && <CardItem isEmpty={true} item={{title: "Выбрать цель"}}
-                                               onChoose={selectGoal}></CardItem>}
-                        {dream && <CardItem item={{...dream, title: "Мечта: " + dream.title}}></CardItem>}
-                        {!dream && <CardItem isEmpty={true} item={{title: "Выбрать мечту"}}
-                                             onChoose={selectDream}></CardItem>}
-                    </div>
                 </div>
             }
             <style jsx>{`
@@ -208,6 +219,7 @@ const ChildPage = props => {
                 display: flex;
                 flex-direction: row;
                 align-items: flex-start;
+                gap: 1.5rem;
               }
 
               .coin-container {
@@ -241,7 +253,6 @@ const ChildPage = props => {
                 width: 160px;
                 height: 240px;
                 border-radius: 10px;
-                margin-right: 20px;
               }
             `}</style>
         </div>

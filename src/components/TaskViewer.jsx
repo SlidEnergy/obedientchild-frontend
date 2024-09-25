@@ -51,6 +51,10 @@ const TaskViewer = () => {
                 ))}
             </ul>
             <style jsx="true">{`
+              .viewer {
+                padding-top: 20px;
+              }
+
               ul {
                 list-style-type: none;
                 padding: 0;

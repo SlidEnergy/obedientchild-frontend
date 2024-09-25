@@ -1,13 +1,13 @@
 import React from 'react';
 import Coins from "./Coins";
 
-const CardItem = ({className, onChoose, item, isEmpty}) => {
+const CardItem = ({className, onChoose, item, isEmpty, style}) => {
     function chooseItem() {
         onChoose && onChoose(item);
     }
 
     return (
-        <div onClick={chooseItem} className={className ?? '' + ' card-item' + (isEmpty ? ' empty-card-item' : '')}>
+        <div style={style} onClick={chooseItem} className={className ?? '' + ' card-item' + (isEmpty ? ' empty-card-item' : '')}>
             {item.imageUrl && <img src={item.imageUrl}></img>}
             <div className='item-description'>
                 <p className='title'>{item.title}</p>

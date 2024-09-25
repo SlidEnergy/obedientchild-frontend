@@ -57,6 +57,7 @@ const ChildTasks = props => {
 
     return (
         <div>
+            <h3>Задачи</h3>
             <LoadingIndicator isLoading={isLoading}></LoadingIndicator>
             {childTasks && <ChildTaskList childTasks={childTasks} setChildTaskStatus={setChildTaskStatus}
                                           removeChildTask={removeChildTask}></ChildTaskList>}
