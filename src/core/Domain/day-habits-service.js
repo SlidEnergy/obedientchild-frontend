@@ -45,15 +45,18 @@ class DayHabitsService {
         }
     }
 
-    async saveAndSend(dayHabit) {
+    async setStatus(dayHabit, childId, status) {
         await this.init();
 
         try {
             let key = await this.db.put(DAY_HABITS_STORE_NAME, dayHabit);
 
-            await http.post(`/habits/${dayHabit.habitId}/status?childId=${dayHabit.childId}&day=${toApiDateString(dayHabit.day)}&status=${dayHabit.status}`);
+            await http.post(`/habits/${dayHabit.habitId}/status?childId=${childId}&day=${toApiDateString(dayHabit.day)}&status=${status}`);
 
             await this.db.delete(DAY_HABITS_STORE_NAME, key);
+
+            dayHabit.status = status;
+            return dayHabit;
         } catch (err) {
             console.log(err);
             alert(err.message);

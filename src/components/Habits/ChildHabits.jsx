@@ -42,8 +42,16 @@ const ChildHabits = () => {
 
     async function setHabitStatus(item, status) {
         try {
-            await dayHabitsService.saveAndSend({...item, ...{childId, status}});
-            loadHabits();
+            let habit = await dayHabitsService.setStatus(item, childId, status);
+
+            setHabits(prevHabits =>
+                prevHabits.map(x =>
+                    x.habitId === habit.habitId
+                        ? habit
+                        : x
+                )
+            );
+
             statisticsRef.current.loadStatistics();
         } catch (err) {
             console.log(err);
@@ -54,7 +62,9 @@ const ChildHabits = () => {
     function unsetHabit(item) {
         http.delete(`/habits/${item.habitId}/child/${childId}?day=${toApiDateString(selectedDay)}`)
             .then(({data}) => {
-                loadHabits();
+
+                setHabits(prevHabits => prevHabits.filter(x => x.habitId !== item.habitId));
+
                 statisticsRef.current.loadStatistics();
             })
             .catch(err => {

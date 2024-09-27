@@ -6,7 +6,6 @@ import Coins from "../components/Coins";
 import CardItem from "../components/CardItem";
 
 import GoodDeedsPopup from "../components/GoodDeedsPopup";
-import BadDeedsPopup from "../components/BadDeedsPopup";
 import RewardsPopup from "../components/RewardsPopup";
 import ChildHabits from "../components/Habits/ChildHabits";
 import ChildStatusList from "../components/ChildStatusList";
@@ -17,6 +16,7 @@ const ChildPage = props => {
     let navigate = useNavigate();
     let {childId} = useParams();
     const [child, setChild] = useState(null);
+    const [statuses, setStatuses] = useState(null);
 
     const [isLoading, setIsLoading] = useState(true);
 
@@ -42,6 +42,8 @@ const ChildPage = props => {
             .then(({data}) => {
                 let child = data;
                 setChild(data);
+                setStatuses(data.statuses);
+
                 document.title = child.name;
 
                 if (child.bigGoalId) {
@@ -113,7 +115,7 @@ const ChildPage = props => {
     function deleteChildStatus(childStatus) {
         http.delete("/children/" + childStatus.childId + "/status/" + childStatus.id)
             .then(({data}) => {
-                loadChild();
+                setStatuses(prev => prev.filter(x => x.id !== childStatus.id));
             })
             .catch(err => {
                 console.log(err);
@@ -124,7 +126,7 @@ const ChildPage = props => {
     function addChildStatus(text){
         http.put(`/children/${childId}/status`, { text: text })
             .then(({data}) => {
-                loadChild();
+                setStatuses(prev => ([...prev, data]));
             })
             .catch(err => {
                 console.log(err);
@@ -152,7 +154,7 @@ const ChildPage = props => {
                                 </button>
                             </div>
                             {/*<button className='btn btn-link' onClick={openCoinHistory} href="#">История монет</button>*/}
-                            <ChildStatusList childStatuses={child.statuses}
+                            <ChildStatusList childStatuses={statuses}
                                              deleteChildStatus={deleteChildStatus} addChildStatus={addChildStatus}></ChildStatusList>
                         </div>
                         <div className='d-flex gap-4'>
