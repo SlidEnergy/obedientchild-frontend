@@ -12,7 +12,6 @@ const HabitList = ({unsetHabit, setHabitStatus, habits}) => {
               .habit-list {
                 display: flex;
                 flex-direction: row;
-                margin: 1.5rem;
                 flex-wrap: wrap;
                 justify-content: center;
                 gap: 20px

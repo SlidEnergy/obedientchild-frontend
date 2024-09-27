@@ -26,7 +26,6 @@ const ChildItem = ({child, isSelected}) => {
               .image-container, img {
                 width: ${childId ? '53px' : '160px'};
                 height: ${childId ? '80px' : '240px'};
-                margin-right: 30px;
                 border-radius: 10px;
                 position: relative;
                 transition: width 0.5s, height 0.5s; /* Плавный переход */

@@ -15,6 +15,7 @@ const ChildList = ({children, className, selected}) => {
                 overflow: auto;
                 display: flex;
                 flex-direction: row;
+                gap: 1.5rem;
               }
             `}</style>
         </div>

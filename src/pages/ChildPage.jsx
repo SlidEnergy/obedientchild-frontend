@@ -11,7 +11,7 @@ import RewardsPopup from "../components/RewardsPopup";
 import ChildHabits from "../components/Habits/ChildHabits";
 import ChildStatusList from "../components/ChildStatusList";
 import ChildTasks from "../components/ChildTasks/ChildTasks";
-import RuleList from "../components/RuleList";
+import Rules from "../components/Rules";
 
 const ChildPage = props => {
     let navigate = useNavigate();
@@ -164,7 +164,7 @@ const ChildPage = props => {
                                                  onChoose={selectDream}></CardItem>}
                         </div>
                     </div>
-                    <RuleList></RuleList>
+                    <Rules/>
                     <div style={{
                         flexDirection: "row",
                         alignItems: "center",
@@ -207,6 +207,7 @@ const ChildPage = props => {
                 flex-direction: row;
                 align-items: flex-start;
                 gap: 1.5rem;
+                flex-wrap: wrap;
               }
 
               .coin-container {

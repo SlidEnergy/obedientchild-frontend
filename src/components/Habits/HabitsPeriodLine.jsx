@@ -126,14 +126,12 @@ const styles = {
     container: {
         display: 'flex',
         flexDirection: 'row',
-        margin: 10,
         flexWrap: "wrap",
         justifyContent: "center"
     },
     periodLine: {
         display: 'flex',
         flexDirection: 'row',
-        margin: 10,
         flexWrap: "wrap"
     },
     arrow: {
