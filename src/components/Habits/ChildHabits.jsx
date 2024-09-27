@@ -5,6 +5,7 @@ import {useNavigate, useParams} from "react-router-dom";
 import LoadingIndicator from "../LoadingIndicator";
 import HabitsPeriodLine from "./HabitsPeriodLine";
 import DayHabitsService from "../../core/Domain/day-habits-service";
+import {toApiDateString} from "../../utils/DateUtils";
 
 const ChildHabits = () => {
     let navigate = useNavigate();
@@ -33,10 +34,6 @@ const ChildHabits = () => {
                 alert(err);
             })
             .finally(() => setIsLoading(false));
-    }
-
-    function toApiDateString(date) {
-        return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
     }
 
     function addHabit() {

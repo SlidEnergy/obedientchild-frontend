@@ -14,7 +14,8 @@ const HabitList = ({unsetHabit, setHabitStatus, habits}) => {
                 flex-direction: row;
                 flex-wrap: wrap;
                 justify-content: center;
-                gap: 20px
+                gap: 20px;
+                margin-top: 1.5rem;
               }
 
               /* Медиа-запрос для мобильных устройств */

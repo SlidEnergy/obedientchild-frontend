@@ -33,7 +33,6 @@ const HomePage = () => {
         setIsLoading(true);
         http.get("/children")
             .then(({data}) => {
-                console.log(data)
                 setChildren(data);
             })
             .catch(err => {

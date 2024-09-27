@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import HabitItem from "./HabitItem";
 import HabitsPeriodLineItem from "./HabitsPeriodLineItem";
 import {http} from "../../core/http-common";
+import {toApiDateString} from "../../utils/DateUtils";
 
 const week = ['пн', 'вт', 'ср', 'чт', 'пт', 'сб', 'вс'];
 
@@ -28,10 +29,6 @@ const HabitsPeriodLine = props => {
                 alert(err);
             })
             .finally();
-    }
-
-    function toApiDateString(date) {
-        return `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`;
     }
 
     function getPeriod(date) {

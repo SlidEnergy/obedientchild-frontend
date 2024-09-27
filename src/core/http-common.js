@@ -26,3 +26,33 @@ http.interceptors.request.use(
         return Promise.reject(error);
     }
 );
+
+// Функция проверки строки на формат даты
+const isDateString = (value) => {
+    // Расширенное регулярное выражение для ISO формата с временем и просто датой
+    const dateRegex = /^\d{4}-\d{2}-\d{2}(?:T\d{2}:\d{2}:\d{2}(?:\.\d{3})?Z)?$/;
+    return typeof value === 'string' && dateRegex.test(value);
+};
+
+const convertDates = (obj) => {
+    if (Array.isArray(obj)) {
+        return obj.map(item => convertDates(item));
+    } else if (obj !== null && typeof obj === 'object') {
+        return Object.keys(obj).reduce((acc, key) => {
+            acc[key] = convertDates(obj[key]);
+            return acc;
+        }, {});
+    } else if (isDateString(obj)) {
+        return new Date(obj);
+    }
+    return obj;
+};
+
+// Интерсептор для преобразования дат
+http.interceptors.response.use((response) => {
+    response.data = convertDates(response.data);
+    return response;
+}, (error) => {
+    return Promise.reject(error);
+});
+
