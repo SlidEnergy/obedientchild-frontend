@@ -44,7 +44,6 @@ const Rules = () => {
                 height: 100%;
                 width: 100%;
                 display: flex;
-                overflow: auto;
                 margin-top: 1.5rem;
               }
             `}</style>

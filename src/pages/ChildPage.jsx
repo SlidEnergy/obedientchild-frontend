@@ -156,11 +156,11 @@ const ChildPage = props => {
                                              deleteChildStatus={deleteChildStatus} addChildStatus={addChildStatus}></ChildStatusList>
                         </div>
                         <div className='d-flex gap-4'>
-                            {bigGoal && <CardItem style={{width: 110, height: 160}} item={{...bigGoal, title: "Цель: " + bigGoal.title}}></CardItem>}
-                            {!bigGoal && <CardItem style={{width: 110, height: 160}} isEmpty={true} item={{title: "Выбрать цель"}}
+                            {bigGoal && <CardItem item={{...bigGoal, title: "Цель: " + bigGoal.title}}></CardItem>}
+                            {!bigGoal && <CardItem isEmpty={true} item={{title: "Выбрать цель"}}
                                                    onChoose={selectGoal}></CardItem>}
-                            {dream && <CardItem style={{width: 110, height: 160}} item={{...dream, title: "Мечта: " + dream.title}}></CardItem>}
-                            {!dream && <CardItem style={{width: 110, height: 160}} isEmpty={true} item={{title: "Выбрать мечту"}}
+                            {dream && <CardItem item={{...dream, title: "Мечта: " + dream.title}}></CardItem>}
+                            {!dream && <CardItem isEmpty={true} item={{title: "Выбрать мечту"}}
                                                  onChoose={selectDream}></CardItem>}
                         </div>
                     </div>
