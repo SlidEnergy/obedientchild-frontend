@@ -25,28 +25,15 @@ const ChildPage = props => {
     const [isGoodDeedPopupOpened, setIsGoodDeedPopupOpened] = useState(false)
     const [isBadDeedPopupOpened, setIsBadDeedPopupOpened] = useState(false)
     const [isRewardsPopupOpened, setIsRewardsPopupOpened] = useState(false)
-    const [children, setChildren] = useState()
 
     useEffect(() => {
         document.title = "Ребенок";
-        loadChildren();
+
     }, [])
 
     useEffect(() => {
         loadChild();
     }, [childId]);
-
-    function loadChildren() {
-        http.get("/children/")
-            .then(({data}) => {
-                setChildren(data);
-            })
-            .catch(err => {
-                console.log(err);
-                alert(err.message);
-            })
-            .finally();
-    }
 
     function loadChild() {
         setIsLoading(true);
@@ -147,7 +134,7 @@ const ChildPage = props => {
 
     return (
         <div>
-            <LoadingIndicator isLoading={isLoading}></LoadingIndicator>
+            <LoadingIndicator isLoading={isLoading}/>
             {!isLoading &&
                 <div>
                     <div className='child-info-row'>

@@ -4,8 +4,9 @@ import {http} from "../../core/http-common";
 import {useNavigate, useParams} from "react-router-dom";
 import LoadingIndicator from "../LoadingIndicator";
 import HabitsPeriodLine from "./HabitsPeriodLine";
+import DayHabitsService from "../../core/Domain/day-habits-service";
 
-const ChildHabits = props => {
+const ChildHabits = () => {
     let navigate = useNavigate();
     let {childId} = useParams();
 
@@ -13,7 +14,9 @@ const ChildHabits = props => {
     const [habits, setHabits] = useState();
     const [selectedDay, setSelectedDay] = useState(new Date());
 
-    const statisticsRef = useRef({})
+    const statisticsRef = useRef({});
+
+    const dayHabitsService = new DayHabitsService();
 
     useEffect(() => {
         loadHabits();
@@ -40,16 +43,15 @@ const ChildHabits = props => {
         navigate("/children/" + childId + "/habits/");
     }
 
-    function setHabitStatus(item, status) {
-        http.post(`/habits/${item.habitId}/status?childId=${childId}&day=${toApiDateString(selectedDay)}&status=${status}`)
-            .then(({data}) => {
-                loadHabits();
-                statisticsRef.current.loadStatistics();
-            })
-            .catch(err => {
-                console.log(err);
-                alert(err.message);
-            });
+    async function setHabitStatus(item, status) {
+        try {
+            await dayHabitsService.saveAndSend({...item, ...{childId, status}});
+            loadHabits();
+            statisticsRef.current.loadStatistics();
+        } catch (err) {
+            console.log(err);
+            alert(err.message);
+        }
     }
 
     function unsetHabit(item) {
@@ -72,9 +74,9 @@ const ChildHabits = props => {
         <div>
             <h3>Привычки</h3>
             <HabitsPeriodLine parentRef={statisticsRef} childId={childId} selectedDay={selectedDay}
-                              chooseItem={chooseItem}></HabitsPeriodLine>
-            <LoadingIndicator isLoading={isLoading}></LoadingIndicator>
-            {habits && <HabitList habits={habits} setHabitStatus={setHabitStatus} unsetHabit={unsetHabit}></HabitList>}
+                              chooseItem={chooseItem}/>
+            <LoadingIndicator isLoading={isLoading}/>
+            {habits && <HabitList habits={habits} setHabitStatus={setHabitStatus} unsetHabit={unsetHabit}/>}
             <button className='btn btn-outline-primary button' title="Добавить привычку" onClick={addHabit}>Добавить
                 привычку
             </button>

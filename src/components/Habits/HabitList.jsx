@@ -1,13 +1,12 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import HabitItem from "./HabitItem";
 
-const HabitList = props => {
+const HabitList = ({unsetHabit, setHabitStatus, habits}) => {
     return (
         <div className='habit-list'>
-            {props.habits.map(item => {
-                return <HabitItem key={item.habitId} habit={item} setHabitStatus={props.setHabitStatus}
-                                  unsetHabit={props.unsetHabit}></HabitItem>;
+            {habits.map(item => {
+                return <HabitItem key={item.habitId} habit={item} setHabitStatus={setHabitStatus}
+                                  unsetHabit={unsetHabit}/>;
             })}
             <style jsx>{`
               .habit-list {
@@ -28,23 +27,6 @@ const HabitList = props => {
             `}</style>
         </div>
     );
-};
-
-HabitList.propTypes = {
-    habits: PropTypes.any,
-    setHabitStatus: PropTypes.func,
-    unsetHabit: PropTypes.func,
-};
-
-const styles = {
-    container: {
-        display: 'flex',
-        flexDirection: 'row',
-        margin: 10,
-        flexWrap: "wrap",
-        justifyContent: "center",
-        gap: '20px'
-    }
-};
+}
 
 export default HabitList;

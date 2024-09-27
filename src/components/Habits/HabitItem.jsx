@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import Coins from "../Coins";
 
 const HabitItem = ({habit, setHabitStatus, unsetHabit, className}) => {
@@ -15,7 +14,7 @@ const HabitItem = ({habit, setHabitStatus, unsetHabit, className}) => {
         setHabitStatus && setHabitStatus(habit, "None");
     }
 
-    function unsetHabit() {
+    function unsetHabitInternal() {
         unsetHabit && unsetHabit(habit);
     }
 
@@ -24,39 +23,39 @@ const HabitItem = ({habit, setHabitStatus, unsetHabit, className}) => {
     }
 
     function getBorderByStatus(status) {
-        if (status == "Failed")
+        if (status === "Failed")
             return "solid 1px red";
-        if (status == "Done")
+        if (status === "Done")
             return "solid 1px lightgreen";
-        if (status == "None")
+        if (status === "None")
             return "solid 1px lightgray";
-        if (status == "Skipped")
+        if (status === "Skipped")
             return "solid 1px yellow";
     }
 
     return (
         <div className={className ?? '' + ' habit-item'}>
-            <img className='habit-image' src={habit.imageUrl}></img>
+            <img className='habit-image' src={habit.imageUrl} alt='habit'/>
             <div className='habit-content'>
                 <p>{habit.title}</p>
-                <Coins count={habit.price} size={22}></Coins>
+                <Coins count={habit.price} size={22}/>
 
                 {/*{habit.status == "None" && <img className='image-button' src={'/done.jpg'} onClick={doneHabit}/>}*/}
                 {/*{habit.status == "None" && <img className='image-button' src={'/fail.jpg'} onClick={failedHabit}/>}*/}
                 <div className='button-container'>
-                    {habit.status == "None" &&
+                    {habit.status === "None" &&
                         <button className='btn btn-outline-danger square-button' onClick={failedHabit}>-</button>}
-                    {habit.status == "None" &&
+                    {habit.status === "None" &&
                         <button className='btn btn-outline-success square-button' onClick={doneHabit}>+</button>}
                 </div>
             </div>
-            {habit.status == "None" &&
+            {habit.status === "None" &&
                 <button className='btn btn-link skip-button' onClick={skipHabit}>Пропустить</button>}
 
-            {habit.status != "None" &&
+            {habit.status !== "None" &&
                 <button className='btn btn-link cancel-button' onClick={clearHabitStatus}>Отменить</button>}
-            {habit.status == "None" &&
-                <button className='btn btn-link close-button' onClick={unsetHabit}>x</button>}
+            {habit.status === "None" &&
+                <button className='btn btn-link close-button' onClick={unsetHabitInternal}>x</button>}
 
             <style jsx>{`
               .habit-content {

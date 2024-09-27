@@ -1,5 +1,6 @@
 const { override, addBabelPlugin } = require('customize-cra');
 const webpack = require('webpack');
+const {InjectManifest} = require("workbox-webpack-plugin");
 
 module.exports = override(
     addBabelPlugin([
@@ -9,7 +10,7 @@ module.exports = override(
             vendorPrefixes: true,
         },
     ]),
-    (config) => {
+    (config, env) => {
         config.resolve.fallback = {
             buffer: require.resolve('buffer/'),
             timers: require.resolve("timers-browserify")
@@ -20,6 +21,16 @@ module.exports = override(
                 Buffer: ['buffer', 'Buffer'],
             })
         );
+
+        // Проверяем, что это production-сборка, где нужен сервис-воркер
+        if (env === 'production') {
+            config.plugins.push(
+                new InjectManifest({
+                    swSrc: './src/service-worker.js', // Ваш кастомный сервис-воркер
+                    swDest: 'service-worker.js',      // Путь, куда будет помещен сгенерированный воркер
+                })
+            );
+        }
 
         return config;
     }
