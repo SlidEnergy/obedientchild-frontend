@@ -32,7 +32,7 @@ registerRoute(
         if (event.request.cache === 'reload') {
             return new NetworkFirst({
                 cacheName: 'api-cache',
-            });
+            }).handle;
         } else {
 
             return new StaleWhileRevalidate({
@@ -69,7 +69,7 @@ registerRoute(
                         },
                     },
                 ],
-            })
+            }).handle;
         }
     },
     "GET");
