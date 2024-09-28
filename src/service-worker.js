@@ -27,7 +27,7 @@ registerRoute(
          url,
          request
      }) => url.pathname.startsWith('/api/v1') && !url.pathname.startsWith('/api/v1/token'),
-    async ({event}) => {
+    ({event}) => {
         console.log(event.request.cache);
         if (event.request.cache === 'reload') {
             return new NetworkFirst({
