@@ -10,44 +10,59 @@ import {precacheAndRoute} from 'workbox-precaching';
 precacheAndRoute(self.__WB_MANIFEST);
 
 // Кэширование запросов к API
+// Если запрос инициирован принудительным обновлением страницы, используем NetworkFirst
 registerRoute(
-    ({url, request}) => url.pathname.startsWith('/api/v1') && !url.pathname.startsWith('/api/v1/token') && request.method === 'GET',
- new StaleWhileRevalidate({
-                cacheName: 'api-cache',
-                plugins: [
-                    {
-                        // Плагин для уведомления о новых данных
-                        fetchDidSucceed: async ({request, response}) => {
-                            if (!response.ok)
-                                return response;
+    ({
+         url,
+         request
+     }) => url.pathname.startsWith('/api/v1') && !url.pathname.startsWith('/api/v1/token') && request.cache === 'reload',
+    new NetworkFirst({
+        cacheName: 'api-cache',
+    }),
+    "GET");
 
-                            const url = new URL(request.url);
-                            if (url.pathname === '/api/v1/children') {
-                                const clonedResponse = response.clone();
-                                const updatedChildren = await clonedResponse.json();
+// Кэширование запросов к API
+registerRoute(
+    ({
+         url,
+         request
+     }) => url.pathname.startsWith('/api/v1') && !url.pathname.startsWith('/api/v1/token') && request.method === 'GET',
+    new StaleWhileRevalidate({
+        cacheName: 'api-cache',
+        plugins: [
+            {
+                // Плагин для уведомления о новых данных
+                fetchDidSucceed: async ({request, response}) => {
+                    if (!response.ok)
+                        return response;
 
-                                /// Здесь вы можете добавить логику для проверки изменения данных
-                                const previousChildren = await caches.match(request);
-                                if (!previousChildren || JSON.stringify(previousChildren) !== JSON.stringify(updatedChildren)) {
-                                    // Если данные изменились, отправляем сообщение клиентам
-                                    // eslint-disable-next-line no-restricted-globals
-                                    self.clients.matchAll().then(clients => {
-                                        clients.forEach(client => {
-                                            client.postMessage({
-                                                type: 'UPDATE_CHILDREN',
-                                                data: updatedChildren
-                                            });
-                                        });
+                    const url = new URL(request.url);
+                    if (url.pathname === '/api/v1/children') {
+                        const clonedResponse = response.clone();
+                        const updatedChildren = await clonedResponse.json();
+
+                        /// Здесь вы можете добавить логику для проверки изменения данных
+                        const previousChildren = await caches.match(request);
+                        if (!previousChildren || JSON.stringify(previousChildren) !== JSON.stringify(updatedChildren)) {
+                            // Если данные изменились, отправляем сообщение клиентам
+                            // eslint-disable-next-line no-restricted-globals
+                            self.clients.matchAll().then(clients => {
+                                clients.forEach(client => {
+                                    client.postMessage({
+                                        type: 'UPDATE_CHILDREN',
+                                        data: updatedChildren
                                     });
-                                }
-                            }
+                                });
+                            });
+                        }
+                    }
 
-                            return response;
-                        },
-                    },
-                ],
-            })
-);
+                    return response;
+                },
+            },
+        ],
+    }),
+    "GET");
 
 // Кэширование статических файлов (опционально)
 registerRoute(
