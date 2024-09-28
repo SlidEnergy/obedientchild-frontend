@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-globals */
 import {registerRoute} from 'workbox-routing';
 import {NetworkFirst, StaleWhileRevalidate} from 'workbox-strategies';
 import {CacheFirst} from 'workbox-strategies';
@@ -88,7 +89,6 @@ registerRoute(
 
 const dayHabitService = new DayHabitsService();
 
-// eslint-disable-next-line no-restricted-globals
 self.addEventListener('sync', (event) => {
     if (event.tag === 'sync-day-habits') {
         event.waitUntil(dayHabitService.syncCache());
