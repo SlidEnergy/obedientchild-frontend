@@ -5,6 +5,8 @@ import {ExpirationPlugin} from 'workbox-expiration';
 import DayHabitsService from "./core/Domain/day-habits-service";
 import {precacheAndRoute} from 'workbox-precaching';
 
+let self = self;
+
 // Вставка Workbox манифеста
 // eslint-disable-next-line no-restricted-globals
 precacheAndRoute(self.__WB_MANIFEST);
@@ -28,49 +30,46 @@ registerRoute(
          request
      }) => url.pathname.startsWith('/api/v1') && !url.pathname.startsWith('/api/v1/token'),
     ({event}) => {
+        console.log('request cache')
         console.log(event.request.cache);
-        if (event.request.cache === 'reload') {
-            return new NetworkFirst({
-                cacheName: 'api-cache',
-            }).handle;
-        } else {
+        const isForcedReload = localStorage.getItem('isForcedReload');
+        console.log('isforcedReload: ');
+        console.log(isForcedReload);
+        return new StaleWhileRevalidate({
+            cacheName: 'api-cache',
+            plugins: [
+                {
+                    // Плагин для уведомления о новых данных
+                    fetchDidSucceed: async ({request, response}) => {
+                        if (!response.ok)
+                            return response;
 
-            return new StaleWhileRevalidate({
-                cacheName: 'api-cache',
-                plugins: [
-                    {
-                        // Плагин для уведомления о новых данных
-                        fetchDidSucceed: async ({request, response}) => {
-                            if (!response.ok)
-                                return response;
+                        const url = new URL(request.url);
+                        if (url.pathname === '/api/v1/children') {
+                            const clonedResponse = response.clone();
+                            const updatedChildren = await clonedResponse.json();
 
-                            const url = new URL(request.url);
-                            if (url.pathname === '/api/v1/children') {
-                                const clonedResponse = response.clone();
-                                const updatedChildren = await clonedResponse.json();
-
-                                /// Здесь вы можете добавить логику для проверки изменения данных
-                                const previousChildren = await caches.match(request);
-                                if (!previousChildren || JSON.stringify(previousChildren) !== JSON.stringify(updatedChildren)) {
-                                    // Если данные изменились, отправляем сообщение клиентам
-                                    // eslint-disable-next-line no-restricted-globals
-                                    self.clients.matchAll().then(clients => {
-                                        clients.forEach(client => {
-                                            client.postMessage({
-                                                type: 'UPDATE_CHILDREN',
-                                                data: updatedChildren
-                                            });
+                            /// Здесь вы можете добавить логику для проверки изменения данных
+                            const previousChildren = await caches.match(request);
+                            if (!previousChildren || JSON.stringify(previousChildren) !== JSON.stringify(updatedChildren)) {
+                                // Если данные изменились, отправляем сообщение клиентам
+                                // eslint-disable-next-line no-restricted-globals
+                                self.clients.matchAll().then(clients => {
+                                    clients.forEach(client => {
+                                        client.postMessage({
+                                            type: 'UPDATE_CHILDREN',
+                                            data: updatedChildren
                                         });
                                     });
-                                }
+                                });
                             }
+                        }
 
-                            return response;
-                        },
+                        return response;
                     },
-                ],
-            }).handle;
-        }
+                },
+            ],
+        })
     },
     "GET");
 
@@ -95,4 +94,14 @@ self.addEventListener('sync', (event) => {
     if (event.tag === 'sync-day-habits') {
         event.waitUntil(dayHabitService.syncCache());
     }
+});
+
+// В событии 'install' вызываем skipWaiting(), чтобы сразу перейти к активации
+self.addEventListener('install', (event) => {
+    event.waitUntil(self.skipWaiting());
+});
+
+// В событии 'activate' вызываем clients.claim(), чтобы новый воркер начал контролировать все вкладки
+self.addEventListener('activate', (event) => {
+    event.waitUntil(self.clients.claim());
 });

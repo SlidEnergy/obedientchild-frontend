@@ -22,6 +22,11 @@ if ('SyncManager' in window) {
     console.warn('Синхронизация не поддерживаются вашим браузером.');
 }
 
+// Устанавливаем флаг в локальном хранилище при перезагрузке
+window.addEventListener('beforeunload', () => {
+    localStorage.setItem('isForcedReload', 'true');
+});
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <React.StrictMode>
