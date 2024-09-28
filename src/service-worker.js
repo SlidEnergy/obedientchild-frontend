@@ -54,6 +54,7 @@ registerRoute(
         console.log(event.request.cache); // default | reload
 
         let isForcedReload = await service.get('isForcedReload');
+        await service.set('isForcedReload', false);
         console.log('isforcedReload: ');
         console.log(isForcedReload);
 

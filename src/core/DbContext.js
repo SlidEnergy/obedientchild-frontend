@@ -20,6 +20,14 @@ export const getDbInstance = async () => {
                 }
             },
         });
+
+        dbInstance.onversionchange = () => {
+            dbInstance.close();
+            console.log('Database is closing due to version change');
+        };
+    } else if (dbInstance.closePending) {
+        // Дождитесь завершения обновления
+        await dbInstance.onversionchange;
     }
     return dbInstance;
 };

@@ -29,6 +29,9 @@ window.addEventListener('beforeunload', () => {
 });
 
 window.addEventListener('load', async () => {
+    const [navigationEntry] = performance.getEntriesByType("navigation");
+    console.log('navigationentry');
+    console.log(navigationEntry.type)
     var isForcedReload = Boolean(localStorage.getItem('isForcedReload'));
     localStorage.removeItem('isForcedReload');
     let settingsService = new SettingService();

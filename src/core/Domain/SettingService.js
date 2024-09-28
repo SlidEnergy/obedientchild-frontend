@@ -15,6 +15,16 @@ class SettingService {
         }
     }
 
+    async delete(key) {
+        try {
+            const db = await getDbInstance();
+
+            await db.delete(SETTINGS_STORE_NAME, key);
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
     async set(key, value) {
         try {
             const db = await getDbInstance();
