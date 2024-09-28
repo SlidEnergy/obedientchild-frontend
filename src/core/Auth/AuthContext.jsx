@@ -72,7 +72,6 @@ export const AuthProvider = ({children}) => {
 
             setIsAuthenticated(isValid);
 
-            console.log(isValid)
             if (!isValid)
                 clearAuth();
 

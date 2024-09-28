@@ -13,12 +13,6 @@ precacheAndRoute(self.__WB_MANIFEST);
 registerRoute(
     ({url, request}) => url.pathname.startsWith('/api/v1') && !url.pathname.startsWith('/api/v1/token') && request.method === 'GET',
     ({ event }) => {
-        if (event.request.cache === 'reload') {
-            // Если запрос инициирован принудительным обновлением страницы, используем NetworkFirst
-            return new NetworkFirst({
-                cacheName: 'api-cache',
-            }).handle({ event });
-        } else {
             return new StaleWhileRevalidate({
                 cacheName: 'api-cache',
                 plugins: [
@@ -54,7 +48,6 @@ registerRoute(
                     },
                 ],
             }).handle({ event });
-        }
     }
 );
 
