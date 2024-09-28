@@ -40,7 +40,6 @@ class DayHabitsService {
                 await this.db.delete(DAY_HABITS_STORE_NAME, habit.id);
             } catch (err) {
                 console.log(err);
-                alert(err.message);
             }
         }
     }
