@@ -30,6 +30,7 @@ registerRoute(
          request
      }) => url.pathname.startsWith('/api/v1') && !url.pathname.startsWith('/api/v1/token'),
     ({event}) => {
+        console.log(event.request.url);
         console.log('request cache')
         console.log(event.request.cache);
         const isForcedReload = localStorage.getItem('isForcedReload');
@@ -69,7 +70,7 @@ registerRoute(
                     },
                 },
             ],
-        })
+        }).handle
     },
     "GET");
 
