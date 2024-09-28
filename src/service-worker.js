@@ -12,8 +12,7 @@ precacheAndRoute(self.__WB_MANIFEST);
 // Кэширование запросов к API
 registerRoute(
     ({url, request}) => url.pathname.startsWith('/api/v1') && !url.pathname.startsWith('/api/v1/token') && request.method === 'GET',
-    ({ event }) => {
-            return new StaleWhileRevalidate({
+ new StaleWhileRevalidate({
                 cacheName: 'api-cache',
                 plugins: [
                     {
@@ -47,8 +46,7 @@ registerRoute(
                         },
                     },
                 ],
-            }).handle({ event });
-    }
+            })
 );
 
 // Кэширование статических файлов (опционально)
