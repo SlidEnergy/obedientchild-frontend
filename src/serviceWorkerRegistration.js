@@ -15,7 +15,7 @@ export function register(config) {
             return;
         }
 
-        window.addEventListener('load', () => {
+        //window.addEventListener('load', () => {
             const swUrl = `${process.env.PUBLIC_URL}/service-worker.js`;
 
             if (isLocalhost) {
@@ -25,7 +25,7 @@ export function register(config) {
                 // Регистрируем сервис-воркер в production-режиме
                 registerValidSW(swUrl, config);
             }
-        });
+        //});
     }
 }
 
