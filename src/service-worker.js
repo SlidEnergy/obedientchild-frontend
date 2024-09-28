@@ -1,10 +1,15 @@
+/// <reference lib="webworker" />
 /* eslint-disable no-restricted-globals */
+
 import {registerRoute} from 'workbox-routing';
 import {NetworkFirst, StaleWhileRevalidate} from 'workbox-strategies';
 import {CacheFirst} from 'workbox-strategies';
 import {ExpirationPlugin} from 'workbox-expiration';
-import DayHabitsService from "./core/Domain/day-habits-service";
+import DayHabitsService from "./core/Domain/DayHabitsService";
 import {precacheAndRoute} from 'workbox-precaching';
+import SettingService from "./core/Domain/SettingService";
+
+let service = new SettingService();
 
 // Вставка Workbox манифеста
 // eslint-disable-next-line no-restricted-globals
@@ -22,20 +27,40 @@ precacheAndRoute(self.__WB_MANIFEST);
 //     }),
 //     "GET");
 
+// self.addEventListener('fetch', async (event) => {
+//     console.log(event.request.url);
+//     console.log('request cache')
+//     console.log(event.request.cache);
+//
+//     let isForcedReload = await settingService.get('isForcedReload');
+//     console.log('isforcedReload: ');
+//     console.log(isForcedReload);
+//     console.log('event.request.mode');
+//     console.log(event.request.mode);
+//
+//     event.respondWith()
+// });
+
 // Кэширование запросов к API
 registerRoute(
     ({
          url,
          request
      }) => url.pathname.startsWith('/api/v1') && !url.pathname.startsWith('/api/v1/token'),
-    ({event}) => {
+    async (options) => {
+        let {event} = options;
         console.log(event.request.url);
         console.log('request cache')
-        console.log(event.request.cache);
-        const isForcedReload = localStorage.getItem('isForcedReload');
+        console.log(event.request.cache); // default | reload
+
+        let isForcedReload = await service.get('isForcedReload');
         console.log('isforcedReload: ');
         console.log(isForcedReload);
-        return new StaleWhileRevalidate({
+
+        console.log('event.request.mode');
+        console.log(event.request.mode); // cors
+
+        var strategy = new StaleWhileRevalidate({
             cacheName: 'api-cache',
             plugins: [
                 {
@@ -69,7 +94,9 @@ registerRoute(
                     },
                 },
             ],
-        }).handle
+        });
+
+        return await strategy.handle(options);
     },
     "GET");
 

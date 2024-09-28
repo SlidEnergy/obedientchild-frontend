@@ -7,6 +7,7 @@ import {BrowserRouter} from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {AuthProvider} from "./core/Auth/AuthContext";
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
+import SettingService from "./core/Domain/SettingService";
 
 serviceWorkerRegistration.register();
 
@@ -22,10 +23,17 @@ if ('SyncManager' in window) {
     console.warn('Синхронизация не поддерживаются вашим браузером.');
 }
 
-// Устанавливаем флаг в локальном хранилище при перезагрузке
+// // Устанавливаем флаг в локальном хранилище при перезагрузке
 window.addEventListener('beforeunload', () => {
-    localStorage.setItem('isForcedReload', 'true');
+    localStorage.setItem('isForcedReload', true);
 });
+
+window.addEventListener('load', async () => {
+    var isForcedReload = Boolean(localStorage.getItem('isForcedReload'));
+    localStorage.removeItem('isForcedReload');
+    let settingsService = new SettingService();
+    await settingsService.set('isForcedReload', isForcedReload);
+})
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

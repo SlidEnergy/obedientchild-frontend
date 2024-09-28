@@ -4,7 +4,7 @@ import {http} from "../../core/http-common";
 import {useNavigate, useParams} from "react-router-dom";
 import LoadingIndicator from "../LoadingIndicator";
 import HabitsPeriodLine from "./HabitsPeriodLine";
-import DayHabitsService from "../../core/Domain/day-habits-service";
+import DayHabitsService from "../../core/Domain/DayHabitsService";
 import {toApiDateString} from "../../utils/DateUtils";
 
 const ChildHabits = () => {
