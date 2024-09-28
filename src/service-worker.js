@@ -16,7 +16,7 @@ registerRoute(
         if (event.request.cache === 'reload') {
             // Если запрос инициирован принудительным обновлением страницы, используем NetworkFirst
             return new NetworkFirst({
-                cacheName: 'document-cache',
+                cacheName: 'api-children-cache',
             }).handle({ event });
         } else {
             new StaleWhileRevalidate({
