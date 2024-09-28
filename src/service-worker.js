@@ -16,11 +16,11 @@ registerRoute(
         if (event.request.cache === 'reload') {
             // Если запрос инициирован принудительным обновлением страницы, используем NetworkFirst
             return new NetworkFirst({
-                cacheName: 'api-children-cache',
+                cacheName: 'api-cache',
             }).handle({ event });
         } else {
-            new StaleWhileRevalidate({
-                cacheName: 'api-children-cache',
+            return new StaleWhileRevalidate({
+                cacheName: 'api-cache',
                 plugins: [
                     {
                         // Плагин для уведомления о новых данных
