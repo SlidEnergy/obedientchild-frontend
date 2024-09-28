@@ -5,8 +5,6 @@ import {ExpirationPlugin} from 'workbox-expiration';
 import DayHabitsService from "./core/Domain/day-habits-service";
 import {precacheAndRoute} from 'workbox-precaching';
 
-let self = self;
-
 // Вставка Workbox манифеста
 // eslint-disable-next-line no-restricted-globals
 precacheAndRoute(self.__WB_MANIFEST);
