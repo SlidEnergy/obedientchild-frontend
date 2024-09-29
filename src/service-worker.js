@@ -18,9 +18,11 @@ precacheAndRoute(self.__WB_MANIFEST);
 // Кэширование запросов к API
 registerRoute(
     ({
+         event,
          url,
-         request
-     }) => url.pathname.startsWith('/api/v1') && !url.pathname.startsWith('/api/v1/token'),
+         request,
+         sameOrigin
+     }) => url.pathname.startsWith('/api/v1') && !url.pathname.startsWith('/api/v1/token') && request.destination === 'fetch',
     async (options) => {
         try {
             let strategy = new StaleWhileRevalidate({
@@ -108,6 +110,19 @@ self.addEventListener('install', (event) => {
 // В событии 'activate' вызываем clients.claim(), чтобы новый воркер начал контролировать все вкладки
 self.addEventListener('activate', (event) => {
     console.log('Новая версия сервис-воркера активирована.');
+
+    const cacheWhitelist = ['image-cache', 'api-cache']; // укажите актуальные кэши
+    event.waitUntil(
+        caches.keys().then((cacheNames) => {
+            return Promise.all(
+                cacheNames.map((cacheName) => {
+                    if (!cacheWhitelist.includes(cacheName)) {
+                        return caches.delete(cacheName);
+                    }
+                })
+            );
+        })
+    );
 
     event.waitUntil(self.clients.claim().then(() => {
         console.log('Новая версия активна и управляет клиентами.');
