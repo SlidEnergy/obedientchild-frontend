@@ -14,7 +14,7 @@ const ChildTasks = props => {
 
     useEffect(() => {
         loadTasks();
-    }, []);
+    }, [childId]);
 
     function loadTasks() {
         setIsLoading(true);
@@ -58,9 +58,9 @@ const ChildTasks = props => {
     return (
         <div>
             <h3>Задачи</h3>
-            <LoadingIndicator isLoading={isLoading}></LoadingIndicator>
+            <LoadingIndicator isLoading={isLoading}/>
             {childTasks && <ChildTaskList childTasks={childTasks} setChildTaskStatus={setChildTaskStatus}
-                                          removeChildTask={removeChildTask}></ChildTaskList>}
+                                          removeChildTask={removeChildTask}/>}
             <button className='btn btn-outline-primary button' title="Добавить Задачу" onClick={addChildTask}>Добавить
                 задачу
             </button>

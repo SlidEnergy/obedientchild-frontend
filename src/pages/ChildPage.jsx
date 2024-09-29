@@ -11,11 +11,17 @@ import ChildHabits from "../components/Habits/ChildHabits";
 import ChildStatusList from "../components/ChildStatusList";
 import ChildTasks from "../components/ChildTasks/ChildTasks";
 import Rules from "../components/Rules";
+import {useDispatch, useSelector} from "react-redux";
+import childrenService from "../core/Domain/ChildrenService";
+import {updateChild} from "../core/Store/store";
 
 const ChildPage = props => {
+    document.title = "Ребенок";
     let navigate = useNavigate();
     let {childId} = useParams();
-    const [child, setChild] = useState(null);
+
+    const dispatch = useDispatch();
+    const child = useSelector((state) => state.selectedChild);
     const [statuses, setStatuses] = useState(null);
 
     const [isLoading, setIsLoading] = useState(true);
@@ -27,58 +33,50 @@ const ChildPage = props => {
     const [isRewardsPopupOpened, setIsRewardsPopupOpened] = useState(false)
 
     useEffect(() => {
-        document.title = "Ребенок";
+        if (!child)
+            return;
 
-    }, [])
+        setStatuses(child.statuses);
+        document.title = child.name;
+
+        if (child.bigGoalId) {
+            http.get("/rewards/" + child.bigGoalId)
+                .then(({data}) => {
+                    setBigGoal(data);
+                })
+                .catch(err => {
+                    console.log(err);
+                    alert(err.message);
+                });
+        }
+
+        if (child.dreamId) {
+            http.get("/rewards/" + child.dreamId)
+                .then(({data}) => {
+                    setDream(data);
+                })
+                .catch(err => {
+                    console.log(err);
+                    alert(err.message);
+                });
+        }
+
+        setIsLoading(false);
+    }, [child])
 
     useEffect(() => {
-        loadChild();
+        loadChild().then();
     }, [childId]);
 
-    function loadChild() {
+    async function loadChild() {
         setIsLoading(true);
-
-        http.get("/children/" + childId)
-            .then(({data}) => {
-                let child = data;
-                setChild(data);
-                setStatuses(data.statuses);
-
-                document.title = child.name;
-
-                if (child.bigGoalId) {
-                    http.get("/rewards/" + child.bigGoalId)
-                        .then(({data}) => {
-                            setBigGoal(data);
-                        })
-                        .catch(err => {
-                            console.log(err);
-                            alert(err.message);
-                        });
-                }
-
-                if (child.dreamId) {
-                    http.get("/rewards/" + child.dreamId)
-                        .then(({data}) => {
-                            setDream(data);
-                        })
-                        .catch(err => {
-                            console.log(err);
-                            alert(err.message);
-                        });
-                }
-            })
-            .catch(err => {
-                console.log(err);
-                alert(err.message);
-            })
-            .finally(() => setIsLoading(false));
+        await childrenService.loadChild(childId);
     }
 
     function spendCoin(reward) {
         http.put("/children/" + child.id + "/spend/", reward)
             .then(({data}) => {
-                setChild({...child, balance: data});
+                dispatch(updateChild({...child, balance: data}));
                 setIsBadDeedPopupOpened(false);
                 setIsRewardsPopupOpened(false);
             })
@@ -91,7 +89,7 @@ const ChildPage = props => {
     function earnCoin(reward) {
         http.put("/children/" + child.id + "/earn/", reward)
             .then(({data}) => {
-                setChild({...child, balance: data});
+                dispatch(updateChild({...child, balance: data}));
                 setIsGoodDeedPopupOpened(false);
             })
             .catch(err => {
@@ -123,8 +121,8 @@ const ChildPage = props => {
             });
     }
 
-    function addChildStatus(text){
-        http.put(`/children/${childId}/status`, { text: text })
+    function addChildStatus(text) {
+        http.put(`/children/${childId}/status`, {text: text})
             .then(({data}) => {
                 setStatuses(prev => ([...prev, data]));
             })
@@ -147,7 +145,7 @@ const ChildPage = props => {
                                         onClick={() => setIsRewardsPopupOpened(true)}>
                                     -
                                 </button>
-                                <Coins count={child.balance} size={36} onClick={openCoinHistory}></Coins>
+                                <Coins count={child.balance} size={36} onClick={openCoinHistory}/>
                                 <button className='btn btn-outline-primary button w-50'
                                         onClick={() => setIsGoodDeedPopupOpened(true)}>
                                     +
@@ -155,15 +153,16 @@ const ChildPage = props => {
                             </div>
                             {/*<button className='btn btn-link' onClick={openCoinHistory} href="#">История монет</button>*/}
                             <ChildStatusList childStatuses={statuses}
-                                             deleteChildStatus={deleteChildStatus} addChildStatus={addChildStatus}></ChildStatusList>
+                                             deleteChildStatus={deleteChildStatus}
+                                             addChildStatus={addChildStatus}/>
                         </div>
                         <div className='d-flex gap-4'>
-                            {bigGoal && <CardItem item={{...bigGoal, title: "Цель: " + bigGoal.title}}></CardItem>}
+                            {bigGoal && <CardItem item={{...bigGoal, title: "Цель: " + bigGoal.title}}/>}
                             {!bigGoal && <CardItem isEmpty={true} item={{title: "Выбрать цель"}}
-                                                   onChoose={selectGoal}></CardItem>}
-                            {dream && <CardItem item={{...dream, title: "Мечта: " + dream.title}}></CardItem>}
+                                                   onChoose={selectGoal}/>}
+                            {dream && <CardItem item={{...dream, title: "Мечта: " + dream.title}}/>}
                             {!dream && <CardItem isEmpty={true} item={{title: "Выбрать мечту"}}
-                                                 onChoose={selectDream}></CardItem>}
+                                                 onChoose={selectDream}/>}
                         </div>
                     </div>
                     <Rules/>
@@ -194,12 +193,12 @@ const ChildPage = props => {
                     <div style={{
                         marginTop: 20
                     }}>
-                        <ChildHabits></ChildHabits>
+                        <ChildHabits/>
                     </div>
                     <div style={{
                         marginTop: 20
                     }}>
-                        <ChildTasks></ChildTasks>
+                        <ChildTasks/>
                     </div>
                 </div>
             }

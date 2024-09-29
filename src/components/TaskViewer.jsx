@@ -15,7 +15,7 @@ const TaskViewer = () => {
         try {
             let response = await http.get('/tasks',
                 {
-                    responseType: 'application/xml',
+                    responseType: 'document',
                 });
 
             // Парсим OPML с помощью xml2js

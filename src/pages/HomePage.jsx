@@ -1,47 +1,31 @@
 import React, {useEffect, useState} from 'react';
-import {http} from "../core/http-common";
 import LoadingIndicator from "../components/LoadingIndicator";
 import ChildList from "../components/ChildList";
 import {useNavigate, Outlet, useParams} from "react-router-dom";
 import LifeEnergy from "../components/LifeEnergy/LifeEnery";
 import TaskViewer from "../components/TaskViewer";
+import childrenService from "../core/Domain/ChildrenService";
+import {useSelector} from "react-redux";
 
 const HomePage = () => {
     document.title = "Home";
     let {childId} = useParams();
     const navigate = useNavigate();
 
-    const [children, setChildren] = useState();
+    const children = useSelector((state) => state.children);
     const [isLoading, setIsLoading] = useState(true);
 
-    if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.ready.then(() => {
-            navigator.serviceWorker.addEventListener('message', event => {
-                if (event.data.type === 'UPDATE_CHILDREN') {
-                    setChildren(event.data.data);
-                }
-            });
-        });
-    }
-
     useEffect(() => {
-        setIsLoading(true);
-        loadChildren();
+        loadChildren().then();
     }, []);
 
-    function loadChildren() {
+    useEffect(() => {
+        setIsLoading(false);
+    }, [])
+
+    async function loadChildren() {
         setIsLoading(true);
-        http.get("/children")
-            .then(({data}) => {
-                setChildren(data);
-            })
-            .catch(err => {
-                console.log(err);
-                alert("Error: " + err.message);
-            })
-            .finally(() => {
-                setIsLoading(false);
-            });
+        await childrenService.loadChildren();
     }
 
     return (
