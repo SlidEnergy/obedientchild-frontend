@@ -17,12 +17,10 @@ precacheAndRoute(self.__WB_MANIFEST);
 
 // Кэширование запросов к API
 registerRoute(
-    ({ event, url, request, sameOrigin}) =>
+    ({event, url, request, sameOrigin}) =>
         url.pathname.startsWith('/api/v1') && !url.pathname.startsWith('/api/v1/token') && !url.pathname.startsWith('/api/v1/tasks') &&
         request.headers.get('Accept') && request.headers.get('Accept').includes('application/json'), // Фильтрация по Accept,
     async (options) => {
-        console.log('destination')
-        console.log(options.request.destination)
         try {
             let strategy = new StaleWhileRevalidate({
                 cacheName: 'api-cache',
@@ -49,7 +47,8 @@ registerRoute(
                                 /// Здесь вы можете добавить логику для проверки изменения данных
                                 const cachedResponse = await caches.match(request);
                                 const prevResponse = await cachedResponse.json();
-
+                                console.log('prevresponse')
+                                console.log(prevResponse)
                                 if (!prevResponse || JSON.stringify(prevResponse) !== JSON.stringify(updatedResponse)) {
                                     // Если данные изменились, отправляем сообщение клиентам
                                     // eslint-disable-next-line no-restricted-globals
