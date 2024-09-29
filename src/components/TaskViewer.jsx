@@ -13,13 +13,7 @@ const TaskViewer = () => {
 
     async function loadTasks() {
         try {
-            let response = await http.get('/tasks',
-                {
-                    headers: {
-                        'Content-Type': 'application/xml', // Укажите нужный Content-Type
-                    },
-                    responseType: 'document',
-                });
+            let response = await http.get('/tasks');
 
             // Парсим OPML с помощью xml2js
             const parser = new xml2js.Parser();
