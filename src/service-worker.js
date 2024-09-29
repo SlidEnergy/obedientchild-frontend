@@ -17,13 +17,12 @@ precacheAndRoute(self.__WB_MANIFEST);
 
 // Кэширование запросов к API
 registerRoute(
-    ({
-         event,
-         url,
-         request,
-         sameOrigin
-     }) => url.pathname.startsWith('/api/v1') && !url.pathname.startsWith('/api/v1/token') && request.destination === 'fetch',
+    ({ event, url, request, sameOrigin}) =>
+        url.pathname.startsWith('/api/v1') && !url.pathname.startsWith('/api/v1/token') && !url.pathname.startsWith('/api/v1/tasks') &&
+        request.headers.get('Accept') && request.headers.get('Accept').includes('application/json'), // Фильтрация по Accept,
     async (options) => {
+        console.log('destination')
+        console.log(options.request.destination)
         try {
             let strategy = new StaleWhileRevalidate({
                 cacheName: 'api-cache',
@@ -34,6 +33,15 @@ registerRoute(
                             try {
                                 if (!response.ok)
                                     return response;
+
+                                // Проверка заголовка Content-Type
+                                const contentType = response.headers.get('Content-Type');
+
+                                // Если Content-Type не JSON, возвращаем null (или можете бросить ошибку)
+                                if (!contentType || !contentType.includes('application/json')) {
+                                    console.warn('Неподдерживаемый Content-Type: ' + contentType + ' url: ' + request.url);
+                                    return response; // или return new Response('Unsupported format', { status: 415 });
+                                }
 
                                 const clonedResponse = response.clone();
                                 const updatedResponse = await clonedResponse.json();
