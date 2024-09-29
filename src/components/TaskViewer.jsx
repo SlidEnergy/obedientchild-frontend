@@ -15,6 +15,9 @@ const TaskViewer = () => {
         try {
             let response = await http.get('/tasks',
                 {
+                    headers: {
+                        'Content-Type': 'application/xml', // Укажите нужный Content-Type
+                    },
                     responseType: 'document',
                 });
 
