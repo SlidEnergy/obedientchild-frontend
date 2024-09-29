@@ -18,8 +18,8 @@ const subscribeToServiceWorkerUpdates = (callback) => {
     if ('serviceWorker' in navigator) {
         navigator.serviceWorker.ready.then(() => {
             navigator.serviceWorker.addEventListener('message', (event) => {
-                if (event.type === 'UPDATE_API_CACHE') {
-                    const url = new URL(event.url);
+                if (event.data.type === 'UPDATE_API_CACHE') {
+                    const url = new URL(event.data.url);
                     callback(event, url);
                 }
             });
