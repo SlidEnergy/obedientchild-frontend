@@ -34,7 +34,7 @@ const childrenService = {
 
         subscribeToServiceWorkerUpdates((event, url) => {
             if(url.pathname === '/api/v1/children')
-                store.dispatch(setChildren(event.data.data));
+                store.dispatch(setChildren(event.data.response));
         });
 
         return children;
@@ -47,7 +47,7 @@ const childrenService = {
             const getChildApiRegex = /^\/api\/v1\/children\/[0-9]+$/;
 
             if(getChildApiRegex.test(url.pathname))
-                store.dispatch(setChild(event.data.data));
+                store.dispatch(setChild(event.data.response));
         });
 
         return child;
