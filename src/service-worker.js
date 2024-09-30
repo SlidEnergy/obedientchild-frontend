@@ -35,7 +35,7 @@ registerRoute(
                                 // Проверка заголовка Content-Type
                                 const contentType = response.headers.get('Content-Type');
 
-                                // Если Content-Type не JSON, возвращаем null (или можете бросить ошибку)
+                                // Если Content-Type не JSON, возвращаем null (или можем бросить ошибку)
                                 if (!contentType || !contentType.includes('application/json')) {
                                     console.warn('Неподдерживаемый Content-Type: ' + contentType + ' url: ' + request.url);
                                     return response; // или return new Response('Unsupported format', { status: 415 });
@@ -44,11 +44,12 @@ registerRoute(
                                 const clonedResponse = response.clone();
                                 const updatedResponse = await clonedResponse.json();
 
-                                /// Здесь вы можете добавить логику для проверки изменения данных
                                 const cachedResponse = await caches.match(request);
-                                const prevResponse = await cachedResponse.json();
-                                console.log('prevresponse')
-                                console.log(prevResponse)
+
+                                if(!cachedResponse)
+                                    return response;
+
+                                let prevResponse = await cachedResponse.json();
                                 if (!prevResponse || JSON.stringify(prevResponse) !== JSON.stringify(updatedResponse)) {
                                     // Если данные изменились, отправляем сообщение клиентам
                                     // eslint-disable-next-line no-restricted-globals
@@ -66,8 +67,7 @@ registerRoute(
                                 return response;
                             } catch (error) {
                                 console.error('Ошибка при обработке успешного запроса:', error);
-                                // Возвращаем альтернативный ответ или кэшированный ответ
-                                return new Response('Сеть недоступна', {status: 503});
+                                return response;
                             }
                         },
                     },

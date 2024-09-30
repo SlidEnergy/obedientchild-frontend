@@ -1,10 +1,11 @@
 import React, {useEffect, useState} from 'react';
-import {useNavigate, useParams} from "react-router-dom";
+import {useParams} from "react-router-dom";
 import {http} from "../core/http-common";
 import LoadingIndicator from "../components/LoadingIndicator";
 import CoinHistoryList from "../components/CoinHistory/CoinHistoryList";
+import classNames from "classnames";
 
-const CoinHistoryPage = () => {
+const CoinHistoryPage = (className) => {
     document.title = "История монет";
     const {childId} = useParams();
     const [coinHistory, setCoinHistory] = useState();
@@ -35,17 +36,20 @@ const CoinHistoryPage = () => {
     }
 
     return (
-        <div style={{
-            alignItems: "center",
-            alignContent: "center",
-            flexDirection: "column",
-            height: "100%",
-            width: "100%",
-            padding: 20
-        }}>
-            <LoadingIndicator isLoading={isLoading}></LoadingIndicator>
-            {!isLoading && <CoinHistoryList items={coinHistory} onRevert={onRevert}>
+        <div className={classNames(className, 'coin-history-container')}>
+            <LoadingIndicator isLoading={isLoading}/>
+            {!isLoading && coinHistory && <CoinHistoryList items={coinHistory} onRevert={onRevert}>
             </CoinHistoryList>}
+            <style jsx>{`
+              .coin-history-container {
+                align-items: center;
+                align-content: center;
+                flex-direction: column;
+                height: 100%;
+                width: 100%;
+                padding: 20px;
+              }
+            `}</style>
         </div>
     );
 };

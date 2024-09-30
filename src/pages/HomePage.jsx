@@ -17,11 +17,13 @@ const HomePage = () => {
 
     useEffect(() => {
         loadChildren().then();
+
+        return childrenService.subscribe();
     }, []);
 
     useEffect(() => {
-        setIsLoading(false);
-    }, [])
+        isLoading && setIsLoading(false);
+    }, [children]);
 
     async function loadChildren() {
         setIsLoading(true);

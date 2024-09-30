@@ -31,9 +31,9 @@ const reducer = (state = initialState, action) => {
         case UPDATE_CHILD:
             return {
                 ...state,
-                selectedChild: state.selectedChild ? action.updatedChild : undefined,
+                selectedChild: state.selectedChild ? action.child : undefined,
                 children: state.children.map((child) =>
-                    child.id === action.id ? action.updatedChild : child
+                    child.id === action.id ? action.child : child
                 ),
             };
         default:
