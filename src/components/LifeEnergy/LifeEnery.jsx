@@ -42,7 +42,7 @@ const LifeEnergy = ({style}) => {
         setIsLoading(true);
 
         try {
-            let {data} = await http.post("lifeenergy/powerup", model);
+            await http.post("lifeenergy/powerup", model);
 
             setLifeEnergyBalance(lifeEnergyBalance + 1);
         } finally {
@@ -54,7 +54,7 @@ const LifeEnergy = ({style}) => {
         setIsLoading(true);
 
         try {
-            let {data} = await http.post("lifeenergy/powerdown", model);
+            await http.post("lifeenergy/powerdown", model);
 
             setLifeEnergyBalance(lifeEnergyBalance - 1);
         } finally {
@@ -64,7 +64,7 @@ const LifeEnergy = ({style}) => {
 
     function closed(model) {
         setIsLifeEnergyPopupOpened(false);
-        lifeEnergyPopupType == "powerup" ? powerUp(model) : powerDown(model)
+        lifeEnergyPopupType === "powerup" ? powerUp(model) : powerDown(model)
     }
 
     function batteryClick() {
@@ -73,13 +73,13 @@ const LifeEnergy = ({style}) => {
 
     return (
         <div style={style} className="battery-container">
-            <LoadingIndicator isLoading={isLoading}></LoadingIndicator>
+            <LoadingIndicator isLoading={isLoading}/>
             {!isLoading &&
                 <button className="battery-button btn btn-outline-primary"
                         onClick={powerDownClick}>-</button>
             }
             {!isLoading && lifeEnergyBalance !== undefined &&
-                <Battery onClick={batteryClick} level={lifeEnergyBalance}></Battery>
+                <Battery onClick={batteryClick} level={lifeEnergyBalance}/>
             }
             {!isLoading &&
                 <button className="battery-button btn btn-outline-primary"

@@ -6,10 +6,10 @@ import NumberEdit from "../../components/NumberEdit";
 
 const AddBadDeedPage = props => {
     const navigate = useNavigate();
-    const [badDeed, setBadDeed] = useState({title: "", imageUrl: "", price: 1});
+    const [badDeed, setBadDeed] = useState({title: "", imageUrl: "", price: 1, type: 'BadDeed'});
 
     function addBadDeed() {
-        http.put("/baddeeds", badDeed)
+        http.put("/deeds", badDeed)
             .then(() => {
                 console.log("success");
                 navigate("/baddeeds");

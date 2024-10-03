@@ -6,13 +6,13 @@ import NumberEdit from "../../components/NumberEdit";
 
 const AddGoodDeedPage = props => {
     const navigate = useNavigate();
-    const [goodDeed, setGoodDeed] = useState({title: "", imageUrl: "", price: 1});
+    const [goodDeed, setGoodDeed] = useState({title: "", imageUrl: "", price: 1, type: 'GoodDeed'});
 
     function addGoodDeed() {
-        http.put("/gooddeeds", goodDeed)
+        http.put("/deeds", goodDeed)
             .then(() => {
                 console.log("success");
-                navigate("/gooddeeds");
+                navigate("/goodDeeds");
             })
             .catch(err => {
                 console.log(err);

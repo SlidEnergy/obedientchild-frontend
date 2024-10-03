@@ -55,7 +55,7 @@ const HomePage = () => {
                 <button className="btn btn-outline-primary button" onClick={() => navigate("/rewards")}>Желания</button>
                 <button className="btn btn-outline-primary button" onClick={() => navigate("/habits")}>Привычки</button>
             </div>
-            <style jsx="true">{`
+            <style jsx>{`
               .c1 {
                 position: relative;
                 width: 100%;

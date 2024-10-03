@@ -14,7 +14,7 @@ const SelectHabitPage = () => {
 
     useEffect(() => {
         setIsLoading(true);
-        http.get("/habits")
+        http.get("/deeds?type=Habit")
             .then(({data}) => {
                 setHabits(data);
             })

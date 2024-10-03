@@ -1,18 +1,17 @@
 import React, {useEffect, useState} from 'react';
-import {useNavigate, useParams} from "react-router-dom";
 import {http} from "../core/http-common";
 import LoadingIndicator from "../components/LoadingIndicator";
-import CoinHistoryList from "../components/CoinHistory/CoinHistoryList";
 import LifeEnergyHistoryList from "../components/LifeEnergy/LifeEnergyHistoryList";
+import classNames from "classnames";
 
-const LifeEnergyHistoryPage = () => {
+const LifeEnergyHistoryPage = (className) => {
     document.title = "История изменения жизненной энергии";
     const [lifeEnergyHistory, setLifeEnergyHistory] = useState();
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         setIsLoading(true);
-        http.get("/lifeenergy/history")
+        http.get("/coinhistory?type=LifeEnergyBalance")
             .then(({data}) => {
                 setLifeEnergyHistory(data.reverse());
             })
@@ -24,7 +23,7 @@ const LifeEnergyHistoryPage = () => {
     }, []);
 
     function onRevert(item) {
-        http.delete("/lifeenergy/history" + item.id)
+        http.delete("/coinhistory/" + item.id)
             .then(() => {
                 console.log("success");
             })
@@ -35,19 +34,22 @@ const LifeEnergyHistoryPage = () => {
     }
 
     return (
-        <div style={{
-            alignItems: "center",
-            alignContent: "center",
-            flexDirection: "column",
-            height: "100%",
-            width: "100%",
-            padding: 20
-        }}>
-            <LoadingIndicator isLoading={isLoading}></LoadingIndicator>
-            {!isLoading &&
+        <div className={classNames(className, 'coin-history-container')}>
+            <LoadingIndicator isLoading={isLoading}/>
+            {!isLoading && lifeEnergyHistory &&
                 <LifeEnergyHistoryList items={lifeEnergyHistory} onRevert={onRevert}>
                 </LifeEnergyHistoryList>
             }
+            <style jsx>{`
+              .coin-history-container {
+                align-items: center;
+                align-content: center;
+                flex-direction: column;
+                height: 100%;
+                width: 100%;
+                padding: 20px;
+              }
+            `}</style>
         </div>
     );
 };

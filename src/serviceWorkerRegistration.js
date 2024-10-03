@@ -16,7 +16,7 @@ export function register(config) {
         }
 
         //window.addEventListener('load', () => {
-            const swUrl = `${process.env.PUBLIC_URL}/service-worker.js`;
+            const swUrl = `${process.env.PUBLIC_URL}/service-worker.js?v=1`;
 
             if (isLocalhost) {
                 // В режиме localhost проверяем, работает ли сервис-воркер

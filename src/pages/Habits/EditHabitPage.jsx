@@ -3,6 +3,7 @@ import Coins from "../../components/Coins";
 import {http} from "../../core/http-common";
 import {useNavigate, useParams} from "react-router-dom";
 import ChooseImage from "../../components/ChooseImage";
+import CharacterTraits from "../../components/CharacterTraits/CharacterTraits";
 
 const EditHabitPage = props => {
     const navigate = useNavigate();
@@ -13,7 +14,7 @@ const EditHabitPage = props => {
 
     useEffect(() => {
         setIsLoading(true);
-        http.get("/habits/" + habitId)
+        http.get("/deeds/" + habitId)
             .then(({data}) => {
                 setHabit(data);
             })
@@ -26,8 +27,10 @@ const EditHabitPage = props => {
             })
     }, [])
 
-    function saveHabit() {
-        http.post("/habits/" + habitId, habit)
+    function saveHabit(e) {
+        e.preventDefault();
+
+        http.post("/deeds/" + habitId, habit)
             .then(() => {
                 console.log("success");
                 navigate("/habits");
@@ -39,7 +42,7 @@ const EditHabitPage = props => {
     }
 
     function deleteHabit() {
-        http.delete("/habits/" + habitId)
+        http.delete("/deeds/" + habitId)
             .then(() => {
                 console.log("success");
                 navigate("/habits");
@@ -50,23 +53,18 @@ const EditHabitPage = props => {
             });
     }
 
+    // Функция для обновления поля CharacterTraitIds в модели habit
+    const characterTrait_onSelectedIdsChanged = (newCharacterTraitIds) => {
+        setHabit((prevHabit) => ({
+            ...prevHabit,
+            characterTraitIds: newCharacterTraitIds
+        }));
+    };
+
     return (
-        <div style={{
-            padding: 20
-        }}>
-            {habit && <div>
-                {!imageEditMode &&
-                    <img style={{
-                        width: 105,
-                        height: 105,
-                        marginRight: 30,
-                        borderRadius: 10,
-                        cursor: "pointer"
-                    }}
-                         onClick={() => setImageEditMode(true)}
-                         src={habit.imageUrl}>
-                    </img>
-                }
+        <form onSubmit={saveHabit} className='page-container'>
+            {habit && <div className='item-container'>
+                {!imageEditMode && <img onClick={() => setImageEditMode(true)} src={habit.imageUrl} alt='habit'/>}
                 {imageEditMode &&
                     <ChooseImage style={{
                         marginBottom: 20,
@@ -75,29 +73,54 @@ const EditHabitPage = props => {
                                  onImageChosen={(image) => setHabit({...habit, imageUrl: image})}>
                     </ChooseImage>
                 }
-
-                <div style={{
-                    flexDirection: "column"
-                }}>
-                    <input type="text" style={{
-                        fontSize: 24,
-                        marginBottom: 10
-                    }} value={habit.title}
-                           onChange={(e) => setHabit({...habit, title: e.target.value})}>
-                    </input>
-                    <div style={{
-                        flexDirection: "row"
-                    }}>
-                        <Coins count={habit.price} size={22}></Coins>
-                    </div>
-                </div>
+                <input className='form-control' type="text" value={habit.title}
+                       onChange={(e) => setHabit({...habit, title: e.target.value})}>
+                </input>
+                <Coins count={habit.price} size={22}/>
+                Выберите черты характера, которые развивает данная привычка
+                <CharacterTraits selectedIds={habit.characterTraitIds} onSelectedIdsChanged={characterTrait_onSelectedIdsChanged}/>
             </div>}
-            <button onClick={saveHabit}>Сохранить</button>
-            <button onClick={deleteHabit}>Удалить</button>
-        </div>
+            <div className='button-container'>
+                <button type='submit' className='btn btn-primary'>Сохранить</button>
+                <button className='btn btn-danger' onClick={deleteHabit}>Удалить</button>
+            </div>
+            <style jsx>{`
+              .page-container {
+                padding: 1.5rem;
+                display: flex;
+                flex-direction: column;
+                gap: 1.5rem;
+                align-items: center;
+              }
+
+              .item-container {
+                margin: 0 auto;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 1.5rem;
+              }
+
+              input {
+                width: 300px;
+              }
+
+              img {
+                width: 105px;
+                height: 105px;
+                margin-right: 30px;
+                border-radius: 10px;
+                cursor: pointer;
+              }
+
+              .button-container {
+                display: flex;
+                gap: 1.5rem;
+                align-items: center;
+              }
+            `}</style>
+        </form>
     );
 };
-
-EditHabitPage.propTypes = {};
 
 export default EditHabitPage;

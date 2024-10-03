@@ -11,7 +11,7 @@ const Rules = () => {
 
     useEffect(() => {
         setIsLoading(true);
-        http.get("/baddeeds")
+        http.get("/deeds?type=BadDeed")
             .then(({data}) => {
                 setBadDeeds(data);
             })
@@ -22,8 +22,8 @@ const Rules = () => {
             .finally(() => setIsLoading(false));
     }, []);
 
-    function spendCoin(reward) {
-        http.put("/children/" + childId + "/spend/", reward)
+    function invokeDeed(reward) {
+        http.put("/deeds/" + reward.id + "/invoke?childId=" + childId, reward)
             .then(({data}) => {
             })
             .catch(err => {
@@ -36,7 +36,7 @@ const Rules = () => {
         <div className='rule-list'>
             <h3>Правила</h3>
             <LoadingIndicator isLoading={isLoading}/>
-            {badDeeds && <RuleList rewards={badDeeds} onChoose={(reward) => spendCoin(reward)}>
+            {badDeeds && <RuleList rewards={badDeeds} onChoose={(reward) => invokeDeed(reward)}>
             </RuleList>}
             <style jsx>{`
               .rule-list {

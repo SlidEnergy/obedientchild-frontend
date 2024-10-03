@@ -13,7 +13,7 @@ const CoinHistoryPage = (className) => {
 
     useEffect(() => {
         setIsLoading(true);
-        http.get("/coinhistory?childId=" + childId)
+        http.get("/coinhistory?type=CoinBalance&childId=" + childId)
             .then(({data}) => {
                 setCoinHistory(data.reverse());
             })

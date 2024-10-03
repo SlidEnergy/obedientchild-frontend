@@ -12,7 +12,7 @@ const GoodDeedsPage = props => {
 
     useEffect(() => {
         setIsLoading(true);
-        http.get("/gooddeeds")
+        http.get("/deeds?type=GoodDeed")
             .then(({data}) => {
                 setGoodDeeds(data);
             })

@@ -5,7 +5,7 @@ import RewardList from "../components/RewardList";
 import {http} from "../core/http-common";
 import {toApiDateString} from "../utils/DateUtils";
 
-const SelectGoodDeedPage = props => {
+const SelectGoodDeedPage = () => {
     document.title = "Выбор мечты";
 
     const navigate = useNavigate();
@@ -15,7 +15,7 @@ const SelectGoodDeedPage = props => {
 
     useEffect(() => {
         setIsLoading(true);
-        http.get("/gooddeeds")
+        http.get("/deeds?type=GoodDeed")
             .then(({data}) => {
                 setGoodDeeds(data);
             })
@@ -27,7 +27,7 @@ const SelectGoodDeedPage = props => {
     }, []);
 
     function onChoose(item) {
-        http.put(`/childtasks/`, { childId, date: toApiDateString(new Date()), goodDeedId: item.id})
+        http.put(`/childtasks/`, { childId, date: toApiDateString(new Date()), deedId: item.id})
             .then(({data}) => {
                 console.log("success");
                 navigate("/children/" + childId);

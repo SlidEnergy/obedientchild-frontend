@@ -14,7 +14,7 @@ const RewardsPage = () => {
 
     useEffect(() => {
         setIsLoading(true);
-        http.get("/rewards")
+        http.get("/deeds?type=Reward")
             .then(({data}) => {
                 setRewards(data);
             })

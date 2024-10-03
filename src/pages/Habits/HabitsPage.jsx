@@ -1,18 +1,17 @@
 import React, {useEffect, useState} from 'react';
-import PropTypes from 'prop-types';
 import LoadingIndicator from "../../components/LoadingIndicator";
 import RewardList from "../../components/RewardList";
 import {http} from "../../core/http-common";
 import {useNavigate} from "react-router-dom";
 
-const HabitsPage = props => {
+const HabitsPage = () => {
     const navigate = useNavigate()
     const [habits, setHabits] = useState();
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         setIsLoading(true);
-        http.get("/habits")
+        http.get("/deeds?type=Habit")
             .then(({data}) => {
                 setHabits(data);
             })
@@ -32,7 +31,7 @@ const HabitsPage = props => {
     }
 
     if (isLoading) {
-        return <LoadingIndicator isLoading={isLoading}></LoadingIndicator>;
+        return <LoadingIndicator isLoading={isLoading}/>;
     }
 
     return (
@@ -46,16 +45,12 @@ const HabitsPage = props => {
                 padding: 20
             }}>
                 <button style={{marginBottom: 20}} onClick={add}>Добавить</button>
-                <LoadingIndicator isLoading={isLoading}></LoadingIndicator>
+                <LoadingIndicator isLoading={isLoading}/>
                 <RewardList rewards={habits} onChoose={onChoose}>
                 </RewardList>
             </div>
         </div>
     );
-};
-
-HabitsPage.propTypes = {
-
 };
 
 export default HabitsPage;

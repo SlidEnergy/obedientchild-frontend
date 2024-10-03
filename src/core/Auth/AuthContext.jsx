@@ -59,8 +59,13 @@ export const AuthProvider = ({children}) => {
 
             return response.status === 200; // Токен валиден, если статус 200
         } catch (error) {
+            if(error.code === 403){
+                console.error("Token isn't valid");
+                return false
+            }
+
             console.error('Error validating token:', error);
-            return false; // Токен не валиден или ошибка
+            return undefined;
         }
     }
 
@@ -72,7 +77,7 @@ export const AuthProvider = ({children}) => {
 
             setIsAuthenticated(isValid);
 
-            if (!isValid)
+            if (isValid === false)
                 clearAuth();
 
             return isValid;

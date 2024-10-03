@@ -6,10 +6,10 @@ import NumberEdit from "../../components/NumberEdit";
 
 const AddHabitPage = props => {
     const navigate = useNavigate();
-    const [habit, setHabit] = useState({title: "", imageUrl: "", price: 1});
+    const [habit, setHabit] = useState({title: "", imageUrl: "", price: 1, type: 'Habit'});
 
     function addHabit() {
-        http.put("/habits", habit)
+        http.put("/deeds", habit)
             .then(() => {
                 console.log("success");
                 navigate("/habits");

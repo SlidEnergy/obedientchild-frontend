@@ -16,7 +16,7 @@ const LifeEnergyHistoryItem = props => {
                 flex: 1
             }}>
                 <p style={styles.title}>{props.item.title}</p>
-                <Energy count={props.item.amount} size={22}></Energy>
+                <Energy count={props.item.amount} size={22}/>
             </div>
             <button onClick={revert}>revert</button>
         </div>

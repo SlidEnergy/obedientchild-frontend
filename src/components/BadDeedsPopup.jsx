@@ -19,7 +19,7 @@ const BadDeedsPopup = ({className, isOpened, onChosen, onOpenChanged}) => {
 
     function loadData() {
         setIsLoading(true);
-        http.get("/baddeeds")
+        http.get("/deeds?type=BadDeed")
             .then(({data}) => {
                 setRewards(data);
             })

@@ -20,7 +20,7 @@ const RewardsPopup = ({className, isOpened, onChosen, onOpenChanged}) => {
 
     function loadData() {
         setIsLoading(true);
-        http.get("/rewards")
+        http.get("/deeds?type=Reward")
             .then(({data}) => {
                 setRewards(data);
             })

@@ -1,29 +1,33 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
-const NumberEdit = props => {
+const NumberEdit = ({style, value, onValueChanged}) => {
     return (
-        <div style={props.style}>
+        <div style={style}>
             <div style={{
                 display: "flex",
                 flexDirection: "row",
                 alignItems: "center",
                 width: 100
             }}>
-                <button onClick={() => props.value > 1 && props.onValueChanged(props.value - 1)}>-</button>
-                <p style={{
-                    width: 100,
-                }}>{props.value}</p>
-                <button onClick={() => props.onValueChanged(props.value + 1)}>+</button>
+                <button type='button' className='btn btn-outline-primary' onClick={() => value > 1 && onValueChanged(value - 1)}>-
+                </button>
+                <div className='value-container'>{value}</div>
+                <button type='button' className='btn btn-outline-primary' onClick={() => onValueChanged(value + 1)}>+</button>
             </div>
+            <style jsx>{`
+              .content-container {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                width: 100px;
+              }
+
+              .value-container {
+                width: 100px;
+              }
+            `}</style>
         </div>
     );
-};
-
-NumberEdit.propTypes = {
-    style: PropTypes.any,
-    value: PropTypes.number,
-    onValueChanged: PropTypes.func
 };
 
 export default NumberEdit;

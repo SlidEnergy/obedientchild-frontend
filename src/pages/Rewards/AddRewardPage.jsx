@@ -8,10 +8,10 @@ const AddRewardPage = props => {
     document.title = "Добавить награду";
     const navigate = useNavigate();
 
-    const [reward, setReward] = useState({title: "", imageUrl: "", price: 1});
+    const [reward, setReward] = useState({title: "", imageUrl: "", price: 1, type: 'Reward'});
 
     function addReward() {
-        http.put("/rewards", reward)
+        http.put("/deeds", reward)
             .then(() => {
                 console.log("success");
                 navigate("/rewards");

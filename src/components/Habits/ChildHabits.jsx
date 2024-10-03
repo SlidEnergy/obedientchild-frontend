@@ -44,7 +44,7 @@ const ChildHabits = () => {
         try {
             let habit = await dayHabitsService.setStatus(item, childId, status);
 
-            setHabits(prevHabits =>
+            habit && setHabits(prevHabits =>
                 prevHabits.map(x =>
                     x.habitId === habit.habitId
                         ? habit

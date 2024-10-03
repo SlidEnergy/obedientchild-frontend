@@ -14,6 +14,8 @@ import Rules from "../components/Rules";
 import {useDispatch, useSelector} from "react-redux";
 import childrenService from "../core/Domain/ChildrenService";
 import {updateChild} from "../core/Store/store";
+import {Tab, Tabs} from "react-bootstrap";
+import ChildCharacterTraits from "../components/CharacterTraits/ChildCharacterTraits/ChildCharacterTraits";
 
 const ChildPage = props => {
     document.title = "Ребенок";
@@ -40,7 +42,7 @@ const ChildPage = props => {
         document.title = child.name;
 
         if (child.bigGoalId) {
-            http.get("/rewards/" + child.bigGoalId)
+            http.get("/deeds/" + child.bigGoalId)
                 .then(({data}) => {
                     setBigGoal(data);
                 })
@@ -51,7 +53,7 @@ const ChildPage = props => {
         }
 
         if (child.dreamId) {
-            http.get("/rewards/" + child.dreamId)
+            http.get("/deeds/" + child.dreamId)
                 .then(({data}) => {
                     setDream(data);
                 })
@@ -73,24 +75,13 @@ const ChildPage = props => {
         await childrenService.loadChild(childId);
     }
 
-    function spendCoin(reward) {
-        http.put("/children/" + child.id + "/spend/", reward)
-            .then(({data}) => {
-                dispatch(updateChild({...child, balance: data}));
-                setIsBadDeedPopupOpened(false);
-                setIsRewardsPopupOpened(false);
-            })
-            .catch(err => {
-                console.log(err);
-                alert(err.message);
-            });
-    }
-
-    function earnCoin(reward) {
-        http.put("/children/" + child.id + "/earn/", reward)
+    function invokeDeed(reward) {
+        http.put("/deeds/" + reward.id + "/invoke?childId=" + child.id, reward)
             .then(({data}) => {
                 dispatch(updateChild({...child, balance: data}));
                 setIsGoodDeedPopupOpened(false);
+                setIsBadDeedPopupOpened(false);
+                setIsRewardsPopupOpened(false);
             })
             .catch(err => {
                 console.log(err);
@@ -150,56 +141,55 @@ const ChildPage = props => {
                                         onClick={() => setIsGoodDeedPopupOpened(true)}>
                                     +
                                 </button>
+                                <RewardsPopup onChosen={(reward) => invokeDeed(reward)}
+                                              isOpened={isRewardsPopupOpened}
+                                              onOpenChanged={setIsRewardsPopupOpened}>
+                                </RewardsPopup>
+                                <GoodDeedsPopup onChosen={(reward) => invokeDeed(reward)}
+                                                isOpened={isGoodDeedPopupOpened}
+                                                onOpenChanged={setIsGoodDeedPopupOpened}>
+                                </GoodDeedsPopup>
+                                {/*<button className='btn btn-outline-primary button me-4 mt-4'*/}
+                                {/*        onClick={() => setIsBadDeedPopupOpened(true)}>*/}
+                                {/*    -*/}
+                                {/*</button>*/}
+                                {/*<BadDeedsPopup onChosen={(reward) => spendCoin(reward)}*/}
+                                {/*               isOpened={isBadDeedPopupOpened}*/}
+                                {/*               onOpenChanged={setIsBadDeedPopupOpened}>*/}
+                                {/*</BadDeedsPopup>*/}
                             </div>
                             {/*<button className='btn btn-link' onClick={openCoinHistory} href="#">История монет</button>*/}
                             <ChildStatusList childStatuses={statuses}
                                              deleteChildStatus={deleteChildStatus}
                                              addChildStatus={addChildStatus}/>
                         </div>
-                        <div className='d-flex gap-4'>
-                            {bigGoal && <CardItem item={{...bigGoal, title: "Цель: " + bigGoal.title}}/>}
-                            {!bigGoal && <CardItem isEmpty={true} item={{title: "Выбрать цель"}}
-                                                   onChoose={selectGoal}/>}
-                            {dream && <CardItem item={{...dream, title: "Мечта: " + dream.title}}/>}
-                            {!dream && <CardItem isEmpty={true} item={{title: "Выбрать мечту"}}
-                                                 onChoose={selectDream}/>}
-                        </div>
-                    </div>
-                    <Rules/>
-                    <div style={{
-                        flexDirection: "row",
-                        alignItems: "center",
-                        alignContent: "center",
-                    }}>
-
-                        {/*<button className='btn btn-outline-primary button me-4 mt-4'*/}
-                        {/*        onClick={() => setIsBadDeedPopupOpened(true)}>*/}
-                        {/*    -*/}
-                        {/*</button>*/}
 
                     </div>
-                    <RewardsPopup onChosen={(reward) => spendCoin(reward)}
-                                  isOpened={isRewardsPopupOpened}
-                                  onOpenChanged={setIsRewardsPopupOpened}>
-                    </RewardsPopup>
-                    {/*<BadDeedsPopup onChosen={(reward) => spendCoin(reward)}*/}
-                    {/*               isOpened={isBadDeedPopupOpened}*/}
-                    {/*               onOpenChanged={setIsBadDeedPopupOpened}>*/}
-                    {/*</BadDeedsPopup>*/}
-                    <GoodDeedsPopup onChosen={(reward) => earnCoin(reward)}
-                                    isOpened={isGoodDeedPopupOpened}
-                                    onOpenChanged={setIsGoodDeedPopupOpened}>
-                    </GoodDeedsPopup>
-                    <div style={{
-                        marginTop: 20
-                    }}>
-                        <ChildHabits/>
-                    </div>
-                    <div style={{
-                        marginTop: 20
-                    }}>
-                        <ChildTasks/>
-                    </div>
+                    <Tabs defaultActiveKey="habits" id="habit-tabs" className="mt-4 mb-3">
+                        <Tab eventKey="habits" title="Привычки">
+                            <ChildHabits/>
+                        </Tab>
+                        <Tab eventKey="goals" title="Цели">
+                            <h3>Цели</h3>
+                            <div className='d-flex gap-4'>
+                                {bigGoal && <CardItem item={{...bigGoal, title: "Цель: " + bigGoal.title}}/>}
+                                {!bigGoal && <CardItem isEmpty={true} item={{title: "Выбрать цель"}}
+                                                       onChoose={selectGoal}/>}
+                                {dream && <CardItem item={{...dream, title: "Мечта: " + dream.title}}/>}
+                                {!dream && <CardItem isEmpty={true} item={{title: "Выбрать мечту"}}
+                                                     onChoose={selectDream}/>}
+                            </div>
+                        </Tab>
+                        <Tab eventKey="rules" title="Правила">
+                            <Rules/>
+                        </Tab>
+                        <Tab eventKey="tasks" title="Задачи">
+                            <ChildTasks/>
+                        </Tab>
+                        <Tab eventKey="progress" title="Прогресс">
+                            <ChildCharacterTraits></ChildCharacterTraits>
+                        </Tab>
+                    </Tabs>
                 </div>
             }
             <style jsx>{`

@@ -16,7 +16,7 @@ const EditRewardPage = props => {
         document.title = "Редактирование награды";
         setIsLoading(true);
 
-        http.get("/rewards/" + rewardId)
+        http.get("/deeds/" + rewardId)
             .then(({data}) => {
                 setReward(data);
             })
@@ -30,7 +30,7 @@ const EditRewardPage = props => {
     }, [])
 
     function deleteReward() {
-        http.delete("/rewards/" + rewardId)
+        http.delete("/deeds/" + rewardId)
             .then(() => {
                 console.log("success");
                 navigate("/rewards");
@@ -42,7 +42,7 @@ const EditRewardPage = props => {
     }
 
     function saveReward() {
-        http.post("/rewards/" + rewardId, reward)
+        http.post("/deeds/" + rewardId, reward)
             .then(() => {
                 console.log("success");
                 navigate("/rewards");

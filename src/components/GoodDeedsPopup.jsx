@@ -20,7 +20,7 @@ const GoodDeedsPopup = ({className, isOpened, onChosen, onOpenChanged}) => {
 
     function loadData() {
         setIsLoading(true);
-        http.get("/gooddeeds")
+        http.get("/deeds?type=GoodDeed")
             .then(({data}) => {
                 setRewards(data);
             })

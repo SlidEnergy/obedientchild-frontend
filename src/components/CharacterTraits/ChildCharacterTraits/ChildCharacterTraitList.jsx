@@ -1,15 +1,14 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import ChildTaskItem from "./ChildTaskItem";
+import ChildCharacterTraitItem from "./ChildCharacterTraitItem";
 
-const ChildTaskList = ({childTasks, setChildTaskStatus, removeChildTask}) => {
+const ChildCharacterTraitList = ({traits, onChoose}) => {
     return (
-        <div className='habit-list'>
-            {childTasks.map(item => {
-                return <ChildTaskItem key={item.id} childTask={item} setChildTaskStatus={setChildTaskStatus} removeChildTask={removeChildTask}></ChildTaskItem>;
+        <div className='traits-list'>
+            {traits.map(item => {
+                return <ChildCharacterTraitItem key={item.id} item={item} onChoose={onChoose}/>;
             })}
             <style jsx>{`
-              .habit-list {
+              .traits-list {
                 display: flex;
                 flex-direction: row;
                 flex-wrap: wrap;
@@ -27,6 +26,6 @@ const ChildTaskList = ({childTasks, setChildTaskStatus, removeChildTask}) => {
             `}</style>
         </div>
     );
-};
+}
 
-export default ChildTaskList;
+export default ChildCharacterTraitList;

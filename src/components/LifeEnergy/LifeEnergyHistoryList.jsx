@@ -6,7 +6,7 @@ const LifeEnergyHistoryList = props => {
     return (
         <div>
             {props.items.map(item => {
-                return <LifeEnergyHistoryItem key={item.id} item={item} onRevert={props.onRevert}></LifeEnergyHistoryItem>;
+                return <LifeEnergyHistoryItem key={item.id} item={item} onRevert={props.onRevert}/>;
             })}
         </div>
     );

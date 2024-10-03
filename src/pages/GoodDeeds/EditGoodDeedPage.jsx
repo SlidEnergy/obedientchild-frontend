@@ -13,7 +13,7 @@ const EditGoodDeedPage = props => {
 
     useEffect(() => {
         setIsLoading(true);
-        http.get("/gooddeeds/" + goodDeedId)
+        http.get("/deeds/" + goodDeedId)
             .then(({data}) => {
                 setGoodDeed(data);
             })
@@ -27,7 +27,7 @@ const EditGoodDeedPage = props => {
     }, [])
 
     function saveGoodDeed() {
-        http.post("/gooddeeds/" + goodDeedId, goodDeed)
+        http.post("/deeds/" + goodDeedId, goodDeed)
             .then(() => {
                 console.log("success");
                 navigate("/gooddeeds");
@@ -39,7 +39,7 @@ const EditGoodDeedPage = props => {
     }
 
     function deleteGoodDeed() {
-        http.delete("/gooddeeds/" + goodDeedId)
+        http.delete("/deeds/" + goodDeedId)
             .then(() => {
                 console.log("success");
                 navigate("/gooddeeds");
