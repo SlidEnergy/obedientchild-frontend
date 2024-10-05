@@ -16,6 +16,7 @@ import childrenService from "../core/Domain/ChildrenService";
 import {updateChild} from "../core/Store/store";
 import {Tab, Tabs} from "react-bootstrap";
 import ChildCharacterTraits from "../components/CharacterTraits/ChildCharacterTraits/ChildCharacterTraits";
+import Planner from "../components/Planner";
 
 const ChildPage = props => {
     document.title = "Ребенок";
@@ -33,6 +34,21 @@ const ChildPage = props => {
     const [isGoodDeedPopupOpened, setIsGoodDeedPopupOpened] = useState(false)
     const [isBadDeedPopupOpened, setIsBadDeedPopupOpened] = useState(false)
     const [isRewardsPopupOpened, setIsRewardsPopupOpened] = useState(false)
+
+    const [activeKey, setActiveKey] = useState('habits');
+    const [isRulesLoaded, setIsRulesLoaded] = useState(false);
+    const [isTasksLoaded, setIsTasksLoaded] = useState(false);
+    const [isPlannerLoaded, setIsPlanerLoaded] = useState(false);
+
+    useEffect(() => {
+        if (activeKey === 'rules') {
+            setIsRulesLoaded(true);
+        } else if (activeKey === 'tasks') {
+            setIsTasksLoaded(true);
+        } else if (activeKey === 'planner') {
+            setIsPlanerLoaded(true);
+        }
+    }, [activeKey]);
 
     useEffect(() => {
         if (!child)
@@ -165,29 +181,47 @@ const ChildPage = props => {
                         </div>
 
                     </div>
-                    <Tabs defaultActiveKey="habits" id="habit-tabs" className="mt-4 mb-3">
+                    <Tabs defaultActiveKey="habits"
+                          id="habit-tabs"
+                          activeKey={activeKey}
+                          onSelect={(k) => setActiveKey(k)}
+                          className="mt-4 mb-3">
                         <Tab eventKey="habits" title="Привычки">
                             <ChildHabits/>
                         </Tab>
                         <Tab eventKey="goals" title="Цели">
-                            <h3>Цели</h3>
-                            <div className='d-flex gap-4'>
-                                {bigGoal && <CardItem item={{...bigGoal, title: "Цель: " + bigGoal.title}}/>}
-                                {!bigGoal && <CardItem isEmpty={true} item={{title: "Выбрать цель"}}
-                                                       onChoose={selectGoal}/>}
-                                {dream && <CardItem item={{...dream, title: "Мечта: " + dream.title}}/>}
-                                {!dream && <CardItem isEmpty={true} item={{title: "Выбрать мечту"}}
-                                                     onChoose={selectDream}/>}
+                            <div>
+                                <h3>Цели</h3>
+                                <div className='d-flex gap-4'>
+                                    {bigGoal && <CardItem item={{...bigGoal, title: "Цель: " + bigGoal.title}}/>}
+                                    {!bigGoal && <CardItem isEmpty={true} item={{title: "Выбрать цель"}}
+                                                           onChoose={selectGoal}/>}
+                                    {dream && <CardItem item={{...dream, title: "Мечта: " + dream.title}}/>}
+                                    {!dream && <CardItem isEmpty={true} item={{title: "Выбрать мечту"}}
+                                                         onChoose={selectDream}/>}
+                                </div>
                             </div>
                         </Tab>
+                        <Tab eventKey="planner" title="Планирование">
+
+                            {isPlannerLoaded &&
+                                <Planner />
+                            }
+                        </Tab>
                         <Tab eventKey="rules" title="Правила">
-                            <Rules/>
+                            {isRulesLoaded &&
+                                <Rules/>
+                            }
                         </Tab>
                         <Tab eventKey="tasks" title="Задачи">
-                            <ChildTasks/>
+                            {isTasksLoaded &&
+                                <ChildTasks/>
+                            }
                         </Tab>
-                        <Tab eventKey="progress" title="Прогресс">
-                            <ChildCharacterTraits></ChildCharacterTraits>
+                        <Tab eventKey="character-traits" title="Черты характера">
+                            {activeKey === 'character-traits' &&
+                                <ChildCharacterTraits></ChildCharacterTraits>
+                            }
                         </Tab>
                     </Tabs>
                 </div>

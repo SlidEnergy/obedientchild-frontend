@@ -13,11 +13,13 @@ module.exports = override(
     (config, env) => {
         config.resolve.fallback = {
             buffer: require.resolve('buffer/'),
-            timers: require.resolve("timers-browserify")
+            timers: require.resolve("timers-browserify"),
+            url: require.resolve("url/")
         };
 
         config.plugins.push(
             new webpack.ProvidePlugin({
+                process: 'process/browser', // добавление полифилла для process
                 Buffer: ['buffer', 'Buffer'],
             })
         );

@@ -6,6 +6,7 @@ import LifeEnergy from "../components/LifeEnergy/LifeEnery";
 import TaskViewer from "../components/TaskViewer";
 import childrenService from "../core/Domain/ChildrenService";
 import {useSelector} from "react-redux";
+import CalendarView from "../components/CalendarView";
 
 const HomePage = () => {
     document.title = "Home";
@@ -47,6 +48,7 @@ const HomePage = () => {
                     css="border-width:0" width="100%" height="900px" frameBorder="0" scrolling="no"/>
                 <div className="c2"></div>
             </div>
+            <CalendarView/>
             <div className="button-list">
                 <button className="btn btn-outline-primary button" onClick={() => navigate("/GoodDeeds")}>Хорошие дела
                 </button>

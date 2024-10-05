@@ -8,7 +8,7 @@ const SettingsPage = () => {
     const [lifeEnergyAccount, setLifeEnergyAccount] = useState();
 
     useEffect(() => {
-        loadAccount()
+        loadAccount().then();
     }, []);
 
     async function loadAccount() {
@@ -37,12 +37,34 @@ const SettingsPage = () => {
         }
     }
 
+    async function openAuthUrl() {
+        let url = "https://edemvgelen.ru:4001/api/v1/auth/google";
+        window.open(url, '_blank');
+    }
+
     return (
         <div>
             <h2>Модуль Жизненная энергия</h2>
-            <LoadingIndicator isLoading={isLoading}></LoadingIndicator>
-            {!isLoading &&
-                <button onClick={enableLifeEnergy} disabled={lifeEnergyAccount != undefined}>Активировать</button>}
+            <LoadingIndicator isLoading={isLoading}/>
+            <div className='settings-content'>
+                {!isLoading &&
+                    <button className='button btn btn-outline-primary' onClick={enableLifeEnergy}
+                            disabled={lifeEnergyAccount !== undefined}>Активировать</button>}
+                <button className='button btn btn-outline-primary' onClick={openAuthUrl}>Авторизоваться в google
+                </button>
+            </div>
+            <style jsx>{`
+              .settings-content {
+                display: flex;
+                flex-direction: column;
+                gap: 1.5rem;
+                align-items: center;
+              }
+
+              .button {
+                width: 300px;
+              }
+            `}</style>
         </div>
     );
 };

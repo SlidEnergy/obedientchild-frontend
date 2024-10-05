@@ -1,29 +1,58 @@
 import React, {useEffect, useState} from 'react';
-import PropTypes from 'prop-types';
-import HabitItem from "./HabitItem";
+import classnames from "classnames";
 
-const HabitsPeriodLineItem = props => {
-    function chooseItem(){
-        props.chooseItem && props.chooseItem(props.date);
+const HabitsPeriodLineItem = ({isSelected, date, text, chooseItem, dayStatistic}) => {
+    let [percent, setPercent] = useState(0);
+
+    function click() {
+        chooseItem && chooseItem(date);
     }
 
+    useEffect(() => {
+        if (dayStatistic)
+            setPercent((dayStatistic.dayPercent * 100).toFixed(0))
+        //setProgress(dayStatistic.dayPercent * 100);
+    }, [dayStatistic]);
+
     return (
-        <div onClick={chooseItem}>
-            <div style={{...styles.container, ...{...props.isSelected ? {border: "solid 2px red" } : {}}}}>{props.date.getDate()}</div>
-            <div>{props.text}</div>
-            {props.dayStatistic && <div>
-                {`${(props.dayStatistic.dayPercent * 100).toFixed(0)}%`}
-            </div>}
+        <div onClick={click}>
+            <div className={classnames("circular-progress", isSelected ? 'selected' : '')}>
+                <div className="circular-progress__inner">
+                    <div className="circular-progress__text">{date.getDate()}</div>
+                </div>
+            </div>
+
+            <div>{text}</div>
+            <style jsx>{`
+              .circular-progress {
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                background: conic-gradient(#00aaff 0% ${percent}%, lightgray ${percent}% 100%);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                position: relative;
+                gap: 5px;
+              }
+              
+              .circular-progress.selected {
+                  transform: scale(1.1);
+                  box-shadow: 0 0 10px rgba(0, 170, 255, 0.6); /* Подсветка активного элемента */
+                }
+
+              .circular-progress__inner {
+                width: 36px;
+                height: 36px;
+                background-color: white;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              }
+            `}</style>
         </div>
     );
-};
-
-HabitsPeriodLineItem.propTypes = {
-    isSelected: PropTypes.bool,
-    date: PropTypes.any,
-    text: PropTypes.string,
-    chooseItem: PropTypes.func,
-    dayStatistic: PropTypes.any
 };
 
 const styles = {

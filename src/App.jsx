@@ -25,6 +25,7 @@ import LifeEnergyHistoryPage from "./pages/LifeEnergyHistoryPage";
 import {useEffect, useState} from "react";
 import {AuthProvider, useAuth} from "./core/Auth/AuthContext";
 import AuthGuard from "./core/Auth/AuthGuard";
+import GoogleCalendarWebhookPage from "./pages/GoogleCalendarWebhookPage";
 
 function App() {
     const {refreshIsAuthenticated} = useAuth();
@@ -46,6 +47,7 @@ function App() {
             </header>
             <Routes>
                 <Route path="/login" element={<LoginPage/>}/>
+                <Route path="/googlecalendarwebhook" element={GoogleCalendarWebhookPage}/>
                 <Route element={<AuthGuard/>}>
                     <Route path="/" element={<HomePage/>}>
                         <Route path="/children/:childId">

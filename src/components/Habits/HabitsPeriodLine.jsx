@@ -7,11 +7,18 @@ import {toApiDateString} from "../../utils/DateUtils";
 
 const week = ['пн', 'вт', 'ср', 'чт', 'пт', 'сб', 'вс'];
 
-const HabitsPeriodLine = props => {
+const HabitsPeriodLine = ({selectedDay, chooseItem, childId, parentRef}) => {
     let [period, setPeriod] = useState(getPeriod(getToday()));
     let [statistics, setStatistics] = useState();
 
-    useImperativeHandle(props.parentRef, () => ({
+    let [percent, setPercent] = useState(0);
+
+    useEffect(() => {
+        if (statistics)
+            setPercent((statistics.weekPercent * 100).toFixed(0))
+    }, [statistics]);
+
+    useImperativeHandle(parentRef, () => ({
         loadStatistics
     }), [/* dependencies (if any) */])
 
@@ -20,7 +27,7 @@ const HabitsPeriodLine = props => {
     }, [period]);
 
     function loadStatistics() {
-        http.get(`/habits/statistics?childId=${props.childId}&startDay=${toApiDateString(period.startDate)}&endDay=${toApiDateString(period.endDate)}`)
+        http.get(`/habits/statistics?childId=${childId}&startDay=${toApiDateString(period.startDate)}&endDay=${toApiDateString(period.endDate)}`)
             .then(({data}) => {
                 setStatistics(data);
             })
@@ -32,7 +39,7 @@ const HabitsPeriodLine = props => {
     }
 
     function getPeriod(date) {
-        if(!props.selectedDay)
+        if (!selectedDay)
             return;
 
         const today = new Date(date);
@@ -69,12 +76,12 @@ const HabitsPeriodLine = props => {
         return result;
     }
 
-    function chooseItem(date) {
+    function periodLine_onChooseItem(date) {
         let newPeriod = getPeriod(date);
 
         setPeriod(newPeriod);
 
-        props.chooseItem && props.chooseItem(date);
+        chooseItem && chooseItem(date);
     }
 
     function prevWeek() {
@@ -91,32 +98,64 @@ const HabitsPeriodLine = props => {
 
     return (
         <div style={styles.container}>
-            <div style={styles.arrow} onClick={prevWeek}>&lt;</div>
-            {statistics && <div style={styles.weekStatistic}>
-                {`${(statistics.weekPercent * 100).toFixed(0)}%`}
-            </div>}
-            <div style={styles.arrow} onClick={nextWeek}>&gt;</div>
+            <div className='week-statistic'>
+                <div style={styles.arrow} onClick={prevWeek}>&lt;</div>
+                {statistics &&
+                    <div className="circular-progress">
+                        <div className="circular-progress__inner">
+                            <div className="circular-progress__text">{percent}</div>
+                        </div>
+                    </div>}
 
-            <div style={styles.periodLine}>
-            {period && period.list.map((item, index) => {
-                return <HabitsPeriodLineItem key={item.date} date={item.date} text={item.text}
-                                             isSelected={props.selectedDay.getDate() == item.date.getDate()}
-                                             chooseItem={chooseItem}
-                dayStatistic={statistics?.dayStatistics[index]}>
-                </HabitsPeriodLineItem>;
-            })}
+                <div style={styles.arrow} onClick={nextWeek}>&gt;</div>
             </div>
+            <div className='period-line'>
+                {period && period.list.map((item, index) => {
+                    return <HabitsPeriodLineItem key={item.date} date={item.date} text={item.text}
+                                                 isSelected={selectedDay.getDate() == item.date.getDate()}
+                                                 chooseItem={periodLine_onChooseItem}
+                                                 dayStatistic={statistics?.dayStatistics[index]}>
+                    </HabitsPeriodLineItem>;
+                })}
+            </div>
+            <style jsx>{`
+              .week-statistic {
+                display: flex;
+                flex-direction: row;
+                gap: 0.7rem;
+              }
 
+              .period-line {
+                display: flex;
+                flex-direction: row;
+                gap: 5px;
+              }
+
+              .circular-progress {
+                width: 80px;
+                height: 80px;
+                border-radius: 50%;
+                background: conic-gradient(#00aaff 0% ${percent}%, #c0c0c0 ${percent}% 100%);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                position: relative;
+                gap: 5px;
+              }
+
+              .circular-progress__inner {
+                width: 74px;
+                height: 74px;
+                background-color: white;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              }
+            `}</style>
 
         </div>
     );
-};
-
-HabitsPeriodLine.propTypes = {
-    selectedDay: PropTypes.any,
-    chooseItem: PropTypes.func,
-    childId: PropTypes.string,
-    parentRef: PropTypes.any
 };
 
 const styles = {
@@ -124,18 +163,14 @@ const styles = {
         display: 'flex',
         flexDirection: 'row',
         flexWrap: "wrap",
-        justifyContent: "center"
+        justifyContent: "center",
+        gap: "1.5rem",
+        alignItems: "center"
     },
-    periodLine: {
-        display: 'flex',
-        flexDirection: 'row',
-        flexWrap: "wrap"
-    },
+
     arrow: {
         cursor: "pointer",
         display: 'flex',
-        margin: "15px 10px 15px 10px",
-        padding: "15px 10px 15px 10px",
         alignItems: "center"
     },
     weekStatistic: {

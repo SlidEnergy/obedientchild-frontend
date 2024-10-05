@@ -33,7 +33,7 @@ const ChildTaskItem = ({childTask,setChildTaskStatus,removeChildTask, className 
         <div className={classnames(className, 'habit-item')}>
             <img className='habit-image' src={childTask.deed.imageUrl} alt='task'/>
             <div className='habit-content'>
-                <p>{childTask.deed.title}</p>
+                <p className='item-title'>{childTask.deed.title}</p>
                 <Coins count={childTask.deed.price} size={22}/>
 
                 {/*{habit.status == "None" && <img className='image-button' src={'/done.jpg'} onClick={doneHabit}/>}*/}

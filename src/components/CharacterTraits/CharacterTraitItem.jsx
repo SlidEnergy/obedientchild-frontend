@@ -12,7 +12,7 @@ const CharacterTraitItem = ({item, selected, onSelectedChanged, className, style
 
     return (
         <div style={style} onClick={click}
-             className={classnames(className, 'card-item', isSelected ? 'selected-item' : '')}>
+             className={classnames(className, 'card-item', isSelected ? 'selected' : '')}>
             {<img src={item.imageUrl} alt='trait'/>}
             <div className='item-description'>
                 <p className='title'>{item.title}</p>
@@ -30,8 +30,10 @@ const CharacterTraitItem = ({item, selected, onSelectedChanged, className, style
                 cursor: pointer;
               }
 
-              .selected-item {
-                border: 2px solid red;
+              .card-item.selected {
+                border: 2px solid #28a745; /* Более толстая зеленая рамка для выделенной карточки */
+                box-shadow: 0 0 15px rgba(40, 167, 69, 0.5); /* Зеленая тень для акцента */
+                background-color: rgba(40, 167, 69, 0.05); /* Светло-зеленый оттенок фона */
               }
 
               .title {
@@ -44,8 +46,8 @@ const CharacterTraitItem = ({item, selected, onSelectedChanged, className, style
               }
 
               img {
-                width: 105px;
-                height: 105px;
+                width: 100px;
+                height: 100px;
                 margin-right: 20px;
                 border-radius: 10px;
               }
