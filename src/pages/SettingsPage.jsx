@@ -77,7 +77,7 @@ const SettingsPage = () => {
                     <button className='button btn btn-outline-primary' onClick={enableLifeEnergy}
                             disabled={lifeEnergyAccount !== undefined}>Активировать</button>}
                 <button className='button btn btn-outline-primary' onClick={openAuthUrl}
-                        disabled={googleAccessKey !== undefined}>Авторизоваться в google
+                        disabled={googleAccessToken !== undefined}>Авторизоваться в google
                 </button>
             </div>
             <style jsx>{`
