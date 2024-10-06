@@ -1,4 +1,4 @@
-import {http} from "../core/http-common";
+import {api} from "../core/api";
 import LoadingIndicator from "./LoadingIndicator";
 import {useEffect, useState} from "react";
 import {useParams} from "react-router-dom";
@@ -11,7 +11,7 @@ const Rules = () => {
 
     useEffect(() => {
         setIsLoading(true);
-        http.get("/deeds?type=BadDeed")
+        api.get("/deeds?type=BadDeed")
             .then(({data}) => {
                 setBadDeeds(data);
             })
@@ -23,7 +23,7 @@ const Rules = () => {
     }, []);
 
     function invokeDeed(reward) {
-        http.put("/deeds/" + reward.id + "/invoke?childId=" + childId, reward)
+        api.put("/deeds/" + reward.id + "/invoke?childId=" + childId, reward)
             .then(({data}) => {
             })
             .catch(err => {

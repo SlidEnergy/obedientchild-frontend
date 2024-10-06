@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import ChildList from "../../components/ChildList";
-import {http} from "../../core/http-common";
+import {api} from "../../core/api";
 import RewardList from "../../components/RewardList";
 import LoadingIndicator from "../../components/LoadingIndicator";
 import {useNavigate} from "react-router-dom";
@@ -14,7 +14,7 @@ const RewardsPage = () => {
 
     useEffect(() => {
         setIsLoading(true);
-        http.get("/deeds?type=Reward")
+        api.get("/deeds?type=Reward")
             .then(({data}) => {
                 setRewards(data);
             })

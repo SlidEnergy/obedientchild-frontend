@@ -1,5 +1,5 @@
 import {useNavigate, useParams} from "react-router-dom";
-import {http} from "../core/http-common";
+import {api} from "../core/api";
 import LoadingIndicator from "../components/LoadingIndicator";
 import RewardList from "../components/RewardList";
 import {useEffect, useState} from "react";
@@ -14,7 +14,7 @@ const SelectHabitPage = () => {
 
     useEffect(() => {
         setIsLoading(true);
-        http.get("/deeds?type=Habit")
+        api.get("/deeds?type=Habit")
             .then(({data}) => {
                 setHabits(data);
             })
@@ -26,7 +26,7 @@ const SelectHabitPage = () => {
     }, []);
 
     function onChoose(item) {
-        http.post(`/habits/${item.id}/child/${childId}`, undefined)
+        api.post(`/habits/${item.id}/child/${childId}`, undefined)
             .then(({data}) => {
                 console.log("success");
                 navigate("/children/" + childId);

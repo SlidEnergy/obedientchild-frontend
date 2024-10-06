@@ -1,6 +1,6 @@
 import {useEffect, useState} from 'react';
 import Coins from "../../components/Coins";
-import {http} from "../../core/http-common";
+import {api} from "../../core/api";
 import {useNavigate, useParams} from "react-router-dom";
 import ChooseImage from "../../components/ChooseImage";
 
@@ -13,7 +13,7 @@ const EditGoodDeedPage = props => {
 
     useEffect(() => {
         setIsLoading(true);
-        http.get("/deeds/" + goodDeedId)
+        api.get("/deeds/" + goodDeedId)
             .then(({data}) => {
                 setGoodDeed(data);
             })
@@ -27,7 +27,7 @@ const EditGoodDeedPage = props => {
     }, [])
 
     function saveGoodDeed() {
-        http.post("/deeds/" + goodDeedId, goodDeed)
+        api.post("/deeds/" + goodDeedId, goodDeed)
             .then(() => {
                 console.log("success");
                 navigate("/gooddeeds");
@@ -39,7 +39,7 @@ const EditGoodDeedPage = props => {
     }
 
     function deleteGoodDeed() {
-        http.delete("/deeds/" + goodDeedId)
+        api.delete("/deeds/" + goodDeedId)
             .then(() => {
                 console.log("success");
                 navigate("/gooddeeds");

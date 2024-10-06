@@ -2,7 +2,7 @@ import React, {useEffect, useImperativeHandle, useState} from 'react';
 import PropTypes from 'prop-types';
 import HabitItem from "./HabitItem";
 import HabitsPeriodLineItem from "./HabitsPeriodLineItem";
-import {http} from "../../core/http-common";
+import {api} from "../../core/api";
 import {toApiDateString} from "../../utils/DateUtils";
 
 const week = ['пн', 'вт', 'ср', 'чт', 'пт', 'сб', 'вс'];
@@ -27,7 +27,7 @@ const HabitsPeriodLine = ({selectedDay, chooseItem, childId, parentRef}) => {
     }, [period]);
 
     function loadStatistics() {
-        http.get(`/habits/statistics?childId=${childId}&startDay=${toApiDateString(period.startDate)}&endDay=${toApiDateString(period.endDate)}`)
+        api.get(`/habits/statistics?childId=${childId}&startDay=${toApiDateString(period.startDate)}&endDay=${toApiDateString(period.endDate)}`)
             .then(({data}) => {
                 setStatistics(data);
             })

@@ -1,7 +1,7 @@
 import React from 'react';
 import ChildItem from "./ChildItem";
 import PropTypes from "prop-types";
-import {http} from "../core/http-common";
+import {api} from "../core/api";
 import {useParams} from "react-router-dom";
 
 const ChildStatusList = ({childStatuses, deleteChildStatus, addChildStatus}) => {

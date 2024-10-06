@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import LoadingIndicator from "../components/LoadingIndicator";
 import {useNavigate, useParams} from "react-router-dom";
 import RewardList from "../components/RewardList";
-import {http} from "../core/http-common";
+import {api} from "../core/api";
 
 const SelectDreamPage = () => {
     document.title = "Выбор мечты";
@@ -14,7 +14,7 @@ const SelectDreamPage = () => {
 
     useEffect(() => {
         setIsLoading(true);
-        http.get("/deeds?type=Reward")
+        api.get("/deeds?type=Reward")
             .then(({data}) => {
                 setRewards(data);
             })
@@ -26,7 +26,7 @@ const SelectDreamPage = () => {
     }, []);
 
     function onChoose(item) {
-        http.post(`/children/${childId}/setdream`, item.id)
+        api.post(`/children/${childId}/setdream`, item.id)
             .then(({data}) => {
                 console.log("success");
                 navigate("/children/" + childId);

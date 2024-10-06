@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {http} from '../core/http-common';
+import {api} from '../core/api';
 import xml2js from 'xml2js';
 
 const TaskViewer = () => {
@@ -13,7 +13,7 @@ const TaskViewer = () => {
 
     async function loadTasks() {
         try {
-            let response = await http.get('/tasks',
+            let response = await api.get('/tasks',
                 {
                     headers: {
                         'Accept': 'application/xml, text/xml, */*',

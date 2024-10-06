@@ -31,7 +31,7 @@ class GoogleCalendar {
 
     getColors = async () => {
         try {
-            const response = await axios.get(`https://www.googleapis.com/calendar/v3/colors?key=${this.API_KEY}`);
+            const response = await axios.get(`https://www.googleapis.com/calendar/v3/colors?key=${API_KEY}`);
             return response.data.items;
         } catch (error) {
             console.error('Ошибка при получении событий:', error);

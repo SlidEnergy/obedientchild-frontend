@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import LoadingIndicator from "../components/LoadingIndicator";
 import {useNavigate, useParams} from "react-router-dom";
 import RewardList from "../components/RewardList";
-import {http} from "../core/http-common";
+import {api} from "../core/api";
 import {toApiDateString} from "../utils/DateUtils";
 
 const SelectGoodDeedPage = () => {
@@ -15,7 +15,7 @@ const SelectGoodDeedPage = () => {
 
     useEffect(() => {
         setIsLoading(true);
-        http.get("/deeds?type=GoodDeed")
+        api.get("/deeds?type=GoodDeed")
             .then(({data}) => {
                 setGoodDeeds(data);
             })
@@ -27,7 +27,7 @@ const SelectGoodDeedPage = () => {
     }, []);
 
     function onChoose(item) {
-        http.put(`/childtasks/`, { childId, date: toApiDateString(new Date()), deedId: item.id})
+        api.put(`/childtasks/`, { childId, date: toApiDateString(new Date()), deedId: item.id})
             .then(({data}) => {
                 console.log("success");
                 navigate("/children/" + childId);

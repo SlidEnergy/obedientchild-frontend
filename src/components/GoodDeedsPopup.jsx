@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import LoadingIndicator from "./LoadingIndicator";
 import RewardList from "./RewardList";
 import 'reactjs-popup/dist/index.css';
-import {http} from "../core/http-common";
+import {api} from "../core/api";
 
 const GoodDeedsPopup = ({className, isOpened, onChosen, onOpenChanged}) => {
     const [isLoading, setIsLoading] = useState(true);
@@ -20,7 +20,7 @@ const GoodDeedsPopup = ({className, isOpened, onChosen, onOpenChanged}) => {
 
     function loadData() {
         setIsLoading(true);
-        http.get("/deeds?type=GoodDeed")
+        api.get("/deeds?type=GoodDeed")
             .then(({data}) => {
                 setRewards(data);
             })

@@ -1,5 +1,5 @@
 import React, {createContext, useContext, useEffect, useState} from 'react';
-import {http} from "../http-common";
+import {api} from "../api";
 import {getAuthToken, removeAuthToken, setAuthToken} from "./AuthUtils";
 import {useParams} from "react-router-dom";
 
@@ -20,7 +20,7 @@ export const AuthProvider = ({children}) => {
 
     const login = async (email, password) => {
         try {
-            const response = await http.post('/token', {
+            const response = await api.post('/token', {
                 email,
                 password,
             });
@@ -51,7 +51,7 @@ export const AuthProvider = ({children}) => {
 
     const validateToken = async (token) => {
         try {
-            const response = await http.get('/token/validate', {
+            const response = await api.get('/token/validate', {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }

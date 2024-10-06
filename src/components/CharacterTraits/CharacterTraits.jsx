@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {http} from "../../core/http-common";
+import {api} from "../../core/api";
 import CharacterTraitList from "./CharacterTraitList";
 import LoadingIndicator from "../LoadingIndicator";
 
@@ -13,7 +13,7 @@ const CharacterTraits = ({selectedIds, onSelectedIdsChanged}) => {
 
     function loadCharacterTraits() {
         setIsLoading(true);
-        http.get(`/charactertraits`)
+        api.get(`/charactertraits`)
             .then(({data}) => {
                 setCharacterTraits(data);
             })

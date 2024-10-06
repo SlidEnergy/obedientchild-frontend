@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import LoadingIndicator from "./LoadingIndicator";
 import RewardList from "./RewardList";
 import 'reactjs-popup/dist/index.css';
-import {http} from "../core/http-common";
+import {api} from "../core/api";
 
 const BadDeedsPopup = ({className, isOpened, onChosen, onOpenChanged}) => {
     const [isLoading, setIsLoading] = useState(true);
@@ -19,7 +19,7 @@ const BadDeedsPopup = ({className, isOpened, onChosen, onOpenChanged}) => {
 
     function loadData() {
         setIsLoading(true);
-        http.get("/deeds?type=BadDeed")
+        api.get("/deeds?type=BadDeed")
             .then(({data}) => {
                 setRewards(data);
             })

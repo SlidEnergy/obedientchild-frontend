@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import LoadingIndicator from "../../components/LoadingIndicator";
 import RewardList from "../../components/RewardList";
-import {http} from "../../core/http-common";
+import {api} from "../../core/api";
 import {useNavigate} from "react-router-dom";
 
 const HabitsPage = () => {
@@ -11,7 +11,7 @@ const HabitsPage = () => {
 
     useEffect(() => {
         setIsLoading(true);
-        http.get("/deeds?type=Habit")
+        api.get("/deeds?type=Habit")
             .then(({data}) => {
                 setHabits(data);
             })

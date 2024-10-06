@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {http} from "../../core/http-common";
+import {api} from "../../core/api";
 import LoadingIndicator from "../LoadingIndicator";
 import LifeEnergyPopup from "./LifeEnergyPopup";
 import Battery from "./Battery";
@@ -20,7 +20,7 @@ const LifeEnergy = ({style}) => {
         setIsLoading(true);
 
         try {
-            let {data} = await http.get("lifeenergy");
+            let {data} = await api.get("lifeenergy");
 
             setLifeEnergyBalance(data.balance);
         } finally {
@@ -42,7 +42,7 @@ const LifeEnergy = ({style}) => {
         setIsLoading(true);
 
         try {
-            await http.post("lifeenergy/powerup", model);
+            await api.post("lifeenergy/powerup", model);
 
             setLifeEnergyBalance(lifeEnergyBalance + 1);
         } finally {
@@ -54,7 +54,7 @@ const LifeEnergy = ({style}) => {
         setIsLoading(true);
 
         try {
-            await http.post("lifeenergy/powerdown", model);
+            await api.post("lifeenergy/powerdown", model);
 
             setLifeEnergyBalance(lifeEnergyBalance - 1);
         } finally {

@@ -1,4 +1,4 @@
-import {http} from "../http-common";
+import {api} from "../api";
 import {toApiDateString} from "../../utils/DateUtils";
 import {getDbInstance} from "../DbContext";
 
@@ -10,7 +10,7 @@ class DayHabitsService {
         const dayHabits = await db.getAll(DAY_HABITS_STORE_NAME);
         for (const habit of dayHabits) {
             try {
-                await http.post(`/habits/${habit.habitId}/status?childId=${habit.childId}&day=${toApiDateString(habit.day)}&status=${habit.status}`);
+                await api.post(`/habits/${habit.habitId}/status?childId=${habit.childId}&day=${toApiDateString(habit.day)}&status=${habit.status}`);
 
                 await db.delete(DAY_HABITS_STORE_NAME, habit.id);
             } catch (err) {
@@ -25,7 +25,7 @@ class DayHabitsService {
 
             let key = await db.put(DAY_HABITS_STORE_NAME, dayHabit);
 
-            await http.post(`/habits/${dayHabit.habitId}/status?childId=${childId}&day=${toApiDateString(dayHabit.day)}&status=${status}`);
+            await api.post(`/habits/${dayHabit.habitId}/status?childId=${childId}&day=${toApiDateString(dayHabit.day)}&status=${status}`);
 
             await db.delete(DAY_HABITS_STORE_NAME, key);
 

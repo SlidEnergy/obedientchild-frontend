@@ -5,7 +5,6 @@ import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import GoogleCalendar from "../core/Domain/GoogleCalendar";
 
-
 const CalendarView = () => {
     const [events, setEvents] = useState([]);
     let colors = ['rgb(158, 105, 175)', 'rgb(230, 124, 115)', 'rgb(244, 81, 30)'];

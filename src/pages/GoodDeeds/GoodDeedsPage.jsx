@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
 import LoadingIndicator from "../../components/LoadingIndicator";
 import RewardList from "../../components/RewardList";
-import {http} from "../../core/http-common";
+import {api} from "../../core/api";
 import {useNavigate} from "react-router-dom";
 
 const GoodDeedsPage = props => {
@@ -12,7 +12,7 @@ const GoodDeedsPage = props => {
 
     useEffect(() => {
         setIsLoading(true);
-        http.get("/deeds?type=GoodDeed")
+        api.get("/deeds?type=GoodDeed")
             .then(({data}) => {
                 setGoodDeeds(data);
             })

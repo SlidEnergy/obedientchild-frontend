@@ -1,7 +1,6 @@
 import axios from "axios";
-import {getAuthToken} from "./Auth/AuthUtils";
 
-export const http = axios.create({
+export const googleApi = axios.create({
     baseURL: `${process.env.REACT_APP_BASE_API_URL}/api/v1`,
     headers : {
         'content-type': 'application/json'
@@ -9,10 +8,10 @@ export const http = axios.create({
 })
 
 // Добавляем интерсептор для автоматического добавления токена к каждому запросу
-http.interceptors.request.use(
+googleApi.interceptors.request.use(
     (config) => {
         // Получаем токен из localStorage
-        const token = getAuthToken();
+        const token = localStorage.getItem('googleAccessToken');
 
         // Если токен существует, добавляем его в заголовки
         if (token) {
@@ -49,7 +48,7 @@ const convertDates = (obj) => {
 };
 
 // Интерсептор для преобразования дат
-http.interceptors.response.use((response) => {
+googleApi.interceptors.response.use((response) => {
     response.data = convertDates(response.data);
     return response;
 }, (error) => {

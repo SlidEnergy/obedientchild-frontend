@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {useParams} from "react-router-dom";
-import {http} from "../core/http-common";
+import {api} from "../core/api";
 import LoadingIndicator from "../components/LoadingIndicator";
 import CoinHistoryList from "../components/CoinHistory/CoinHistoryList";
 import classNames from "classnames";
@@ -13,7 +13,7 @@ const CoinHistoryPage = (className) => {
 
     useEffect(() => {
         setIsLoading(true);
-        http.get("/coinhistory?type=CoinBalance&childId=" + childId)
+        api.get("/coinhistory?type=CoinBalance&childId=" + childId)
             .then(({data}) => {
                 setCoinHistory(data.reverse());
             })
@@ -25,7 +25,7 @@ const CoinHistoryPage = (className) => {
     }, []);
 
     function onRevert(item) {
-        http.delete("/coinhistory/" + item.id)
+        api.delete("/coinhistory/" + item.id)
             .then(() => {
                 console.log("success");
             })

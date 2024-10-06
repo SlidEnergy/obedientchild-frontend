@@ -1,6 +1,6 @@
 import {useEffect, useState} from 'react';
 import Coins from "../../components/Coins";
-import {http} from "../../core/http-common";
+import {api} from "../../core/api";
 import {useNavigate, useParams} from "react-router-dom";
 import LoadingIndicator from "../../components/LoadingIndicator";
 import ChooseImage from "../../components/ChooseImage";
@@ -16,7 +16,7 @@ const EditRewardPage = props => {
         document.title = "Редактирование награды";
         setIsLoading(true);
 
-        http.get("/deeds/" + rewardId)
+        api.get("/deeds/" + rewardId)
             .then(({data}) => {
                 setReward(data);
             })
@@ -30,7 +30,7 @@ const EditRewardPage = props => {
     }, [])
 
     function deleteReward() {
-        http.delete("/deeds/" + rewardId)
+        api.delete("/deeds/" + rewardId)
             .then(() => {
                 console.log("success");
                 navigate("/rewards");
@@ -42,7 +42,7 @@ const EditRewardPage = props => {
     }
 
     function saveReward() {
-        http.post("/deeds/" + rewardId, reward)
+        api.post("/deeds/" + rewardId, reward)
             .then(() => {
                 console.log("success");
                 navigate("/rewards");

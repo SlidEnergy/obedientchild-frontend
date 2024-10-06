@@ -1,5 +1,5 @@
 import {useNavigate, useParams} from "react-router-dom";
-import {http} from "../core/http-common";
+import {api} from "../core/api";
 import LoadingIndicator from "../components/LoadingIndicator";
 import RewardList from "../components/RewardList";
 import {useEffect, useState} from "react";
@@ -14,7 +14,7 @@ const SelectGoalPage = props => {
 
     useEffect(() => {
         setIsLoading(true);
-        http.get("/deeds?type=Reward")
+        api.get("/deeds?type=Reward")
             .then(({data}) => {
                 setRewards(data);
             })
@@ -26,7 +26,7 @@ const SelectGoalPage = props => {
     }, []);
 
     function onChoose(item) {
-        http.post(`/children/${childId}/setgoal`, item.id)
+        api.post(`/children/${childId}/setgoal`, item.id)
             .then(({data}) => {
                 console.log("success");
                 navigate("/children/" + childId);

@@ -1,6 +1,6 @@
 import React, {useEffect, useState, useRef} from 'react';
 import HabitList from "./HabitList";
-import {http} from "../../core/http-common";
+import {api} from "../../core/api";
 import {useNavigate, useParams} from "react-router-dom";
 import LoadingIndicator from "../LoadingIndicator";
 import HabitsPeriodLine from "./HabitsPeriodLine";
@@ -25,7 +25,7 @@ const ChildHabits = () => {
 
     function loadHabits() {
         setIsLoading(true);
-        http.get(`/habits/day?childId=${childId}&day=${toApiDateString(selectedDay)}`)
+        api.get(`/habits/day?childId=${childId}&day=${toApiDateString(selectedDay)}`)
             .then(({data}) => {
                 setHabits(data);
             })
@@ -60,7 +60,7 @@ const ChildHabits = () => {
     }
 
     function unsetHabit(item) {
-        http.delete(`/habits/${item.habitId}/child/${childId}?day=${toApiDateString(selectedDay)}`)
+        api.delete(`/habits/${item.habitId}/child/${childId}?day=${toApiDateString(selectedDay)}`)
             .then(({data}) => {
 
                 setHabits(prevHabits => prevHabits.filter(x => x.habitId !== item.habitId));

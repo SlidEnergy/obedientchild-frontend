@@ -1,5 +1,5 @@
 import {useState} from 'react';
-import {http} from "../../core/http-common";
+import {api} from "../../core/api";
 import {useNavigate} from "react-router-dom";
 import ChooseImage from "../../components/ChooseImage";
 import NumberEdit from "../../components/NumberEdit";
@@ -11,7 +11,7 @@ const AddRewardPage = props => {
     const [reward, setReward] = useState({title: "", imageUrl: "", price: 1, type: 'Reward'});
 
     function addReward() {
-        http.put("/deeds", reward)
+        api.put("/deeds", reward)
             .then(() => {
                 console.log("success");
                 navigate("/rewards");

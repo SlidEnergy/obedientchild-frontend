@@ -1,10 +1,10 @@
-import {http} from "../http-common";
+import {api} from "../api";
 import store, {setChild, setChildren} from '../Store/store';
 import {subscribeToServiceWorkerUpdates} from "./subscribeToServiceWorkerUpdates";
 
 const get = async (url) => {
     try {
-        let response = await http.get(url);
+        let response = await api.get(url);
         return response.data;
     } catch (error) {
         if (error.response) {

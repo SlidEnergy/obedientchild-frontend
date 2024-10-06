@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {http} from "../core/http-common";
+import {api} from "../core/api";
 import LoadingIndicator from "../components/LoadingIndicator";
 import {useParams} from "react-router-dom";
 
@@ -23,7 +23,7 @@ const SettingsPage = () => {
         setIsLoading(true);
 
         try {
-            let {data} = await http.get("lifeenergy");
+            let {data} = await api.get("lifeenergy");
 
             if (data)
                 setLifeEnergyAccount(data);
@@ -36,7 +36,7 @@ const SettingsPage = () => {
         setIsApiKeyLoading(true);
 
         try {
-            let {data} = await http.post("apikeys");
+            let {data} = await api.post("apikeys");
 
             return data;
         } finally {
@@ -48,7 +48,7 @@ const SettingsPage = () => {
         setIsLoading(true);
 
         try {
-            let {data} = await http.put("/lifeenergy");
+            let {data} = await api.put("/lifeenergy");
 
             if (data)
                 setLifeEnergyAccount(data);

@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {http} from "../core/http-common";
+import {api} from "../core/api";
 import LoadingIndicator from "../components/LoadingIndicator";
 import LifeEnergyHistoryList from "../components/LifeEnergy/LifeEnergyHistoryList";
 import classNames from "classnames";
@@ -11,7 +11,7 @@ const LifeEnergyHistoryPage = (className) => {
 
     useEffect(() => {
         setIsLoading(true);
-        http.get("/coinhistory?type=LifeEnergyBalance")
+        api.get("/coinhistory?type=LifeEnergyBalance")
             .then(({data}) => {
                 setLifeEnergyHistory(data.reverse());
             })
@@ -23,7 +23,7 @@ const LifeEnergyHistoryPage = (className) => {
     }, []);
 
     function onRevert(item) {
-        http.delete("/coinhistory/" + item.id)
+        api.delete("/coinhistory/" + item.id)
             .then(() => {
                 console.log("success");
             })

@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {http} from "../../../core/http-common";
+import {api} from "../../../core/api";
 import {useNavigate, useParams} from "react-router-dom";
 import LoadingIndicator from "../../LoadingIndicator";
 import ChildCharacterTraitList from "./ChildCharacterTraitList";
@@ -17,7 +17,7 @@ const ChildCharacterTraits = () => {
 
     function loadChildCharacterTraits() {
         setIsLoading(true);
-        http.get(`/charactertraits/child/${childId}`)
+        api.get(`/charactertraits/child/${childId}`)
             .then(({data}) => {
                 setChildCharacterTraits(data);
             })

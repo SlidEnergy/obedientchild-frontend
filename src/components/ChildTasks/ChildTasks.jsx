@@ -1,5 +1,5 @@
 import React, {useEffect, useState, useRef} from 'react';
-import {http} from "../../core/http-common";
+import {api} from "../../core/api";
 import {useNavigate, useParams} from "react-router-dom";
 import LoadingIndicator from "../LoadingIndicator";
 import {toApiDateString} from "../../utils/DateUtils";
@@ -18,7 +18,7 @@ const ChildTasks = props => {
 
     function loadTasks() {
         setIsLoading(true);
-        http.get(`/childtasks/day?childId=${childId}&day=${toApiDateString(new Date())}`)
+        api.get(`/childtasks/day?childId=${childId}&day=${toApiDateString(new Date())}`)
             .then(({data}) => {
                 setChildTasks(data);
             })
@@ -34,7 +34,7 @@ const ChildTasks = props => {
     }
 
     function removeChildTask(item) {
-        http.delete(`/childtasks/${item.id}`)
+        api.delete(`/childtasks/${item.id}`)
             .then(({data}) => {
                 loadTasks();
             })
@@ -45,7 +45,7 @@ const ChildTasks = props => {
     }
 
     function setChildTaskStatus(item, status) {
-        http.post(`/childtasks/${item.id}/status?childId=${childId}&status=${status}`)
+        api.post(`/childtasks/${item.id}/status?childId=${childId}&status=${status}`)
             .then(({data}) => {
                 loadTasks();
             })

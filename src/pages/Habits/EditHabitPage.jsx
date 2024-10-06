@@ -1,6 +1,6 @@
 import {useEffect, useState} from 'react';
 import Coins from "../../components/Coins";
-import {http} from "../../core/http-common";
+import {api} from "../../core/api";
 import {useNavigate, useParams} from "react-router-dom";
 import ChooseImage from "../../components/ChooseImage";
 import CharacterTraits from "../../components/CharacterTraits/CharacterTraits";
@@ -14,7 +14,7 @@ const EditHabitPage = props => {
 
     useEffect(() => {
         setIsLoading(true);
-        http.get("/deeds/" + habitId)
+        api.get("/deeds/" + habitId)
             .then(({data}) => {
                 setHabit(data);
             })
@@ -30,7 +30,7 @@ const EditHabitPage = props => {
     function saveHabit(e) {
         e.preventDefault();
 
-        http.post("/deeds/" + habitId, habit)
+        api.post("/deeds/" + habitId, habit)
             .then(() => {
                 console.log("success");
                 navigate("/habits");
@@ -42,7 +42,7 @@ const EditHabitPage = props => {
     }
 
     function deleteHabit() {
-        http.delete("/deeds/" + habitId)
+        api.delete("/deeds/" + habitId)
             .then(() => {
                 console.log("success");
                 navigate("/habits");

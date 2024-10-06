@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {http} from "../core/http-common";
+import {api} from "../core/api";
 import LoadingIndicator from "../components/LoadingIndicator";
 import {useNavigate, useParams} from "react-router-dom";
 import Coins from "../components/Coins";
@@ -58,7 +58,7 @@ const ChildPage = props => {
         document.title = child.name;
 
         if (child.bigGoalId) {
-            http.get("/deeds/" + child.bigGoalId)
+            api.get("/deeds/" + child.bigGoalId)
                 .then(({data}) => {
                     setBigGoal(data);
                 })
@@ -69,7 +69,7 @@ const ChildPage = props => {
         }
 
         if (child.dreamId) {
-            http.get("/deeds/" + child.dreamId)
+            api.get("/deeds/" + child.dreamId)
                 .then(({data}) => {
                     setDream(data);
                 })
@@ -92,7 +92,7 @@ const ChildPage = props => {
     }
 
     function invokeDeed(reward) {
-        http.put("/deeds/" + reward.id + "/invoke?childId=" + child.id, reward)
+        api.put("/deeds/" + reward.id + "/invoke?childId=" + child.id, reward)
             .then(({data}) => {
                 dispatch(updateChild({...child, balance: data}));
                 setIsGoodDeedPopupOpened(false);
@@ -118,7 +118,7 @@ const ChildPage = props => {
     }
 
     function deleteChildStatus(childStatus) {
-        http.delete("/children/" + childStatus.childId + "/status/" + childStatus.id)
+        api.delete("/children/" + childStatus.childId + "/status/" + childStatus.id)
             .then(({data}) => {
                 setStatuses(prev => prev.filter(x => x.id !== childStatus.id));
             })
@@ -129,7 +129,7 @@ const ChildPage = props => {
     }
 
     function addChildStatus(text) {
-        http.put(`/children/${childId}/status`, {text: text})
+        api.put(`/children/${childId}/status`, {text: text})
             .then(({data}) => {
                 setStatuses(prev => ([...prev, data]));
             })
