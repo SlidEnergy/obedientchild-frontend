@@ -1,23 +1,27 @@
 import React, {useEffect, useState} from 'react';
 import {api} from "../core/api";
 import LoadingIndicator from "../components/LoadingIndicator";
-import {useParams} from "react-router-dom";
+import {useLocation} from "react-router-dom";
 
 const SettingsPage = () => {
     document.title = "Настройки";
     const [isLoading, setIsLoading] = useState(true);
     const [isApiKeyLoading, setIsApiKeyLoading] = useState(false);
     const [lifeEnergyAccount, setLifeEnergyAccount] = useState();
-    const {googleAccessKey} = useParams();
+    const location = useLocation();
+    const queryParams = new URLSearchParams(location.search);
+    const googleAccessToken = queryParams.get('googleAccessToken');
 
     useEffect(() => {
         loadAccount().then();
     }, []);
 
     useEffect(() => {
-        if (googleAccessKey)
-            localStorage.setItem('googleAccessToken', googleAccessKey);
-    }, [googleAccessKey]);
+        if (googleAccessToken) {
+            localStorage.setItem('googleAccessToken', googleAccessToken);
+            alert('Успешно');
+        }
+    }, [googleAccessToken]);
 
     async function loadAccount() {
         setIsLoading(true);
