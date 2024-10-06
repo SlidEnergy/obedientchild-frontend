@@ -47,7 +47,6 @@ function App() {
             </header>
             <Routes>
                 <Route path="/login" element={<LoginPage/>}/>
-                <Route path="/googlecalendarwebhook" element={GoogleCalendarWebhookPage}/>
                 <Route element={<AuthGuard/>}>
                     <Route path="/" element={<HomePage/>}>
                         <Route path="/children/:childId">

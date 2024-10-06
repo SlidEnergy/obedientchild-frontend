@@ -1,15 +1,23 @@
 import React, {useEffect, useState} from 'react';
 import {http} from "../core/http-common";
 import LoadingIndicator from "../components/LoadingIndicator";
+import {useParams} from "react-router-dom";
 
 const SettingsPage = () => {
     document.title = "Настройки";
     const [isLoading, setIsLoading] = useState(true);
+    const [isApiKeyLoading, setIsApiKeyLoading] = useState(false);
     const [lifeEnergyAccount, setLifeEnergyAccount] = useState();
+    const {googleAccessKey} = useParams();
 
     useEffect(() => {
         loadAccount().then();
     }, []);
+
+    useEffect(() => {
+        if (googleAccessKey)
+            localStorage.setItem('googleAccessToken', googleAccessKey);
+    }, [googleAccessKey]);
 
     async function loadAccount() {
         setIsLoading(true);
@@ -21,6 +29,18 @@ const SettingsPage = () => {
                 setLifeEnergyAccount(data);
         } finally {
             setIsLoading(false);
+        }
+    }
+
+    async function getApiKey() {
+        setIsApiKeyLoading(true);
+
+        try {
+            let {data} = await http.post("apikeys");
+
+            return data;
+        } finally {
+            setIsApiKeyLoading(false);
         }
     }
 
@@ -38,7 +58,9 @@ const SettingsPage = () => {
     }
 
     async function openAuthUrl() {
-        let url = "https://edemvgelen.ru:4001/api/v1/auth/google";
+        let apiKey = await getApiKey();
+
+        let url = `${process.env.REACT_APP_BASE_API_URL}/api/v1/auth/google?api_key=` + apiKey;
         window.open(url, '_blank');
     }
 
@@ -50,7 +72,8 @@ const SettingsPage = () => {
                 {!isLoading &&
                     <button className='button btn btn-outline-primary' onClick={enableLifeEnergy}
                             disabled={lifeEnergyAccount !== undefined}>Активировать</button>}
-                <button className='button btn btn-outline-primary' onClick={openAuthUrl}>Авторизоваться в google
+                <button className='button btn btn-outline-primary' onClick={openAuthUrl}
+                        disabled={googleAccessKey !== undefined}>Авторизоваться в google
                 </button>
             </div>
             <style jsx>{`
