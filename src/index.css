@@ -15,3 +15,20 @@ code {
 div {
   box-sizing: border-box;
 }
+
+.fc-v-event .fc-event-title-container {
+  margin-top: -5px;
+}
+
+.fc-v-event {
+  border: 1px solid lightgray !important;
+}
+
+.fc-timegrid-event {
+  box-shadow: none !important;
+  font-size: 12px !important;
+}
+
+.fc .fc-daygrid-day.fc-day-today, .fc .fc-timegrid-col.fc-day-today {
+  background-color: rgba(255,220,40,.05) !important;
+}

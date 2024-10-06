@@ -1,46 +1,48 @@
 import {googleApi} from "../google-api";
 
-const API_KEY = localStorage.getItem('googleApiKey');
-const CALENDAR_ID = '11d2e536bf6abaf6fe3ef2644a141ae649caed1877fa388e4830a7b170fa0244@group.calendar.google.com';
+const get = async (url, config) => {
+    try {
+        let response = await googleApi.get(url, config);
+        return response.data;
+    } catch (error) {
+        if (error.response) {
+            console.error(`Ошибка ${error.response.status}: ${error.response.statusText}`);
+        } else {
+            console.error(error);
+        }
+    }
+}
 
 class GoogleCalendar {
-       getEvents = async (calendarIds) => {
-           let today = new Date();
-           today.setHours(0, 0, 0, 0);
-           const startDate = new Date(today); // Начальная дата
-           startDate.setDate(today.getDate() - 7);
+    getCalendars = async () => {
+        return await get(`https://www.googleapis.com/calendar/v3/users/me/calendarList`);
+    };
 
-           const timeMin = startDate.toISOString(); // Начальная дата и время (текущая дата)
-           const allEvents = [];
+    getEvents = async (calendarId) => {
+        let today = new Date();
+        today.setHours(0, 0, 0, 0);
+        const startDate = new Date(today.getTime() - 7 * 24 * 60 * 60 * 1000); // Начальная дата
+        const endDate = new Date(today.getTime() + (30 * 24 * 60 * 60 * 1000));
 
-        try {
-            // Перебираем все идентификаторы календарей
-            for (const calendarId of calendarIds) {
-                const response = await googleApi.get(`https://www.googleapis.com/calendar/v3/calendars/${calendarId}/events`, {
-                    params: {
-                        timeMin: timeMin,
-                        singleEvents: false,
-                        orderBy: 'startTime',
-                    },
-                });
+        const timeMin = startDate.toISOString(); // Начальная дата и время (текущая дата)
+        const timeMax = endDate.toISOString(); // Начальная дата и время (текущая дата)
 
-                // Добавляем события из каждого календаря в общий массив
-                allEvents.push(...response.data.items);
-            }
-        } catch (error) {
-            console.error('Ошибка при получении событий:', error);
-            return [];
-        }
+        const response = await get(`https://www.googleapis.com/calendar/v3/calendars/${calendarId}/events`, {
+            params: {
+                timeMin: timeMin,
+                timeMax: timeMax,
+                singleEvents: true,
+                maxResults: 250,
+                orderBy: 'startTime',
+            },
+        });
+
+        // Добавляем события из каждого календаря в общий массив
+        return response.items;
     };
 
     getColors = async () => {
-        try {
-            const response = await googleApi.get(`https://www.googleapis.com/calendar/v3/colors`);
-            return response.data;
-        } catch (error) {
-            console.error('Ошибка при получении событий:', error);
-            return [];
-        }
+        return get(`https://www.googleapis.com/calendar/v3/colors`);
     }
 }
 
