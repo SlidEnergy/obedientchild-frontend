@@ -7,6 +7,7 @@ import GoogleCalendar from "../core/Domain/GoogleCalendar";
 
 const CalendarView = () => {
     const [events, setEvents] = useState([]);
+    const calendarIds = ['11d2e536bf6abaf6fe3ef2644a141ae649caed1877fa388e4830a7b170fa0244@group.calendar.google.com'];
     let colors = ['rgb(158, 105, 175)', 'rgb(230, 124, 115)', 'rgb(244, 81, 30)'];
 
     let googleCalendar = new GoogleCalendar();
@@ -16,7 +17,7 @@ const CalendarView = () => {
     }, []);
 
     const loadEvents = async () => {
-        const googleEvents = await googleCalendar.getEvents();
+        const googleEvents = await googleCalendar.getEvents(calendarIds);
         const colors = await googleCalendar.getColors();
 
         // Преобразование событий в формат, подходящий для FullCalendar
