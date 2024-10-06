@@ -75,9 +75,9 @@ const SettingsPage = () => {
             <div className='settings-content'>
                 {!isLoading &&
                     <button className='button btn btn-outline-primary' onClick={enableLifeEnergy}
-                            disabled={!lifeEnergyAccount}>Активировать</button>}
+                            disabled={Boolean(lifeEnergyAccount)}>Активировать</button>}
                 <button className='button btn btn-outline-primary' onClick={openAuthUrl}
-                        disabled={!googleAccessToken}>Авторизоваться в google
+                        disabled={Boolean(googleAccessToken)}>Авторизоваться в google
                 </button>
             </div>
             <style jsx>{`
