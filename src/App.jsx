@@ -25,7 +25,6 @@ import LifeEnergyHistoryPage from "./pages/LifeEnergyHistoryPage";
 import {useEffect, useState} from "react";
 import {AuthProvider, useAuth} from "./core/Auth/AuthContext";
 import AuthGuard from "./core/Auth/AuthGuard";
-import GoogleCalendarWebhookPage from "./pages/GoogleCalendarWebhookPage";
 
 function App() {
     const {refreshIsAuthenticated} = useAuth();
