@@ -11,6 +11,8 @@ const SettingsPage = () => {
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
     const googleAccessToken = queryParams.get('googleAccessToken');
+    const googleRefreshToken = queryParams.get('googleRefreshToken');
+    const expiresIn = queryParams.get('expiresIn');
 
     useEffect(() => {
         loadAccount().then();
@@ -19,6 +21,8 @@ const SettingsPage = () => {
     useEffect(() => {
         if (googleAccessToken) {
             localStorage.setItem('googleAccessToken', googleAccessToken);
+            localStorage.setItem('googleRefreshToken', googleRefreshToken);
+            localStorage.setItem('googleExpiresIn', expiresIn);
             alert('Успешно');
         }
     }, [googleAccessToken]);
