@@ -6,11 +6,86 @@ import googleCalendarPlugin from '@fullcalendar/google-calendar'
 
 import ChildTasks from "./ChildTasks/ChildTasks";
 import GoogleCalendar from "../core/Domain/GoogleCalendar";
+import ruLocale from "@fullcalendar/core/locales/ru";
+import {lightenRGB} from "../utils/ColorUtils";
+
+const ALLOW_IN_BLOCK = "Семейные мероприятия";
 
 const Planner = () => {
-    const [events, setEvents] = useState([]);
     const externalEventRef = useRef(null);
     let googleCalendar = new GoogleCalendar();
+
+    const [events, setEvents] = useState([]);
+    const [colors, setColors] = useState();
+    const [calendars, setCalendars] = useState([
+        {
+            id: '11d2e536bf6abaf6fe3ef2644a141ae649caed1877fa388e4830a7b170fa0244@group.calendar.google.com',
+            title: 'TimeBlocking',
+            color: 'rgb(158, 105, 175)',
+            textColor: '#fff',
+            display: 'auto',
+            classNames: [],
+            hideInMonthAndList: true,
+            disabled: false,
+        },
+        {
+            id: 'b273f85893d8bb01688ad11a512bdb734bea290b7dad29f6d454af0e4748656f@group.calendar.google.com',
+            title: 'Детское расписание',
+            color: lightenRGB('rgb(246, 191, 38)', 190),
+            textColor: '#000',
+            display: 'auto',
+            classNames: [],
+            hideInMonthAndList: true,
+            disabled: false
+        }
+    ]);
+
+    useEffect(() => {
+        //const calendars = await googleCalendar.getCalendars();
+        loadColors().then();
+    }, []);
+
+    useEffect(() => {
+        if(colors && calendars)
+            loadEvents().then();
+    }, [colors, calendars]);
+
+    const loadColors = async () => {
+        const colors = await googleCalendar.getColors();
+        setColors(colors);
+    }
+
+    const loadEvents = async () => {
+        const allEvents = [];
+        for (const calendar of calendars) {
+            if (calendar.disabled)
+                continue;
+
+            const googleEvents = await googleCalendar.getEvents(calendar.id);
+
+            // Преобразование событий в формат, подходящий для FullCalendar
+            const formattedEvents = googleEvents.map((event) => ({
+                id: event.id,
+                calendarTitle: calendar.title,
+                title: event.summary,
+                start: new Date(Date.parse(event.start.dateTime || event.start.date)),
+                end: new Date(Date.parse(event.end.dateTime || event.end.date)),
+                display: calendar.display, // Событие будет отображаться как фоновое
+                backgroundColor: event.colorId ? colors.event[event.colorId].background : calendar.color, // Цвет для визуализации
+                textColor: event.colorId ? colors.event[event.colorId].foreground : calendar.textColor,
+                classNames: calendar.classNames,
+                allDay: Boolean(event.start.date),
+                extendedProps: {
+                    hideInMonthAndList: calendar.hideInMonthAndList, // Кастомное свойство для контроля видимости
+                },
+            }));
+
+            allEvents.push(...formattedEvents);
+        }
+
+        setEvents(allEvents);
+    };
+
 
     useEffect(() => {
         // Настройка внешних элементов как перетаскиваемых
@@ -24,31 +99,27 @@ const Planner = () => {
         });
     }, []);
 
-    useEffect(() => {
-        loadEvents().then();
-    }, []);
-
-    const loadEvents = async () => {
-        const googleEvents = await googleCalendar.getEvents();
-
-        // Преобразование событий в формат, подходящий для FullCalendar
-        const formattedEvents = googleEvents.filter(x => x.summary === 'Детские занятия').map((event) => ({
-            id: event.id,
-            title: event.summary,
-            start: new Date(Date.parse(event.start.dateTime || event.start.date)),
-            end: new Date(Date.parse(event.end.dateTime || event.end.date)),
-            display: 'background', // Событие будет отображаться как фоновое
-            backgroundColor: 'rgb(230, 124, 115)', // 'rgba(255, 0, 0, 0.2)', // Цвет для визуализации
-        }));
-
-        setEvents(formattedEvents);
-    };
+    // const loadEvents = async () => {
+    //     const googleEvents = await googleCalendar.getEvents();
+    //
+    //     // Преобразование событий в формат, подходящий для FullCalendar
+    //     const formattedEvents = googleEvents.filter(x => x.summary === 'Детские занятия').map((event) => ({
+    //         id: event.id,
+    //         title: event.summary,
+    //         start: new Date(Date.parse(event.start.dateTime || event.start.date)),
+    //         end: new Date(Date.parse(event.end.dateTime || event.end.date)),
+    //         display: 'background', // Событие будет отображаться как фоновое
+    //         backgroundColor: 'rgb(230, 124, 115)', // 'rgba(255, 0, 0, 0.2)', // Цвет для визуализации
+    //     }));
+    //
+    //     setEvents(formattedEvents);
+    // };
 
     // Проверка на пересечение с существующими событиями
     const inBlock = (newEvent, blockName) => {
         return events.some((event) => {
             return (
-                event.title === blockName && event.display === 'background' &&
+                event.title === blockName && (event.display === 'background' || event.calendarTitle === 'TimeBlocking') &&
                 newEvent.start.getTime() >= event.start.getTime() && newEvent.end.getTime() <= event.end.getTime()
             );
         });
@@ -68,7 +139,7 @@ const Planner = () => {
         return events.some((event) => {
             return (
                 event.id !== newEvent.id &&
-                event.display !== 'background' &&
+                (event.display !== 'background' && event.calendarTitle !== 'TimeBlocking') &&
                 (newEvent.start < new Date(event.end) && newEvent.end > new Date(event.start))
             );
         });
@@ -82,7 +153,7 @@ const Planner = () => {
         if (title) {
             const newEvent = {title, start, end};
 
-            if (inBlock(newEvent, "Детские занятия") && !isOverlap(newEvent)) {
+            if (inBlock(newEvent, ALLOW_IN_BLOCK) && !isOverlap(newEvent)) {
                 setEvents((prevEvents) => [
                     ...prevEvents,
                     {id: (prevEvents.length + 1).toString(), ...newEvent},
@@ -102,7 +173,7 @@ const Planner = () => {
         // Обработка перетаскивания события (обновление времени начала и конца)
         const updatedEvents = events.map((event) => {
             if (event.id === info.event.id) {
-                if (inBlock(info.event, "Детские занятия") && !isOverlap(info.event)) {
+                if (inBlock(info.event, "Семейные мероприятия") && !isOverlap(info.event)) {
                     canMove = true;
                     return {
                         ...event,
@@ -124,7 +195,7 @@ const Planner = () => {
         // Обработка изменения размера события (обновление времени конца)
         const updatedEvents = events.map((event) => {
             if (event.id === info.event.id) {
-                if (inBlock(info.event, "Детские занятия") && !isOverlap(info.event)) {
+                if (inBlock(info.event, ALLOW_IN_BLOCK) && !isOverlap(info.event)) {
                     canMove = true;
                     return {
                         ...event,
@@ -154,7 +225,7 @@ const Planner = () => {
         };
 
         // Добавление нового события на основе внешнего элемента
-        if (inBlock(newEvent, "Детские занятия") && !isOverlap(newEvent)) {
+        if (inBlock(newEvent, ALLOW_IN_BLOCK) && !isOverlap(newEvent)) {
             canMove = true;
             setEvents([...events, newEvent]);
 
@@ -168,12 +239,20 @@ const Planner = () => {
     return (
         <div className='calendar-container' ref={externalEventRef}>
             <FullCalendar
-                height={900}
+                contentHeight='auto'
                 plugins={[googleCalendarPlugin, timeGridPlugin, interactionPlugin]}
                 initialView="timeGridWeek"
                 slotMinTime="07:00:00"
                 slotMaxTime="22:00:00"
                 events={events}
+                firstDay={1}
+                locale={ruLocale}
+                headerToolbar={{
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'timeGridWeek,timeGridDay,listWeek', // Добавлены виды для переключения
+                }}
+                nowIndicator={true}  // Включаем индикатор текущего времени
                 selectable={true} // Позволяет выделять диапазоны времени
                 select={handleSelect} // Устанавливаем обработчик выбора
                 eventOverlap={true}

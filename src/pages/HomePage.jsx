@@ -42,12 +42,6 @@ const HomePage = () => {
             }
             {!isLoading && <Outlet/>}
             <TaskViewer/>
-            <div className="c1">
-                <iframe
-                    src="https://calendar.google.com/calendar/embed?height=600&wkst=2&ctz=Europe%2FMoscow&bgcolor=%23ffffff&showTz=0&showPrint=0&showTitle=0&mode=WEEK&src=c2xpZGVuZXJneUBnbWFpbC5jb20&src=NjgwNGUyZDMwMDM3OWY5MTRmZDU5MTM1ZDk4NzgwNjUxNGQ5OWFhZmRkNzE5ZDJiNWNmMGI4MjlmOWUxNTNkNkBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&src=MTFkMmU1MzZiZjZhYmFmNmZlM2VmMjY0NGExNDFhZTY0OWNhZWQxODc3ZmEzODhlNDgzMGE3YjE3MGZhMDI0NEBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&src=YjI3M2Y4NTg5M2Q4YmIwMTY4OGFkMTFhNTEyYmRiNzM0YmVhMjkwYjdkYWQyOWY2ZDQ1NGFmMGU0NzQ4NjU2ZkBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&src=YWRkcmVzc2Jvb2sjY29udGFjdHNAZ3JvdXAudi5jYWxlbmRhci5nb29nbGUuY29t&src=cnUucnVzc2lhbiNob2xpZGF5QGdyb3VwLnYuY2FsZW5kYXIuZ29vZ2xlLmNvbQ&color=%237986CB&color=%230B8043&color=%239E69AF&color=%23F6BF26&color=%2333B679&color=%230B8043"
-                    css="border-width:0" width="100%" height="900px" frameBorder="0" scrolling="no"/>
-                <div className="c2"></div>
-            </div>
             <CalendarView/>
             <div className="button-list">
                 <button className="btn btn-outline-primary button" onClick={() => navigate("/GoodDeeds")}>Хорошие дела
