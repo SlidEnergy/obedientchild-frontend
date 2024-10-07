@@ -1,5 +1,5 @@
 import axios from "axios";
-import {api} from "./api";
+import {getGoogleAccessToken, getGoogleRefreshToken, refreshToken, setGoogleAccessToken} from "./GoogleAuthUtils";
 
 export const googleApi = axios.create({
     baseURL: `${process.env.REACT_APP_BASE_API_URL}/api/v1`,
@@ -12,7 +12,7 @@ export const googleApi = axios.create({
 googleApi.interceptors.request.use(
     (config) => {
         // Получаем токен из localStorage
-        const token = localStorage.getItem('googleAccessToken');
+        const token = getGoogleAccessToken();
 
         // Если токен существует, добавляем его в заголовки
         if (token) {
@@ -62,12 +62,12 @@ googleApi.interceptors.response.use(
     async (error) => {
         if (error.response.status === 401) {
             // Попытка обновить токен с использованием рефреш токена
-            const refreshToken = localStorage.getItem('googleRefreshToken');
+            const token = getGoogleRefreshToken();
             try {
-                const response = await api.post('/auth/google/refreshToken', { refreshToken });
-                localStorage.setItem('googleAccessToken', response.data.accessToken);
+                const token = await refreshToken(token);
+                setGoogleAccessToken(token);
                 // Повторяем изначальный запрос с новым токеном
-                error.config.headers.Authorization = `Bearer ${response.data.accessToken}`;
+                error.config.headers.Authorization = `Bearer ${token}`;
                 return axios(error.config);
             } catch (refreshError) {
                 // Если обновление токена не удалось, перенаправляем на страницу логина

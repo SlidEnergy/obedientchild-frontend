@@ -25,6 +25,8 @@ import LifeEnergyHistoryPage from "./pages/LifeEnergyHistoryPage";
 import {useEffect, useState} from "react";
 import {AuthProvider, useAuth} from "./core/Auth/AuthContext";
 import AuthGuard from "./core/Auth/AuthGuard";
+import {GoogleAuthProvider} from "./infrastructure/GoogleCalendar/GoogleAuth";
+import GoogleAuthCallbackPage from "./pages/GoogleAuthCallbackPage";
 
 function App() {
     const {refreshIsAuthenticated} = useAuth();
@@ -46,6 +48,7 @@ function App() {
             </header>
             <Routes>
                 <Route path="/login" element={<LoginPage/>}/>
+                <Route path="/google/callback" element={<GoogleAuthProvider><GoogleAuthCallbackPage/></GoogleAuthProvider>}/>
                 <Route element={<AuthGuard/>}>
                     <Route path="/" element={<HomePage/>}>
                         <Route path="/children/:childId">

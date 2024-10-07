@@ -6,7 +6,7 @@ import dayGridPlugin from '@fullcalendar/daygrid'
 import listPlugin from '@fullcalendar/list';
 import interactionPlugin from "@fullcalendar/interaction";
 import ruLocale from '@fullcalendar/core/locales/ru';
-import GoogleCalendar from "../core/Domain/GoogleCalendar";
+import GoogleCalendar from "../infrastructure/GoogleCalendar/GoogleCalendar";
 import {differenceInMinutes, formatDistanceToNow} from 'date-fns';
 import {lightenRGB} from "../utils/ColorUtils";
 

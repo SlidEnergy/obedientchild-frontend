@@ -3,16 +3,18 @@ import FullCalendar from '@fullcalendar/react';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin, {Draggable} from '@fullcalendar/interaction'; // Для интерактивных действий
 import googleCalendarPlugin from '@fullcalendar/google-calendar'
-
-import ChildTasks from "./ChildTasks/ChildTasks";
-import GoogleCalendar from "../core/Domain/GoogleCalendar";
+import GoogleCalendar from "../infrastructure/GoogleCalendar/GoogleCalendar";
 import ruLocale from "@fullcalendar/core/locales/ru";
 import {lightenRGB} from "../utils/ColorUtils";
 import Deeds from "./Deeds";
+import {useGoogleAuth} from "../infrastructure/GoogleCalendar/GoogleAuth";
 
 const BLOCK_FOR_EVENT = "Семейные мероприятия";
 
 const Planner = () => {
+    const {refreshIsAuthenticated, isAuthenticated} = useGoogleAuth();
+    const [isLoading, setIsLoading] = useState(true);
+
     const externalEventRef = useRef(null);
     let googleCalendar = new GoogleCalendar();
 
@@ -42,9 +44,16 @@ const Planner = () => {
     ]);
 
     useEffect(() => {
+        refreshIsAuthenticated().finally(() => setIsLoading(false));
+    }, [])
+
+    useEffect(() => {
+        if(!isAuthenticated)
+            return;
+
         //const calendars = await googleCalendar.getCalendars();
         loadColors().then();
-    }, []);
+    }, [isAuthenticated]);
 
     useEffect(() => {
         if (colors && calendars)

@@ -1,6 +1,6 @@
 import React, {createContext, useContext, useEffect, useState} from 'react';
 import {api} from "../api";
-import {getAuthToken, removeAuthToken, setAuthToken} from "./AuthUtils";
+import {getAccessToken, removeAuthTokens, setAuthTokens} from "./AuthUtils";
 import {useParams} from "react-router-dom";
 
 const AuthContext = createContext({
@@ -27,8 +27,7 @@ export const AuthProvider = ({children}) => {
 
             // Сохраняем токены в localStorage
             const {token, refreshToken} = response.data;
-            setAuthToken(token);
-            localStorage.setItem('refreshToken', refreshToken);
+            setAuthTokens(token, refreshToken);
 
             setIsAuthenticated(true);
             setUser({email});
@@ -43,8 +42,7 @@ export const AuthProvider = ({children}) => {
     };
 
     const clearAuth = () => {
-        removeAuthToken();
-        localStorage.removeItem('refreshToken')
+        removeAuthTokens();
         setIsAuthenticated(false); // Обновить состояние
         setUser(undefined); // Обновить состояние
     };
@@ -70,7 +68,7 @@ export const AuthProvider = ({children}) => {
     }
 
     const refreshIsAuthenticated = async () => {
-        const token = getAuthToken();
+        const token = getAccessToken();
 
         if (token) {
             const isValid = await validateToken(token);

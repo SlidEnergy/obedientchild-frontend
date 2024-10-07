@@ -23,6 +23,7 @@ const SettingsPage = () => {
             localStorage.setItem('googleAccessToken', googleAccessToken);
             localStorage.setItem('googleRefreshToken', googleRefreshToken);
             localStorage.setItem('googleExpiresIn', expiresIn);
+
             alert('Успешно');
         }
     }, [googleAccessToken]);

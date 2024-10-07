@@ -1,4 +1,4 @@
-import {googleApi} from "../google-api";
+import {googleApi} from "./google-api";
 
 const get = async (url, config) => {
     try {

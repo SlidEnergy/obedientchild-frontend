@@ -17,6 +17,7 @@ import {updateChild} from "../core/Store/store";
 import {Tab, Tabs} from "react-bootstrap";
 import ChildCharacterTraits from "../components/CharacterTraits/ChildCharacterTraits/ChildCharacterTraits";
 import Planner from "../components/Planner";
+import {GoogleAuthProvider} from "../infrastructure/GoogleCalendar/GoogleAuth";
 
 const ChildPage = props => {
     document.title = "Ребенок";
@@ -205,7 +206,9 @@ const ChildPage = props => {
                         <Tab eventKey="planner" title="Планирование">
 
                             {isPlannerLoaded &&
-                                <Planner />
+                                <GoogleAuthProvider>
+                                    <Planner/>
+                                </GoogleAuthProvider>
                             }
                         </Tab>
                         <Tab eventKey="rules" title="Правила">
@@ -220,7 +223,7 @@ const ChildPage = props => {
                         </Tab>
                         <Tab eventKey="character-traits" title="Черты характера">
                             {activeKey === 'character-traits' &&
-                                <ChildCharacterTraits></ChildCharacterTraits>
+                                <ChildCharacterTraits/>
                             }
                         </Tab>
                     </Tabs>
