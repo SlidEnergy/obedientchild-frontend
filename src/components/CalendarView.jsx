@@ -16,36 +16,36 @@ const CalendarView = () => {
     const [events, setEvents] = useState([]);
     const [colors, setColors] = useState();
     const [calendars, setCalendars] = useState([
-            {
-                id: '11d2e536bf6abaf6fe3ef2644a141ae649caed1877fa388e4830a7b170fa0244@group.calendar.google.com',
-                title: 'TimeBlocking',
-                color: 'rgb(158, 105, 175)',
-                textColor: '#fff',
-                display: 'auto',
-                classNames: [],
-                hideInMonthAndList: true,
-                disabled: false
-            },
-            {
-                id: 'b273f85893d8bb01688ad11a512bdb734bea290b7dad29f6d454af0e4748656f@group.calendar.google.com',
-                title: 'Детское расписание',
-                color: lightenRGB('rgb(246, 191, 38)', 190),
-                textColor: '#000',
-                display: 'auto',
-                classNames: [],
-                hideInMonthAndList: true,
-                disabled: false
-            },
-            {
-                id: '6804e2d300379f914fd59135d987806514d99aafdd719d2b5cf0b829f9e153d6@group.calendar.google.com',
-                title: 'MyLifeOrganized',
-                color: 'rgb(11, 128, 67)',
-                textColor: '#fff',
-                display: 'auto',
-                classNames: [],
-                hideInMonthAndList: false,
-                disabled: false
-            }
+        {
+            id: '11d2e536bf6abaf6fe3ef2644a141ae649caed1877fa388e4830a7b170fa0244@group.calendar.google.com',
+            title: 'TimeBlocking',
+            color: 'rgb(158, 105, 175)',
+            textColor: '#fff',
+            display: 'auto',
+            classNames: [],
+            hideInMonthAndList: true,
+            disabled: false
+        },
+        {
+            id: 'b273f85893d8bb01688ad11a512bdb734bea290b7dad29f6d454af0e4748656f@group.calendar.google.com',
+            title: 'Детское расписание',
+            color: lightenRGB('rgb(246, 191, 38)', 190),
+            textColor: '#000',
+            display: 'auto',
+            classNames: [],
+            hideInMonthAndList: true,
+            disabled: false
+        },
+        {
+            id: '6804e2d300379f914fd59135d987806514d99aafdd719d2b5cf0b829f9e153d6@group.calendar.google.com',
+            title: 'MyLifeOrganized',
+            color: 'rgb(11, 128, 67)',
+            textColor: '#fff',
+            display: 'auto',
+            classNames: [],
+            hideInMonthAndList: false,
+            disabled: false
+        }
     ]);
 
     useEffect(() => {
@@ -54,7 +54,7 @@ const CalendarView = () => {
     }, []);
 
     useEffect(() => {
-        if(colors && calendars)
+        if (colors && calendars)
             loadEvents().then();
     }, [colors, calendars]);
 
@@ -171,18 +171,20 @@ const CalendarView = () => {
             // Находим контейнер для текущего индикатора
             const nowIndicator = calendarEl.querySelector('.fc-timegrid-now-indicator-line');
 
-            // Добавление событий на ховер
-            nowIndicator.addEventListener('mouseover', function () {
-                const label = document.querySelector('.custom-time-label');
-                if (label)
-                    label.style.display = 'block';
-            });
+            if (nowIndicator) {
+                // Добавление событий на ховер
+                nowIndicator.addEventListener('mouseover', function () {
+                    const label = document.querySelector('.custom-time-label');
+                    if (label)
+                        label.style.display = 'block';
+                });
 
-            nowIndicator.addEventListener('mouseout', function () {
-                const label = document.querySelector('.custom-time-label');
-                if (label)
-                    label.style.display = 'none'; // Возвращение стандартного фона
-            });
+                nowIndicator.addEventListener('mouseout', function () {
+                    const label = document.querySelector('.custom-time-label');
+                    if (label)
+                        label.style.display = 'none'; // Возвращение стандартного фона
+                });
+            }
         }
 
         // Вызываем функцию для добавления метки сразу после монтирования компонента
@@ -198,7 +200,8 @@ const CalendarView = () => {
     // Функция для изменения видимости категории
     function toggleCalendar(calendar) {
         setCalendars(calendars =>
-            calendars.map(x => ({...x,
+            calendars.map(x => ({
+                ...x,
                 disabled: x.id === calendar.id ? !x.disabled : x.disabled
             }))
         );

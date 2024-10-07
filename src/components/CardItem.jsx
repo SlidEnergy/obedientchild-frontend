@@ -7,12 +7,13 @@ const CardItem = ({className, onChoose, item, isEmpty, style}) => {
     }
 
     return (
-        <div style={style} onClick={chooseItem} className={className ?? '' + ' card-item' + (isEmpty ? ' empty-card-item' : '')}>
-            {item.imageUrl && <img src={item.imageUrl}></img>}
-            <div className='item-description'>
-                <p className='title'>{item.title}</p>
-                {item.price && <Coins count={item.price} size={22}></Coins>}
-            </div>
+        <div style={style} onClick={chooseItem}
+             className={className ?? '' + ' card-item' + (isEmpty ? ' empty-card-item' : '')}>
+            {item.imageUrl && <img src={item.imageUrl} alt='deed'/>}
+            <p className='title'>{item.title}</p>
+            <input className='deed-type' type='hidden' value={item.type}/>
+            <div className='spacer'/>
+            {item.price && <Coins count={item.price} size={22}/>}
             <style jsx>{`
               .card-item {
                 border: solid 1px lightgray;
@@ -22,8 +23,30 @@ const CardItem = ({className, onChoose, item, isEmpty, style}) => {
                 padding: 10px;
                 position: relative;
                 flex: 1;
-                max-width: 150px;
                 cursor: pointer;
+                background-color: #fff; /* Белый фон */
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Лёгкая тень */
+                transition: box-shadow 0.3s, transform 0.3s; /* Плавные переходы */
+                justify-content: flex-start; /* Элементы будут начинаться сверху */
+                gap: 10px;
+                max-width: 150px;
+                border-radius: 10px;
+              }
+
+              .title {
+                font-size: 18px;
+                margin: 0; /* Убираем отступы, чтобы заголовок занимал меньше места */
+                align-self: center; /* Центрирование заголовка по горизонтали */
+              }
+
+              img {
+                width: 100px;
+                height: 100px;
+                border-radius: 10px;
+              }
+
+              .spacer {
+                flex: 1; /* Растягивает пространство, чтобы прогресс оказался снизу */
               }
 
               .empty-card-item {
@@ -31,27 +54,8 @@ const CardItem = ({className, onChoose, item, isEmpty, style}) => {
                 height: 227px;
               }
 
-              .title {
-                font-size: 18px;
-                margin-bottom: 10px;
-              }
-
               .balance {
                 font-size: 12px;
-              }
-
-              img {
-                width: 105px;
-                height: 105px;
-                margin-right: 20px;
-                border-radius: 10px;
-              }
-
-              .item-description {
-                flex-direction: column;
-                flex: 1;
-                display: flex;
-                align-items: center;
               }
             `}</style>
         </div>

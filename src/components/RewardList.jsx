@@ -5,7 +5,7 @@ const RewardList = ({rewards, onChoose}) => {
     return (
         <div className='list'>
             {rewards.map(item => {
-                return <CardItem key={item.id} item={item} onChoose={onChoose}></CardItem>;
+                return <CardItem key={item.id} item={item} onChoose={onChoose}/>;
             })}
             <style jsx>{`
               .list {

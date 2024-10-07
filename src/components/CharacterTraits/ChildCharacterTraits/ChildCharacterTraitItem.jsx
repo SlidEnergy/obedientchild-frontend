@@ -28,8 +28,9 @@ const ChildCharacterTraitItem = ({item, onChoose, className, style}) => {
                 background-color: #fff; /* Белый фон */
                 box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Лёгкая тень */
                 transition: box-shadow 0.3s, transform 0.3s; /* Плавные переходы */
-                 justify-content: flex-start; /* Элементы будут начинаться сверху */
+                justify-content: flex-start; /* Элементы будут начинаться сверху */
                 gap: 10px;
+                border-radius: 10px;
               }
 
               .title {

@@ -8,8 +8,9 @@ import ChildTasks from "./ChildTasks/ChildTasks";
 import GoogleCalendar from "../core/Domain/GoogleCalendar";
 import ruLocale from "@fullcalendar/core/locales/ru";
 import {lightenRGB} from "../utils/ColorUtils";
+import Deeds from "./Deeds";
 
-const ALLOW_IN_BLOCK = "Семейные мероприятия";
+const BLOCK_FOR_EVENT = "Семейные мероприятия";
 
 const Planner = () => {
     const externalEventRef = useRef(null);
@@ -46,7 +47,7 @@ const Planner = () => {
     }, []);
 
     useEffect(() => {
-        if(colors && calendars)
+        if (colors && calendars)
             loadEvents().then();
     }, [colors, calendars]);
 
@@ -86,34 +87,18 @@ const Planner = () => {
         setEvents(allEvents);
     };
 
-
     useEffect(() => {
         // Настройка внешних элементов как перетаскиваемых
         new Draggable(externalEventRef.current, {
-            itemSelector: '.habit-item', // Селектор для перетаскиваемых элементов
+            itemSelector: '.card-item', // Селектор для перетаскиваемых элементов
             eventData: function (eventEl) {
                 return {
-                    title: eventEl.getElementsByClassName('item-title')[0].innerText,
+                    title: eventEl.getElementsByClassName('title')[0].innerText,
+                    type: eventEl.getElementsByClassName('deed-type')[0].value,
                 };
             },
         });
     }, []);
-
-    // const loadEvents = async () => {
-    //     const googleEvents = await googleCalendar.getEvents();
-    //
-    //     // Преобразование событий в формат, подходящий для FullCalendar
-    //     const formattedEvents = googleEvents.filter(x => x.summary === 'Детские занятия').map((event) => ({
-    //         id: event.id,
-    //         title: event.summary,
-    //         start: new Date(Date.parse(event.start.dateTime || event.start.date)),
-    //         end: new Date(Date.parse(event.end.dateTime || event.end.date)),
-    //         display: 'background', // Событие будет отображаться как фоновое
-    //         backgroundColor: 'rgb(230, 124, 115)', // 'rgba(255, 0, 0, 0.2)', // Цвет для визуализации
-    //     }));
-    //
-    //     setEvents(formattedEvents);
-    // };
 
     // Проверка на пересечение с существующими событиями
     const inBlock = (newEvent, blockName) => {
@@ -121,15 +106,6 @@ const Planner = () => {
             return (
                 event.title === blockName && (event.display === 'background' || event.calendarTitle === 'TimeBlocking') &&
                 newEvent.start.getTime() >= event.start.getTime() && newEvent.end.getTime() <= event.end.getTime()
-            );
-        });
-    };
-
-    // Проверка на пересечение с существующими событиями
-    const isConflicting = (newEvent) => {
-        return events.some((event) => {
-            return (
-                newEvent.start.getTime() < event.end.getTime() && newEvent.end.getTime() > event.start.getTime()
             );
         });
     };
@@ -153,7 +129,7 @@ const Planner = () => {
         if (title) {
             const newEvent = {title, start, end};
 
-            if (inBlock(newEvent, ALLOW_IN_BLOCK) && !isOverlap(newEvent)) {
+            if (!isOverlap(newEvent)) {
                 setEvents((prevEvents) => [
                     ...prevEvents,
                     {id: (prevEvents.length + 1).toString(), ...newEvent},
@@ -173,7 +149,7 @@ const Planner = () => {
         // Обработка перетаскивания события (обновление времени начала и конца)
         const updatedEvents = events.map((event) => {
             if (event.id === info.event.id) {
-                if (inBlock(info.event, "Семейные мероприятия") && !isOverlap(info.event)) {
+                if ((info.event.extendedProps?.type !== 'Event' || inBlock(info.event, BLOCK_FOR_EVENT)) && !isOverlap(info.event)) {
                     canMove = true;
                     return {
                         ...event,
@@ -195,7 +171,7 @@ const Planner = () => {
         // Обработка изменения размера события (обновление времени конца)
         const updatedEvents = events.map((event) => {
             if (event.id === info.event.id) {
-                if (inBlock(info.event, ALLOW_IN_BLOCK) && !isOverlap(info.event)) {
+                if ((info.event.extendedProps?.type !== 'Event' || inBlock(info.event, BLOCK_FOR_EVENT)) && !isOverlap(info.event)) {
                     canMove = true;
                     return {
                         ...event,
@@ -214,7 +190,6 @@ const Planner = () => {
     };
 
     const handleEventReceive = (info) => {
-        let canMove = false;
         let end = new Date(info.event.start);
         end.setTime(end.getTime() + 30 * 60 * 1000);
         const newEvent = {
@@ -225,14 +200,11 @@ const Planner = () => {
         };
 
         // Добавление нового события на основе внешнего элемента
-        if (inBlock(newEvent, ALLOW_IN_BLOCK) && !isOverlap(newEvent)) {
-            canMove = true;
+        if ((info.event.extendedProps?.type !== 'Event' || inBlock(newEvent, BLOCK_FOR_EVENT)) && !isOverlap(newEvent)) {
             setEvents([...events, newEvent]);
-
-            // Удалить временное событие, созданное FullCalendar
-
         }
 
+        // Удалить временное событие, созданное FullCalendar
         info.event.remove();
     };
 
@@ -262,9 +234,16 @@ const Planner = () => {
                 droppable={true} // Разрешает перетаскивание с внешних источников
                 eventReceive={handleEventReceive} // Обработчик для создания нового события
             />
-            <ChildTasks/>
+            <a href='https://calendar.google.com/calendar/u/0/r/week'>Google Calendar</a>
+            <div className='rewards'>
+                <Deeds types={['Reward', 'GoodDeed']}/>
+            </div>
             <style jsx="true">{`
               .calendar-container {
+              }
+
+              .rewards {
+                margin-top: 1.5rem;
               }
             `}</style>
         </div>
