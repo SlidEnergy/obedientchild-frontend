@@ -90,10 +90,14 @@ const HabitItem = ({habit, setHabitStatus, unsetHabit, className}) => {
               .habit-item {
                 border: 1px solid #ccc; /* Светло-серая рамка для визуального отделения карточки */
                 border-radius: 8px; /* Немного скругленные углы для придания мягкости */
-                padding: 16px; /* Внутренние отступы для создания пространства внутри карточки */
+                padding: 10px; /* Внутренние отступы для создания пространства внутри карточки */
                 background-color: #fff; /* Белый фон для контрастности */
                 box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Лёгкая тень для создания ощущения глубины */
                 transition: box-shadow 0.3s, transform 0.3s; /* Плавные переходы для тени и трансформации при взаимодействии */
+                position: relative;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
               }
 
               .habit-item:hover {
@@ -152,17 +156,8 @@ const HabitItem = ({habit, setHabitStatus, unsetHabit, className}) => {
                 }
 
                 .habit-item {
-                  margin-vertical: 8px;
                   flex-direction: row;
-                  display: flex;
-                  //width: 120px;
-                  align-items: center;
-                  padding: 10px;
-                  margin-right: 10px;
-                  position: relative;
-                  flex: 1;
                   max-width: none;
-                  width: 100%;
                 }
               }
             `}</style>

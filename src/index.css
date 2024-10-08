@@ -35,4 +35,5 @@ div {
 
 .fc-timegrid-now-indicator-line {
     pointer-events: auto !important;
+    border-width: 1px 0px 2px !important;
 }
