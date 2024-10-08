@@ -12,7 +12,7 @@ const RuleList = ({rewards, onChoose}) => {
                 display: flex;
                 flex-direction: row;
                 gap: 1.5rem;
-                overflow: auto;
+                flex-wrap: wrap;
               }
             `}</style>
         </div>

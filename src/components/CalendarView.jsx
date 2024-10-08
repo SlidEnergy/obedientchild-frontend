@@ -17,6 +17,16 @@ const CalendarView = () => {
     const [colors, setColors] = useState();
     const [calendars, setCalendars] = useState([
         {
+            id: 'slidenergy@gmail.com',
+            title: 'slidenergy@gmail.com',
+            color: 'rgb(213, 0, 0)',
+            textColor: '#fff',
+            display: 'auto',
+            classNames: [],
+            hideInMonthAndList: false,
+            disabled: false
+        },
+        {
             id: '11d2e536bf6abaf6fe3ef2644a141ae649caed1877fa388e4830a7b170fa0244@group.calendar.google.com',
             title: 'TimeBlocking',
             color: 'rgb(158, 105, 175)',

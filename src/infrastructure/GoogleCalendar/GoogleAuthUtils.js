@@ -6,7 +6,7 @@ const GOOGLE_EXPIRES_IN = 'googleExpiresIn';
 
 export const refreshToken = async (token) => {
     let response = await api.post('/auth/google/refreshToken', { refreshToken: token });
-    return response.data
+    return response.data.accessToken
 }
 
 export const getGoogleAccessToken = () => {
