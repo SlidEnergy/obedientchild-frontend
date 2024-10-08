@@ -64,10 +64,10 @@ googleApi.interceptors.response.use(
             // Попытка обновить токен с использованием рефреш токена
             const token = getGoogleRefreshToken();
             try {
-                const token = await refreshToken(token);
-                setGoogleAccessToken(token);
+                const accessToken = await refreshToken(token);
+                setGoogleAccessToken(accessToken);
                 // Повторяем изначальный запрос с новым токеном
-                error.config.headers.Authorization = `Bearer ${token}`;
+                error.config.headers.Authorization = `Bearer ${accessToken}`;
                 return axios(error.config);
             } catch (refreshError) {
                 // Если обновление токена не удалось, перенаправляем на страницу логина
