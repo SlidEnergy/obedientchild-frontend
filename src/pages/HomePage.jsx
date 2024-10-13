@@ -41,7 +41,7 @@ const HomePage = () => {
                 </ChildList>
             }
             {!isLoading && <Outlet/>}
-            <TaskViewer/>
+            {/*<TaskViewer/>*/}
             <CalendarView/>
             <div className="button-list">
                 <button className="btn btn-outline-primary button" onClick={() => navigate("/GoodDeeds")}>Хорошие дела

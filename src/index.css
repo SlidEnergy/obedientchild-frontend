@@ -37,3 +37,9 @@ div {
     pointer-events: auto !important;
     border-width: 1px 0px 2px !important;
 }
+
+@media (max-width: 768px) {
+    .fc .fc-toolbar {
+        flex-direction: column;
+    }
+}
