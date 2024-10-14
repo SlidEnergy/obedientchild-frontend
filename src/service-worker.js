@@ -7,9 +7,6 @@ import {CacheFirst} from 'workbox-strategies';
 import {ExpirationPlugin} from 'workbox-expiration';
 import DayHabitsService from "./core/Domain/DayHabitsService";
 import {precacheAndRoute} from 'workbox-precaching';
-import SettingService from "./core/Domain/SettingService";
-
-let service = new SettingService();
 
 // Вставка Workbox манифеста
 // eslint-disable-next-line no-restricted-globals

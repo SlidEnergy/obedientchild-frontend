@@ -8,7 +8,9 @@ export const getAccessToken = async () => {
     try {
         const db = await getDbInstance();
 
-        await db.get(AUTH_STORE_NAME, AUTH_ACCESS_TOKEN_KEY);
+        let auth = await db.get(AUTH_STORE_NAME, AUTH_ACCESS_TOKEN_KEY);
+
+        return auth.value;
     } catch (err) {
         console.log(err);
         alert(err.message);
