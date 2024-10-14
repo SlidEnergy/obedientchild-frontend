@@ -1,4 +1,3 @@
-import {openDB} from 'idb';
 import {getDbInstance} from "../DbContext";
 
 const SETTINGS_STORE_NAME = 'settings';

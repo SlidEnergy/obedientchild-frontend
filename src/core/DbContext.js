@@ -2,8 +2,9 @@ import { openDB } from 'idb';
 
 const SETTINGS_STORE_NAME = 'settings';
 const DAY_HABITS_STORE_NAME = 'dayHabits';
+const AUTH_STORE_NAME = 'auth';
 const DATABASE_NAME = 'app-db';
-const DATABASE_VERSION = 1;
+const DATABASE_VERSION = 2;
 
 let dbInstance = null;
 
@@ -17,6 +18,10 @@ export const getDbInstance = async () => {
 
                 if (!db.objectStoreNames.contains(DAY_HABITS_STORE_NAME)) {
                     db.createObjectStore(DAY_HABITS_STORE_NAME, {autoIncrement: true});
+                }
+
+                if (!db.objectStoreNames.contains(AUTH_STORE_NAME)) {
+                    db.createObjectStore(AUTH_STORE_NAME, { keyPath: 'key' });
                 }
             },
         });

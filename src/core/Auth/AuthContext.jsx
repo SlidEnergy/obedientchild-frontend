@@ -1,7 +1,6 @@
-import React, {createContext, useContext, useEffect, useState} from 'react';
+import React, {createContext, useContext, useState} from 'react';
 import {api} from "../api";
-import {getAccessToken, removeAuthTokens, setAuthTokens} from "./AuthUtils";
-import {useParams} from "react-router-dom";
+import {getAccessToken, removeAuthTokens, setAuthTokens} from "./Auth";
 
 const AuthContext = createContext({
     isAuthenticated: false,
@@ -27,7 +26,8 @@ export const AuthProvider = ({children}) => {
 
             // Сохраняем токены в localStorage
             const {token, refreshToken} = response.data;
-            setAuthTokens(token, refreshToken);
+
+            await setAuthTokens(token, refreshToken);
 
             setIsAuthenticated(true);
             setUser({email});
@@ -37,12 +37,12 @@ export const AuthProvider = ({children}) => {
         }
     };
 
-    const logout = () => {
-        clearAuth();
+    const logout = async () => {
+        await clearAuth();
     };
 
-    const clearAuth = () => {
-        removeAuthTokens();
+    const clearAuth = async () => {
+        await removeAuthTokens();
         setIsAuthenticated(false); // Обновить состояние
         setUser(undefined); // Обновить состояние
     };
@@ -57,7 +57,7 @@ export const AuthProvider = ({children}) => {
 
             return response.status === 200; // Токен валиден, если статус 200
         } catch (error) {
-            if(error.code === 403){
+            if (error.code === 403) {
                 console.error("Token isn't valid");
                 return false
             }
@@ -68,7 +68,7 @@ export const AuthProvider = ({children}) => {
     }
 
     const refreshIsAuthenticated = async () => {
-        const token = getAccessToken();
+        let token = await getAccessToken();
 
         if (token) {
             const isValid = await validateToken(token);
@@ -76,7 +76,7 @@ export const AuthProvider = ({children}) => {
             setIsAuthenticated(isValid);
 
             if (isValid === false)
-                clearAuth();
+                await clearAuth();
 
             return isValid;
         }

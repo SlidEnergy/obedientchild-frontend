@@ -1,5 +1,5 @@
 import axios from "axios";
-import {getAccessToken} from "./Auth/AuthUtils";
+import {getAccessToken} from "./Auth/Auth";
 
 export const api = axios.create({
     baseURL: `${process.env.REACT_APP_BASE_API_URL}/api/v1`,
@@ -10,9 +10,9 @@ export const api = axios.create({
 
 // Добавляем интерсептор для автоматического добавления токена к каждому запросу
 api.interceptors.request.use(
-    (config) => {
+    async (config) => {
         // Получаем токен из localStorage
-        const token = getAccessToken();
+        const token = await getAccessToken();
 
         // Если токен существует, добавляем его в заголовки
         if (token) {

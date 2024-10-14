@@ -1,6 +1,6 @@
 import React, {createContext, useContext, useState} from 'react';
 import {api} from "../../core/api";
-import {getAccessToken} from "../../core/Auth/AuthUtils";
+import {getAccessToken} from "../../core/Auth/Auth";
 import {removeGoogleAuthTokens, setGoogleAuthTokens} from "./GoogleAuthUtils";
 
 const GoogleAuthContext = createContext({
@@ -46,7 +46,7 @@ export const GoogleAuthProvider = ({children}) => {
     }
 
     const refreshIsAuthenticated = async () => {
-        const token = getAccessToken();
+        const token = await getAccessToken();
 
         if (token) {
             const isValid = await validateToken(token);
