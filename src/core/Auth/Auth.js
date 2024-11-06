@@ -10,7 +10,7 @@ export const getAccessToken = async () => {
 
         let auth = await db.get(AUTH_STORE_NAME, AUTH_ACCESS_TOKEN_KEY);
 
-        return auth.value;
+        return auth?.value;
     } catch (err) {
         console.log(err);
         alert(err.message);

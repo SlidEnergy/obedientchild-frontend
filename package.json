@@ -32,6 +32,7 @@
     "timers-browserify": "^2.0.12",
     "url": "^0.11.4",
     "web-vitals": "^2.1.4",
+    "workbox-background-sync": "^7.3.0",
     "workbox-cacheable-response": "^7.1.0",
     "workbox-core": "^7.1.0",
     "workbox-expiration": "^7.1.0",

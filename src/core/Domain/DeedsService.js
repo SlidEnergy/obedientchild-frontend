@@ -1,6 +1,4 @@
 import {api} from "../api";
-import store, {setChild, setChildren} from '../Store/store';
-import {subscribeToServiceWorkerUpdates} from "./subscribeToServiceWorkerUpdates";
 
 const get = async (url) => {
     try {
